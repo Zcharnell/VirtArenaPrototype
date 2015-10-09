@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<head>
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+	<title>Virt Arena</title>
+	<meta name="keywords" content="" />
+	<meta name="description" content="" />
+  	<meta name="viewport" content="width=device-width, initial-scale=1">
+  	<style>
+  		body,html{
+  			margin:0;
+  			padding:0;
+  		}
+  	</style>
+  	<script>
+  		var VirtArenaControl = VirtArenaControl || {};
+  		var Scripts = Scripts || {};
+		VirtArenaControl.Graphics = VirtArenaControl.Graphics || {};
+		VirtArenaControl.Updater = VirtArenaControl.Updater || {};
+  	</script>
+	
+	<!-- <link rel="stylesheet" href="css/komapp.css" /> -->
+
+</head>
+
+<body>
+
+	<canvas id="canvas1" width="940" height="600"></canvas>
+
+
+	<script type='text/javascript' src='../node_modules/jquery/dist/jquery.min.js'></script>
+	
+	<script type='text/javascript' src='js/Data/objectInit.js'></script>
+	<script type='text/javascript' src='js/Data/scripts.js'></script>
+	<script type='text/javascript' src='js/TurnControls/turnController.js'></script>
+	<script type='text/javascript' src='js/TurnControls/objectController.js'></script>
+
+	<script type='text/javascript' src='js/Data/Classes/abilities.js'></script>
+	<script type='text/javascript' src='js/Data/Classes/button.js'></script>
+	<script type='text/javascript' src='js/Data/Classes/characters.js'></script>
+	<script type='text/javascript' src='js/Data/Classes/stances.js'></script>
+	<script type='text/javascript' src='js/Data/Classes/team.js'></script>
+	<script type='text/javascript' src='js/Data/Classes/tile.js'></script>
+	<script type='text/javascript' src='js/Data/Classes/virts.js'></script>
+	<script type='text/javascript' src='js/Data/Classes/weapons.js'></script>
+	<script type='text/javascript' src='js/Data/Classes/VirtTypes/arturius.js'></script>
+	<script type='text/javascript' src='js/Data/Classes/VirtTypes/imperator.js'></script>
+
+	<script type='text/javascript' src='js/Data/Actions/movement.js'></script>
+
+	<script type='text/javascript' src='js/Graphics/board.js'></script>
+	<script type='text/javascript' src='js/Graphics/draw.js'></script>
+
+	<script type='text/javascript' src='js/Interaction/buttons.js'></script>
+	<script type='text/javascript' src='js/Interaction/tiles.js'></script>
+	<script type='text/javascript' src='js/Interaction/jqueryListeners.js'></script>
+	<script type='text/javascript' src='js/Interaction/keyDown.js'></script>
+	<script type='text/javascript' src='js/Interaction/mouseDown.js'></script>
+
+	<script type='text/javascript' src='js/Updater/gameUpdate.js'></script>
+
+	<script>
+		$(document).ready(function(){
+			VirtArenaControl.init();
+
+			VirtArenaControl.Updater.intervalUpdater = setInterval(function(){
+				VirtArenaControl.Updater.gameUpdate();
+				VirtArenaControl.Graphics.draw();
+			},VirtArenaControl.Updater.framerate);
+		});
+	</script>
+
+</body>
+
+</html>	

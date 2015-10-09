@@ -1,0 +1,14 @@
+{
+	"startupPhaseChangeDelay":500,
+	"phaseChangeDelay":500,
+}
+
+
+// configurable variables \\
+/*
+	phase change delays (startup and during turn)
+	selectable commander virts
+	starting positions
+	
+
+*/

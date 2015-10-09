@@ -1,0 +1,22 @@
+{
+  "name": "kings-of-mythology-website",
+  "version": "0.0.0",
+  "authors": [
+    "zach char <zcharnell@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "modernizr": "~2.8.2"
+  },
+  "devDependencies": {
+    "bourbon": "~4.2.1",
+    "neat": "~1.7.1"
+  }
+}
