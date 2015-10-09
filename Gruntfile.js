@@ -135,7 +135,7 @@ module.exports = function (grunt) {
           sourceComments: 'none'
         },
         files: {
-          '<%= yeoman.dev %>/css/komapp.css' : '<%= yeoman.dev %>/sass/main.scss'
+          '<%= yeoman.dev %>/css/virtarena.css' : '<%= yeoman.dev %>/sass/main.scss'
         }
       }
     },
@@ -213,13 +213,13 @@ module.exports = function (grunt) {
         src: '*/**/*.html',
         dest: '.tmp/templates.js',
         options: {
-          module:'PrefsGui',
+          module:'VirtArena',
           htmlmin: {
             collapseWhitespace: true,
             collapseBooleanAttributes: true,
             removeCommentsFromCDATA: true
           },
-          usemin: 'js/prefsgui.js'
+          usemin: 'js/virtarena.js'
         }
       }
     },

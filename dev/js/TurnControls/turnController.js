@@ -95,6 +95,7 @@
 			if(!VirtArenaControl.TurnController.gameStarter.gameStarted){
 				VirtArenaControl.TurnController.gameStarter.gameStarted = true;
 				VirtArenaControl.TurnController.gameStarter.setupTeams();
+				VirtArenaControl.Buttons.removeButton('startGame');
 			}
 			VirtArenaControl.TurnController.gameStarter.nextPhase();
 		},

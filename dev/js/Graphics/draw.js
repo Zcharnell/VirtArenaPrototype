@@ -6,15 +6,15 @@
 	}
 
 	VirtArenaControl.Graphics.redrawCanvas = function(){
-		this.ctx.fillStyle = 'white';
+		this.ctx.fillStyle = '#666';
 		this.ctx.fillRect(0,0,this.canvas.width,this.canvas.height);
-		this.ctx.strokeStyle = 'gray';
-		this.ctx.strokeRect(0,0,this.cameraWidth,this.cameraHeight);
+		// this.ctx.strokeStyle = 'gray';
+		// this.ctx.strokeRect(0,0,VirtArenaControl.Camera.width,VirtArenaControl.Camera.height);
 	}
 
 	VirtArenaControl.Graphics.drawSquare = function(){
 		this.ctx.fillStyle = 'black';
-		this.ctx.fillRect(this.cameraX,this.cameraY,this.cameraWidth/2,this.cameraHeight/2);
+		this.ctx.fillRect(VirtArenaControl.Camera.x,VirtArenaControl.Camera.y,VirtArenaControl.Camera.width/2,VirtArenaControl.Camera.height/2);
 	}
 
 	VirtArenaControl.Graphics.drawBoardTiles = function(){
@@ -36,6 +36,7 @@
 			var button = VirtArenaControl.Buttons[buttons[i]];
 			if(button){
 				button.draw();
+				// console.log(button);
 			}
 		}
 	}
@@ -56,5 +57,9 @@
 		for(var i in path){
 			path[i].drawPath();
 		}
+	};
+
+	VirtArenaControl.Graphics.drawBoardBackground = function(){
+		VirtArenaControl.Board.drawBackground();
 	};
 })();

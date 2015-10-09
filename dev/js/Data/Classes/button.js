@@ -1,8 +1,8 @@
 
 	
 function Button(){
-	this.x = 600;
-	this.y = 200;
+	this.x = 0;
+	this.y = 0;
 	this.width = 100;
 	this.height = 40;
 	this.text = '';

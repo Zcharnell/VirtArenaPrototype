@@ -13,8 +13,10 @@
 	VirtArenaControl.Mouse = {};
 	VirtArenaControl.Listeners = {};
 	VirtArenaControl.Camera = {
-		xLeft:0,
-		yTop:0
+		width: 640,
+		height: 600,
+		x: 0,
+		y: 0
 	};
 	VirtArenaControl.Interaction = {};
 	VirtArenaControl.TurnController = {};
@@ -24,10 +26,6 @@
 	VirtArenaControl.Buttons = {};
 
 	VirtArenaControl.Graphics = {
-		cameraWidth: 640,
-		cameraHeight: 600,
-		cameraX: -600,
-		cameraY: -600,
 		canvas: undefined,
 		ctx: undefined,
 		drawFunctions: [],
@@ -37,12 +35,13 @@
 			this.ctx = this.canvas.getContext("2d");
 			this.canvas.width = window.innerWidth;
 			this.canvas.height = window.innerHeight;
-			this.cameraWidth = this.canvas.width;
-			this.cameraHeight = this.canvas.height;
-			this.cameraX = this.cameraWidth*0.8;
-			this.cameraY = -this.cameraHeight;
+			VirtArenaControl.Camera.width = this.canvas.width;
+			VirtArenaControl.Camera.height = this.canvas.height;
+			VirtArenaControl.Camera.x = 0;
+			VirtArenaControl.Camera.y = 0;
 			this.drawFunctions.push('redrawCanvas');
-			this.drawFunctions.push('drawSquare');
+			this.drawFunctions.push('drawBoardBackground');
+			// this.drawFunctions.push('drawSquare');
 			this.drawFunctions.push('drawBoardTiles');
 			this.drawFunctions.push('drawButtons');
 			this.drawFunctions.push('drawVirts');
@@ -58,10 +57,12 @@
 
 		init: function(){
 			this.updateFunctions.push('checkCanvasSize');
-			this.updateFunctions.push('animateSquare');
+			// this.updateFunctions.push('animateSquare');
 			this.updateFunctions.push('getMousePosition');
 			this.updateFunctions.push('getHoveredObjects');
 			this.updateFunctions.push('checkVirtPositions');
+			this.updateFunctions.push('updateButtonPositions');
+			this.updateFunctions.push('updateBoardPosition');
 		}
 	};
 

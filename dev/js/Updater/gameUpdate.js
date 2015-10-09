@@ -9,15 +9,15 @@
 		if(window.innerWidth != VirtArenaControl.Graphics.canvas.width || window.innerHeight != VirtArenaControl.Graphics.canvas.height){
 			VirtArenaControl.Graphics.canvas.width = window.innerWidth;
 			VirtArenaControl.Graphics.canvas.height = window.innerHeight;
-			VirtArenaControl.Graphics.cameraWidth = window.innerWidth;
-			VirtArenaControl.Graphics.cameraHeight = window.innerHeight;
+			VirtArenaControl.Camera.width = window.innerWidth;
+			VirtArenaControl.Camera.height = window.innerHeight;
 		}
 	}
 
 	VirtArenaControl.Updater.animateSquare = function(){
-		VirtArenaControl.Graphics.cameraY += VirtArenaControl.Graphics.canvas.height/60;
-		if(VirtArenaControl.Graphics.cameraY > VirtArenaControl.Graphics.canvas.height){
-			VirtArenaControl.Graphics.cameraY = -VirtArenaControl.Graphics.cameraHeight*0.8;
+		VirtArenaControl.Camera.y += VirtArenaControl.Graphics.canvas.height/60;
+		if(VirtArenaControl.Camera.y > VirtArenaControl.Graphics.canvas.height){
+			VirtArenaControl.Camera.y = -VirtArenaControl.Camera.height*0.8;
 		}
 	}
 
@@ -25,8 +25,8 @@
 		var scrollOffsetTop = document.body.scrollTop;
 		var scrollOffsetLeft = document.body.scrollLeft;
 		var canvasOffset = $('#canvas1').offset();
-		VirtArenaControl.Mouse.x = (VirtArenaControl.Mouse.x - canvasOffset.left + scrollOffsetLeft + VirtArenaControl.Camera.xLeft);
-		VirtArenaControl.Mouse.y = (VirtArenaControl.Mouse.y - canvasOffset.top + scrollOffsetTop + VirtArenaControl.Camera.yTop);
+		VirtArenaControl.Mouse.x = (VirtArenaControl.Mouse.x - canvasOffset.left + scrollOffsetLeft + VirtArenaControl.Camera.x);
+		VirtArenaControl.Mouse.y = (VirtArenaControl.Mouse.y - canvasOffset.top + scrollOffsetTop + VirtArenaControl.Camera.y);
 	}
 
 	VirtArenaControl.Updater.resetHoveredObjects = function(){
@@ -110,5 +110,16 @@
 			VirtArenaControl.TurnController.nextPhase();
 			this.updateFunctions.splice(this.updateFunctions.indexOf('updateDelayPhaseChange'),1);
 		}
+	}
+
+	VirtArenaControl.Updater.updateButtonPositions = function(){
+		var buttonsToDraw = VirtArenaControl.Buttons.buttonsToDraw;
+		for(var i in buttonsToDraw){
+			VirtArenaControl.Buttons[buttonsToDraw[i]].update();
+		}
+	}
+
+	VirtArenaControl.Updater.updateBoardPosition = function(){
+		VirtArenaControl.Board.updatePosition();
 	}
 })();
