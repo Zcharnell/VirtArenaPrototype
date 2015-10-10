@@ -13,6 +13,7 @@ function Tile(row,column,dimensions){
 	this.virt = '';
 	this.index = '';
 	this.draw = function(index){
+		VirtArenaControl.Graphics.ctx.textAlign = "left";
 		VirtArenaControl.Graphics.ctx.font = '10px Arial';
 		VirtArenaControl.Graphics.ctx.fillStyle = 'black';
 		VirtArenaControl.Graphics.ctx.fillRect(this.x,this.y,this.width,this.height);
@@ -22,11 +23,13 @@ function Tile(row,column,dimensions){
 		}
 	};
 	this.drawPath = function(){
+		VirtArenaControl.Graphics.ctx.textAlign = "left";
 		VirtArenaControl.Graphics.ctx.font = '16px Arial';
 		VirtArenaControl.Graphics.ctx.fillStyle = 'green';
 		VirtArenaControl.Graphics.ctx.fillText('P',this.x,this.y + this.height/3);
 	};
 	this.drawHover = function(index){
+		VirtArenaControl.Graphics.ctx.textAlign = "left";
 		VirtArenaControl.Graphics.ctx.font = '10px Arial';
 		VirtArenaControl.Graphics.ctx.fillStyle = 'white';
 		VirtArenaControl.Graphics.ctx.fillRect(this.x,this.y,this.width,this.height);

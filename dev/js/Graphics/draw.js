@@ -6,6 +6,7 @@
 	}
 
 	VirtArenaControl.Graphics.redrawCanvas = function(){
+		this.ctx.textAlign = "center";
 		this.ctx.fillStyle = '#666';
 		this.ctx.fillRect(0,0,this.canvas.width,this.canvas.height);
 		// this.ctx.strokeStyle = 'gray';

@@ -15,23 +15,23 @@ function Button(){
 	};
 	this.draw = function(){
 		if(this.hover){
+			VirtArenaControl.Graphics.ctx.textAlign = "center";
 			VirtArenaControl.Graphics.ctx.font = "12px Arial";
-			var offset = VirtArenaControl.Graphics.ctx.measureText(this.text).width/2;
 			VirtArenaControl.Graphics.ctx.fillStyle = '#FFFFFF';
 			VirtArenaControl.Graphics.ctx.strokeStyle = '#000000';
 			VirtArenaControl.Graphics.ctx.fillRect(this.x,this.y,this.width,this.height);
 			VirtArenaControl.Graphics.ctx.strokeRect(this.x,this.y,this.width,this.height);
 			VirtArenaControl.Graphics.ctx.fillStyle = '#000000';
-			VirtArenaControl.Graphics.ctx.fillText(this.text,this.x+this.width/2-offset,this.y+this.height/2);
+			VirtArenaControl.Graphics.ctx.fillText(this.text,this.x+this.width/2,this.y+this.height/2);
 		} else {
+			VirtArenaControl.Graphics.ctx.textAlign = "center";
 			VirtArenaControl.Graphics.ctx.font = "12px Arial";
-			var offset = VirtArenaControl.Graphics.ctx.measureText(this.text).width/2;
 			VirtArenaControl.Graphics.ctx.fillStyle = '#666666';
 			VirtArenaControl.Graphics.ctx.strokeStyle = '#000000';
 			VirtArenaControl.Graphics.ctx.fillRect(this.x,this.y,this.width,this.height);
 			VirtArenaControl.Graphics.ctx.strokeRect(this.x,this.y,this.width,this.height);
 			VirtArenaControl.Graphics.ctx.fillStyle = '#FFFFFF';
-			VirtArenaControl.Graphics.ctx.fillText(this.text,this.x+this.width/2-offset,this.y+this.height/2);
+			VirtArenaControl.Graphics.ctx.fillText(this.text,this.x+this.width/2,this.y+this.height/2);
 		}
 	};
 	this.onClick = {};

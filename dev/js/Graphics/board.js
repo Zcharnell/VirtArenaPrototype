@@ -24,7 +24,7 @@
 		},
 		drawBackground: function(){
 			VirtArenaControl.Graphics.ctx.fillStyle = '#ebf5f7';
-			VirtArenaControl.Graphics.ctx.fillRect(this.x,this.y,this.width,VirtArenaControl.Camera.height);
+			VirtArenaControl.Graphics.fillRectWithShadow(this.x,this.y,this.width,VirtArenaControl.Camera.height,'#111',20,0,15);
 			VirtArenaControl.Graphics.ctx.fillStyle = '#ffffff';
 			VirtArenaControl.Graphics.ctx.fillRect(this.x+this.padding/2,this.y,this.width-this.padding,VirtArenaControl.Camera.height);
 		},

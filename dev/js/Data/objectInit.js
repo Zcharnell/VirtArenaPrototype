@@ -46,7 +46,25 @@
 			this.drawFunctions.push('drawButtons');
 			this.drawFunctions.push('drawVirts');
 			this.drawFunctions.push('drawPath');
-		}
+		},
+		setShadow: function(color,blur,offsetX,offsetY){
+		    this.ctx.shadowColor = color;
+		    this.ctx.shadowBlur = blur;
+		    this.ctx.shadowOffsetX = offsetX;
+		    this.ctx.shadowOffsetY = offsetY;
+		},
+		fillRectWithShadow: function(x,y,width,height,color,blur,offsetX,offsetY){
+			this.ctx.save();
+			this.setShadow(color,blur,offsetX,offsetY);
+			this.ctx.fillRect(x,y,width,height);
+			this.ctx.restore();
+		},
+		fillTextWithShadow: function(text,x,y,color,blur,offsetX,offsetY){
+			this.ctx.save();
+			this.setShadow(color,blur,offsetX,offsetY);
+			this.ctx.fillText(text,x,y);
+			this.ctx.restore();
+		},
 	};
 
 	VirtArenaControl.Updater = {

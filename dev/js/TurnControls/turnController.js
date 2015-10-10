@@ -87,7 +87,7 @@
 
 	VirtArenaControl.TurnController.gameStarter = {
 		gameStarted:false,
-		startSequence:['selectPlayerVirt','selectEnemyVirt','setStartingPosition'],
+		startSequence:['selectPlayerVirt','selectEnemyVirt'],
 		currentPhase:'',
 		startupPhaseChangeDelay:500,
 		startGame: function(){
@@ -110,6 +110,25 @@
 			// VirtArenaControl.Virts.teams.blueTeam.addCommander(virtName);
 			// VirtArenaControl.TurnController.gameStarter.nextPhase();
 		},
+		selectVirtPhaseEnd: function(){
+			var team;
+			var tiles;
+
+			switch(this.currentPhase){
+				case 'selectPlayerVirt':
+					team = 'blueTeam';
+					tiles = {commanderTile:51};
+					break;
+				case 'selectEnemyVirt':
+					team = 'redTeam';
+					tiles = {commanderTile:60};
+					break;
+			}
+
+			if(team && tiles)
+				this.setStartingPosition(team,tiles);
+
+		},
 		selectEnemyVirt: function(){
 			console.log('Select Enemy Virt');
 			VirtArenaControl.TurnController.selectVirtPhase('redTeam');
@@ -117,12 +136,10 @@
 			// VirtArenaControl.Virts.teams.redTeam.addCommander(virtName);
 			// VirtArenaControl.TurnController.gameStarter.nextPhase();
 		},
-		setStartingPosition: function(){
-			var leftTiles = {commanderTile:51};
-			var rightTiles = {commanderTile:60};
-			VirtArenaControl.Virts.teams.blueTeam.setStartingPosition(leftTiles);
-			VirtArenaControl.Virts.teams.redTeam.setStartingPosition(rightTiles);
-			VirtArenaControl.TurnController.gameStarter.nextPhase();
+		setStartingPosition: function(team,tiles){
+			// var leftTiles = {commanderTile:51};
+			// var rightTiles = {commanderTile:60};
+			VirtArenaControl.Virts.teams[team].setStartingPosition(tiles);
 		},
 		nextPhase: function(){
 			var obj = VirtArenaControl.TurnController.gameStarter;
@@ -131,18 +148,19 @@
 					obj.currentPhase = obj.startSequence[0];
 					break;
 				case obj.startSequence[0]:
+					obj.selectVirtPhaseEnd();
 					obj.currentPhase = obj.startSequence[1];
 					break;
 				case obj.startSequence[1]:
+					obj.selectVirtPhaseEnd();
 					obj.currentPhase = obj.startSequence[2];
-					break;
-				case obj.startSequence[2]:
-					obj.currentPhase = 'END';
 					break;
 				default:
 					console.log('ERROR: Start sequence phase cannot be matched. Please check VirtArenaControl.TurnController.gameStarter.nextPhase.');
 					break;
 			}
+
+			if(!obj.currentPhase) obj.currentPhase = 'END';
 
 			setTimeout(function(){
 				if(obj.currentPhase != 'END') obj[obj.currentPhase]();
