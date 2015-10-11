@@ -12,11 +12,11 @@
 	};
 
 	Scripts.sortVirtsBySpeed = function(a,b){
-		if(a.speed > b.speed) return -1;
-		if(a.speed < b.speed) return 1;
+		if(a.turnStats.speed > b.turnStats.speed) return -1;
+		if(a.turnStats.speed < b.turnStats.speed) return 1;
 		//check which team has priority
-		if(a.speed === b.speed && VirtArenaControl.Virts.teams[a.team].hasPriority) return -1;
-		if(a.speed === b.speed && !VirtArenaControl.Virts.teams[a.team].hasPriority) return 1;
+		if(a.turnStats.speed === b.turnStats.speed && VirtArenaControl.Virts.teams[a.team].hasPriority) return -1;
+		if(a.turnStats.speed === b.turnStats.speed && !VirtArenaControl.Virts.teams[a.team].hasPriority) return 1;
 	};
 
 	// Scripts.executeFunctionByName = function()(functionName, context /*, args */) {

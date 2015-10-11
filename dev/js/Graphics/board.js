@@ -5,7 +5,8 @@
 		y:0,
 		width:0,
 		height:0,
-		padding:100,
+		horizontalPadding:100,
+		verticalPadding:40,
 		tilesCount: 0,
 		rows: 0,
 		columns: 0,
@@ -19,8 +20,8 @@
 			this.oddRows = Math.floor(this.rows/2);
 			this.tilesCount = this.rows*this.columns + this.oddRows;
 			this.setupTiles();
-			this.width = (this.columns+1)*this.tileWidth + this.columns*this.tileSpacing + this.padding*2;
-			this.height = (this.rows)*this.tileHeight + this.rows*this.tileSpacing + this.padding*2;
+			this.width = (this.columns+1)*this.tileWidth + this.columns*this.tileSpacing + this.horizontalPadding*2;
+			this.height = (this.rows)*this.tileHeight + this.rows*this.tileSpacing + this.verticalPadding*2;
 		},
 		drawBackground: function(){
 			VirtArenaControl.Graphics.ctx.fillStyle = '#ebf5f7';

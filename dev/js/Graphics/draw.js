@@ -27,6 +27,11 @@
 			} else {
 				tiles[i].draw(i);
 			}
+			if(VirtArenaControl.TurnController.currentSubphase === "movementSubphase" 
+				&& tiles[i].moveCost <= VirtArenaControl.ObjectController.currentVirtActivating.turnStats.move
+				&& tiles[i].isOpen()){
+				tiles[i].drawHighlightForMovement();
+			}
 		}
 	}
 

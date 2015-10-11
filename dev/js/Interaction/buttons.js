@@ -7,6 +7,7 @@
 
 	VirtArenaControl.Buttons.addButton = function(buttonType,misc){
 		if(buttonType === 'selectVirt') addSelectVirtButtons(misc);
+		else if(buttonType === 'selectStances') addSelectStanceButtons(misc);
 	};
 
 	VirtArenaControl.Buttons.removeButton = function(buttonType,misc){
@@ -18,6 +19,14 @@
 				//get the buttons with a name that includes selectVirt
 				for(var i in buttons){
 					if(buttons[i].indexOf('selectVirt') != -1){
+						buttonsToRemove.push(buttons[i]);
+					}
+				}
+				break;
+			case 'selectStance':
+				//get the buttons with a name that includes selectVirt
+				for(var i in buttons){
+					if(buttons[i].indexOf('selectStance') != -1){
 						buttonsToRemove.push(buttons[i]);
 					}
 				}
@@ -52,7 +61,6 @@
 		obj.update = function(){
 			this.x = VirtArenaControl.Camera.width * 0.5 - this.width/2;
 			this.y = VirtArenaControl.Camera.height - 20 - this.height;
-			// console.log('update');
 		}
 		return obj;
 	};
@@ -65,39 +73,70 @@
 			var virtName = obj.chooseVirtCommanderVirts[i];
 			var buttonName = 'selectVirt'+virtName;
 			VirtArenaControl.Buttons[buttonName] = new Button();
+
 			var variablesForButton = {
-				virt:virtName,
-				team:misc.team,
+				text:virtName,
 				x:600,
 				y:100+(i*50),
+				width:100,
+				height:40,
+				onClick:function(){
+					VirtArenaControl.Virts.teams[this.team].addCommander(this.virt);
+					VirtArenaControl.Buttons.removeButton('selectVirt');
+					VirtArenaControl.TurnController.gameStarter.nextPhase();
+				},
 				update:function(){
 					this.x = VirtArenaControl.Camera.width - 20 - this.width;
 					this.y = 100+(this.orderOfButtons*50);
 				},
-				orderOfButtons:i
+				orderOfButtons:i,
+				virt:virtName,
+				team:misc.team
 			}
-			VirtArenaControl.Buttons[buttonName].init(selectVirtInit(variablesForButton));
+
+			VirtArenaControl.Buttons[buttonName].init(variablesForButton);
 			VirtArenaControl.Buttons.buttonsToDraw.push(buttonName);
 		};
 	};
 
-	var selectVirtInit = function(vars){
-		var obj = {};
-		obj.text = vars.virt;
-		obj.width = 100;
-		obj.height = 40;
-		obj.x = vars.x;
-		obj.y = vars.y;
-		obj.onClick = function(){
-			VirtArenaControl.Virts.teams[this.team].addCommander(this.virt);
-			VirtArenaControl.Buttons.removeButton('selectVirt');
-			VirtArenaControl.TurnController.gameStarter.nextPhase();
+
+	var addSelectStanceButtons = function(misc){
+		var virt = misc.team.commander;
+		var keys = Object.keys(virt.stances);
+
+		for(var i in keys){
+			var stance = virt[keys[i]];
+			var buttonName = 'selectStance'+keys[i];
+			VirtArenaControl.Buttons[buttonName] = new Button();
+
+			var variablesForButton = {
+				text:virt.stances[keys[i]].name,
+				x:-999,
+				y:-999,
+				width:100,
+				height:40,
+				onClick:function(){
+					if(!this.disabled){
+						virt.setStance("stance" + (parseInt(this.index)+1));
+						VirtArenaControl.Buttons.removeButton('selectStance');
+						VirtArenaControl.TurnController.nextPhase();
+					}
+				},
+				update:function(){
+					var startX = this.buttonsOfThisType * -(this.width/2) - this.spacing;
+					var dynamicX = startX + (this.index*(this.width+this.spacing));
+					this.x = VirtArenaControl.Camera.width/2 + dynamicX;
+					this.y = VirtArenaControl.Camera.height - this.height - 20;
+				},
+				spacing:25,
+				index:i,
+				buttonsOfThisType:keys.length,
+				disabled:(virt.lastStanceSelected === keys[i]) ? true : false
+			}
+
+			VirtArenaControl.Buttons[buttonName].init(variablesForButton);
+			VirtArenaControl.Buttons.buttonsToDraw.push(buttonName);
 		};
-		obj.update = vars.update;
-		obj.virt = vars.virt;
-		obj.team = vars.team;
-		obj.orderOfButtons = vars.orderOfButtons;
-		return obj;
 	};
 	
 })();

@@ -102,16 +102,6 @@
 		}
 	}
 
-	VirtArenaControl.Updater.updateDelayPhaseChange = function(){
-		this.phaseChangeDelayCounter += this.framerate;
-		if(this.phaseChangeDelayCounter >= VirtArenaControl.TurnController.phaseChangeDelay){
-			this.phaseChangeDelayCounter = 0;
-			VirtArenaControl.TurnController.phaseChangeDelay = 0;
-			VirtArenaControl.TurnController.nextPhase();
-			this.updateFunctions.splice(this.updateFunctions.indexOf('updateDelayPhaseChange'),1);
-		}
-	}
-
 	VirtArenaControl.Updater.updateButtonPositions = function(){
 		var buttonsToDraw = VirtArenaControl.Buttons.buttonsToDraw;
 		for(var i in buttonsToDraw){

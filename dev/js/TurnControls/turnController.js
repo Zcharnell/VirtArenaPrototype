@@ -9,21 +9,25 @@
 		},
 		stanceSelection:{
 			subphaseOrder:['selectStances','setActivationOrder'],
-			selectStances:{}
+			selectStances:{},
+			setActivationOrder:{}
 		},
 		virtActivation:{
 			subphaseOrder:['nextVirtActivation','startOfActivationBoosts','movementSubphase','attackSubphase','endActivation'],
+			nextVirtActivation:{},
 			startOfActivationBoosts:{},
 			movementSubphase:{},
-			attackSubphase:{}
+			attackSubphase:{},
+			endActivation:{}
 		},
 		endOfTurn:{
-			subphaseOrder:['cycleCards'],
-			cycleCards:{}
+			subphaseOrder:['cycleCards','setVariablesForEndOfTurn'],
+			cycleCards:{},
+			setVariablesForEndOfTurn:{}
 		},
 		currentPhase:'',
 		currentSubphase:'',
-		phaseChangeDelay:0,
+		phaseChangeDelay:100,
 		startTurn: function(){
 			// this.currentPhase = this.turnOrder[0];
 			this.nextPhase();
@@ -44,7 +48,7 @@
 
 				console.log('PHASE:' + this.currentPhase);
 				if(this.currentPhase === 'END'){
-					// this.currentPhase = this.turnOrder[0];
+					this.currentPhase = this.turnOrder[0];
 				}
 			}
 			
@@ -73,8 +77,10 @@
 				this.nextPhase();
 		},
 		delayPhaseChange: function(delay){
-			this.phaseChangeDelay = delay;
-			VirtArenaControl.Updater.updateFunctions.push('updateDelayPhaseChange');
+			var delay = delay || this.phaseChangeDelay;
+			setTimeout(function(){
+				VirtArenaControl.TurnController.nextPhase();
+			},delay);
 		},
 		selectVirtPhase: function(team){
 			console.log('PHASE: selectVirtPhase: ' + team);
@@ -89,7 +95,7 @@
 		gameStarted:false,
 		startSequence:['selectPlayerVirt','selectEnemyVirt'],
 		currentPhase:'',
-		startupPhaseChangeDelay:500,
+		startupPhaseChangeDelay:100,
 		startGame: function(){
 			console.log('Starting game');
 			if(!VirtArenaControl.TurnController.gameStarter.gameStarted){
@@ -102,12 +108,20 @@
 		setupTeams: function(){
 			VirtArenaControl.Virts.teams.blueTeam = new Team('blueTeam','blue');
 			VirtArenaControl.Virts.teams.redTeam = new Team('redTeam','red');
+			console.log(VirtArenaControl.Virts.teams);
 		},
 		selectPlayerVirt: function(){
 			console.log('Select Player Virt');
 			VirtArenaControl.TurnController.selectVirtPhase('blueTeam');
 			// var virtName = "Arturius";
 			// VirtArenaControl.Virts.teams.blueTeam.addCommander(virtName);
+			// VirtArenaControl.TurnController.gameStarter.nextPhase();
+		},
+		selectEnemyVirt: function(){
+			console.log('Select Enemy Virt');
+			VirtArenaControl.TurnController.selectVirtPhase('redTeam');
+			// var virtName = "Imperator";
+			// VirtArenaControl.Virts.teams.redTeam.addCommander(virtName);
 			// VirtArenaControl.TurnController.gameStarter.nextPhase();
 		},
 		selectVirtPhaseEnd: function(){
@@ -129,17 +143,12 @@
 				this.setStartingPosition(team,tiles);
 
 		},
-		selectEnemyVirt: function(){
-			console.log('Select Enemy Virt');
-			VirtArenaControl.TurnController.selectVirtPhase('redTeam');
-			// var virtName = "Imperator";
-			// VirtArenaControl.Virts.teams.redTeam.addCommander(virtName);
-			// VirtArenaControl.TurnController.gameStarter.nextPhase();
-		},
 		setStartingPosition: function(team,tiles){
 			// var leftTiles = {commanderTile:51};
 			// var rightTiles = {commanderTile:60};
 			VirtArenaControl.Virts.teams[team].setStartingPosition(tiles);
+			console.log(VirtArenaControl.Virts.teams[team].commander.weapons);
+			console.log(VirtArenaControl.Virts.teams[team].commander.stances);
 		},
 		nextPhase: function(){
 			var obj = VirtArenaControl.TurnController.gameStarter;
@@ -180,12 +189,12 @@
 
 	VirtArenaControl.TurnController.startOfTurn.drawCards = function(){
 		console.log('\tsubPHASE: drawCards');
-		VirtArenaControl.TurnController.delayPhaseChange(500);
+		VirtArenaControl.TurnController.delayPhaseChange();
 	};
 
 	VirtArenaControl.TurnController.startOfTurn.startOfTurnBoosts = function(){
 		console.log('\tsubPHASE: startOfTurnBoosts');
-		VirtArenaControl.TurnController.delayPhaseChange(500);
+		VirtArenaControl.TurnController.delayPhaseChange();
 	};
 
 
@@ -194,13 +203,18 @@
 
 	VirtArenaControl.TurnController.stanceSelection.selectStances = function(){
 		console.log('\tsubPHASE: selectStances');
-		VirtArenaControl.TurnController.delayPhaseChange(500);
+		var team = VirtArenaControl.Virts.teams.blueTeam;
+		VirtArenaControl.Buttons.addButton('selectStances',{team:team});
+		//random stance for AI
+		VirtArenaControl.AI.Scripts.stanceSelection(VirtArenaControl.Virts.teams.redTeam.commander);
+		// VirtArenaControl.TurnController.delayPhaseChange(500);
 	};
 
 	VirtArenaControl.TurnController.stanceSelection.setActivationOrder = function(){
 		console.log('\tsubPHASE: setActivationOrder');
 		VirtArenaControl.ObjectController.setActivationOrder();
-		VirtArenaControl.TurnController.delayPhaseChange(500);
+		console.log('Activation Order:',VirtArenaControl.ObjectController.activationOrder);
+		VirtArenaControl.TurnController.delayPhaseChange();
 	};
 
 
@@ -211,27 +225,29 @@
 		var indexOfCurrentVirt = VirtArenaControl.ObjectController.activationOrder.indexOf(VirtArenaControl.ObjectController.currentVirtActivating);
 		var nextVirtToActivate = VirtArenaControl.ObjectController.activationOrder[indexOfCurrentVirt+1];
 		VirtArenaControl.ObjectController.setVirtActivating(nextVirtToActivate);
-		VirtArenaControl.TurnController.delayPhaseChange(500);
+		VirtArenaControl.TurnController.delayPhaseChange();
 	};
 
 	VirtArenaControl.TurnController.virtActivation.startOfActivationBoosts = function(){
 		console.log('\tsubPHASE: startOfActivationBoosts - ' + VirtArenaControl.ObjectController.currentVirtActivating.name);
-		VirtArenaControl.TurnController.delayPhaseChange(500);
+		VirtArenaControl.TurnController.delayPhaseChange();
 	};
 
 	VirtArenaControl.TurnController.virtActivation.movementSubphase = function(){
+		//select tiles to move
+		//tiles.js and movement.js
 		console.log('\tsubPHASE: movementSubphase - ' + VirtArenaControl.ObjectController.currentVirtActivating.name);
-		// VirtArenaControl.TurnController.delayPhaseChange(500);
+		VirtArenaControl.ObjectController.setTileMoveCosts(VirtArenaControl.ObjectController.currentVirtActivating);
 	};
 
 	VirtArenaControl.TurnController.virtActivation.attackSubphase = function(){
 		console.log('\tsubPHASE: attackSubphase - ' + VirtArenaControl.ObjectController.currentVirtActivating.name);
-		VirtArenaControl.TurnController.delayPhaseChange(500);
+		VirtArenaControl.TurnController.delayPhaseChange();
 	};
 
 	VirtArenaControl.TurnController.virtActivation.endActivation = function(){
 		console.log('\tsubPHASE: endActivation - ' + VirtArenaControl.ObjectController.currentVirtActivating.name);
-		VirtArenaControl.TurnController.delayPhaseChange(500);
+		VirtArenaControl.TurnController.delayPhaseChange();
 	};
 
 
@@ -240,6 +256,13 @@
 
 	VirtArenaControl.TurnController.endOfTurn.cycleCards = function(){
 		console.log('\tsubPHASE: cycleCards');
-		VirtArenaControl.TurnController.delayPhaseChange(500);
+		VirtArenaControl.TurnController.delayPhaseChange();
+	};
+
+	VirtArenaControl.TurnController.endOfTurn.setVariablesForEndOfTurn = function(){
+		console.log('\tsubPHASE: setVariablesForEndOfTurn');
+		VirtArenaControl.ObjectController.setLastStanceSelected();
+		VirtArenaControl.ObjectController.resetActivationOrder();
+		VirtArenaControl.TurnController.delayPhaseChange();
 	};
 })();

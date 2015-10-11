@@ -12,6 +12,7 @@ function Tile(row,column,dimensions){
 	this.adjacentTiles = [];
 	this.virt = '';
 	this.index = '';
+	this.moveCost = 0;
 	this.draw = function(index){
 		VirtArenaControl.Graphics.ctx.textAlign = "left";
 		VirtArenaControl.Graphics.ctx.font = '10px Arial';
@@ -40,6 +41,10 @@ function Tile(row,column,dimensions){
 			VirtArenaControl.Graphics.ctx.fillText(index,this.x,this.y + this.height/3);
 		}
 	};
+	this.drawHighlightForMovement = function(){
+		VirtArenaControl.Graphics.ctx.fillStyle = "rgba(50,255,50,0.5)";
+		VirtArenaControl.Graphics.ctx.fillRect(this.x,this.y,this.width,this.height);
+	};
 	this.isOpen = function(){
 		var tileIsOpen = true;
 		if(this.virt) tileIsOpen = false;
@@ -50,8 +55,8 @@ function Tile(row,column,dimensions){
 		this.x = (this.oddRow) ? this.column*(this.width+this.spacing) : this.column*(this.width+this.spacing)+((this.width+this.spacing)/2);
 		this.y = this.row*(this.height+this.spacing);
 
-		this.x += VirtArenaControl.Board.x + VirtArenaControl.Board.padding;
-		this.y += VirtArenaControl.Board.y + VirtArenaControl.Board.padding;
+		this.x += VirtArenaControl.Board.x + VirtArenaControl.Board.horizontalPadding;
+		this.y += VirtArenaControl.Board.y + VirtArenaControl.Board.verticalPadding;
 	};
 }
 

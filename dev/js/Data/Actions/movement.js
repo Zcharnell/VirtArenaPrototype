@@ -1,5 +1,17 @@
 (function(){
 	
+	VirtArenaControl.ObjectController.virtMovement = function(virt,endTile){
+		//get the path between the virt and the selected tile (from tiles.js)
+		//check if the movement cost of the end tile is greater than the virt's movement
+		VirtArenaControl.ObjectController.path = VirtArenaControl.ObjectController.findMovementPath(virt,endTile);
+
+		if(endTile.moveCost <= virt.turnStats.move){
+			VirtArenaControl.ObjectController.stepMovement(virt,VirtArenaControl.ObjectController.path);
+		} else {
+			//error feedback for not enough movement? still move along the path?
+		}
+	};
+
 	VirtArenaControl.ObjectController.findMovementPath = function(virt,endTile){
 		//get initial tile
 		//get end tile
@@ -17,6 +29,41 @@
 		var openTiles = [];
 		var closedTiles = [];
 		var moveCost = 1;
+		var error = 0;
+
+		this.setTileMoveCosts(virt);
+
+		var path = [];
+		var step = endTile;
+		while(step != initialTile && error < 100){
+			error++;
+			path.unshift(step);
+			step = step.parentTile;
+		}
+
+		return path;
+	};
+
+	VirtArenaControl.ObjectController.stepMovement = function(virt,path){
+		var nextTile = path.shift();
+		this.setVirtTile(virt,nextTile);
+		virt.turnStats.move -= nextTile.moveCost;
+		this.setTileMoveCosts(virt);
+		if(path.length > 0){
+			setTimeout(function(){
+				VirtArenaControl.ObjectController.stepMovement(virt,path);
+			},this.movementStepDelay);
+		} else if(virt.turnStats.move === 0){
+			VirtArenaControl.TurnController.delayPhaseChange(500);
+		}
+	};
+
+	VirtArenaControl.ObjectController.setTileMoveCosts = function(virt){
+		var initialTile = virt.tile;
+		var tiles = VirtArenaControl.Board.tiles;
+		var openTiles = [];
+		var closedTiles = [];
+		var moveCost = 1;
 
 		for(var i in initialTile.adjacentTiles){
 			var index = initialTile.adjacentTiles[i];
@@ -28,7 +75,7 @@
 		}
 		var error = 0;
 
-		while(error < 100 && closedTiles.indexOf(endTile) === -1){	
+		while(error < 1000 && openTiles.length > 0){	
 			error++;
 
 			for(var i=0; i<openTiles.length; i++){
@@ -54,28 +101,8 @@
 					openTiles.splice(index,1);
 				}
 			}
-		}
 
-		var path = [];
-		var step = endTile;
-		while(step != initialTile && error < 100){
-			error++;
-			path.unshift(step);
-			step = step.parentTile;
-		}
 
-		return path;
-	};
-
-	VirtArenaControl.ObjectController.stepMovement = function(virt,path){
-		var nextTile = path.shift();
-		this.setVirtTile(virt,nextTile);
-		if(path.length > 0){
-			setTimeout(function(){
-				VirtArenaControl.ObjectController.stepMovement(virt,path);
-			},this.movementStepDelay);
-		} else {
-			VirtArenaControl.TurnController.delayPhaseChange(500);
 		}
 	};
 

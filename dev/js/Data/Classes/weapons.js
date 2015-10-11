@@ -1,38 +1,17 @@
 
-function Weapon(inName,inPwr,inRng,inPen){
-	var name = inName;
-	var power = inPwr;
-	var range = inRng;
-	var penetration = inPen;
-	var impact = 0;
+function Weapon(initVars){
+	this.name = '';
+	this.power = 0;
+	this.range = 0;
+	this.penetration = 0;
+	this.impact = 0;
 	this.targetInRange = false;
+	this.special = '';
 
-	this.setPenetration = function(inPen2){
-		penetration = inPen2;
-	}
-	
-	this.setImpact = function(inImp){
-		impact = inImp;
-	}
-	
-	this.getName = function(){
-		return name;
-	}
-	
-	this.getPower = function(){
-		return power;
-	}
-	
-	this.getRange = function(){
-		return range;
-	}
-	
-	this.getPenetration = function(){
-		return penetration;
-	}
-	
-	this.getImpact = function(){
-		return impact;
+	//set initial variables with initVars
+	var keys = Object.keys(initVars);
+	for(var i in keys){
+		this[keys[i]] = initVars[keys[i]];
 	}
 	
 	this.displayWeaponStats = function(){

@@ -22,6 +22,8 @@
 	VirtArenaControl.TurnController = {};
 	VirtArenaControl.ObjectController = {};
 	VirtArenaControl.Virts = {};
+	VirtArenaControl.AI = {};
+	VirtArenaControl.AI.Scripts = {};
 
 	VirtArenaControl.Buttons = {};
 
