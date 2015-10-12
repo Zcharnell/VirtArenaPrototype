@@ -1,6 +1,7 @@
 
 function Stance(initVars){
 	this.name = '';
+	this.number = 0;
 	this.speed = 0;
 	this.move = 0;
 	this.defense = 0;

@@ -14,12 +14,14 @@ function Arturius(){
 //Weapons
 	var weapon1 = {
 		name:"Saber Strike",
+		number:1,
 		power:30,
 		range:1,
-		penetration:80
+		penetration:80,
 	}
 	var weapon2 = {
 		name:"V-Shield Beam",
+		number:2,
 		power:50,
 		range:5,
 		penetration:40,
@@ -32,8 +34,9 @@ function Arturius(){
 	var stance1 = {
 		name:"Force Recon",
 		desc:"May Move 2 once at any point during its activation if within Range 1 of an enemy.",
+		number:1,
 		speed:60,
-		move:2,
+		move:5,
 		defense:40,
 		stability:0,
 		evasion:50,
@@ -42,6 +45,7 @@ function Arturius(){
 	var stance2 = {
 		name:"Dual Wield",
 		desc:"Versatile. Dual Wield (may use both Weapons).",
+		number:2,
 		speed:40,
 		move:2,
 		defense:40,
@@ -53,6 +57,7 @@ function Arturius(){
 	var stance3 = {
 		name:"Reactive",
 		desc:"Deflect +40. Reveal: Move 1",
+		number:3,
 		speed:30,
 		move:1,
 		defense:10,

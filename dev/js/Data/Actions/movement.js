@@ -101,8 +101,6 @@
 					openTiles.splice(index,1);
 				}
 			}
-
-
 		}
 	};
 

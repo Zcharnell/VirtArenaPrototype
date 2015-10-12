@@ -143,52 +143,129 @@ function Virt(){
 		// }
 		this.virtTypeSpecialValues();
 	}
+
+	this.getWeaponRange = function(){
+		var range = 0;
+
+		if(this.weaponSelected){
+			range = this.weaponSelected.range;
+		} else {
+			var keys = Object.keys(this.weapons);
+			for(var i in keys){
+				if(range < this.weapons[keys[i]].range)
+					range = this.weapons[keys[i]].range;
+			}
+		}
+
+		return range;
+	};
+
+	this.getDamageAndStatsForAttacking = function(){
+		var diceRolls = this.rollDamage();
+		var penetration = this.weaponSelected.penetration;
+		var impact = this.weaponSelected.impact;
+
+		var obj = {
+			damage: diceRolls.damage,
+			critDamage: diceRolls.critDamage,
+			damageDice: diceRolls.damageDice,
+			critDice: diceRolls.critDice,
+			penetration: penetration,
+			impact: impact
+		};
+
+		return obj;
+	};
+
+	this.rollDamage = function(){
+		//set power equal to the selected weapon's power
+		//LATER: change power here based on other variables, like stun
+		var power = this.weaponSelected.power;
+		var diceRolls = {
+			damage:0,
+			critDamage:0,
+			damageDice: [],
+			critDice: []
+		};
+		for(var i=0; i<power; i++){
+			var roll = Scripts.rollDamageDie();
+			if(roll.crit) {
+				diceRolls.critDice.push(roll.roll);
+				diceRolls.critDamage += roll.roll;
+			} else {
+				diceRolls.damageDice.push(roll.roll);
+				diceRolls.damage += roll.roll;
+			}
+		}
+
+		return diceRolls;
+	};
 	
-	this.takeDamage = function(damage,diceArray,pen,maxDamage){
-		var tempDefense = this.defense;
+	this.takeDamage = function(obj){
+		//damage,diceArray,pen,maxDamage
+		/*
+			damage: diceRolls.damage,
+			critDamage: diceRolls.critDamage,
+			damageDice: diceRolls.damageDice,
+			critDice: diceRolls.critDice,
+			penetration: penetration,
+			impact: impact
+		*/
+
+		var damage = obj.damage;
+		var critDamage = obj.critDamage;
+		var damageDice = obj.damageDice;
+		var critDice = obj.critDice;
+		var penetration = obj.penetration;
+		var impact = obj.impact;
+
+		var tempDefense = this.turnStats.defense;
+		console.log(obj);
+		console.log(tempDefense);
 		this.previousHP = this.HP;
-		console.log('damage rolled: ' + damage);
-		if(damage > maxDamage){
-			damage = maxDamage;
-			console.log('damage after max damage applied: ' + damage);
-		}
-		if(this.vulnerability > 0){
-			var defenseAfterVuln = getVulnerabilityPercent(tempDefense,this.vulnerability);
-			var vulnDeduction = tempDefense - defenseAfterVuln;
-			tempDefense = defenseAfterVuln;
-			console.log('Vulnerability ' + this.vulnerability + '%: Defense reduced by ' + vulnDeduction + '; New Defense: ' + tempDefense);
-			this.vulnerability = 0;
-		}
-		if(pen > 0){
-			tempDefense -= pen;
-			console.log('Penetration ' + pen + ': Defense reduced to ' + tempDefense);
+		
+		// if(damage > maxDamage){
+		// 	damage = maxDamage;	
+		// }
+		// if(this.vulnerability > 0){
+		// 	var defenseAfterVuln = getVulnerabilityPercent(tempDefense,this.vulnerability);
+		// 	var vulnDeduction = tempDefense - defenseAfterVuln;
+		// 	tempDefense = defenseAfterVuln;
+		// 	console.log('Vulnerability ' + this.vulnerability + '%: Defense reduced by ' + vulnDeduction + '; New Defense: ' + tempDefense);
+		// 	this.vulnerability = 0;
+		// }
+		if(penetration > 0){
+			tempDefense -= penetration;
+			// console.log('Penetration ' + penetration + ': Defense reduced to ' + tempDefense);
 		}
 
 		if(tempDefense < 0){
 			tempDefense = 0;
-			console.log('Defense reduced below 0. Defense set to 0.');
+			// console.log('Defense reduced below 0. Defense set to 0.');
 		}
 		
 		var damageTaken = damage - tempDefense;
-		console.log('damage taken after defense before resilience: ' + damageTaken);
-		if(damageTaken > this.resilience && this.resilience > -1){
-			damageTaken = this.resilience;
-			this.HP -= damageTaken;
-			console.log('Resilience reduces damage to: (' + damageTaken + ')');
-		}
-		else if(damageTaken > 0){
+		if(damageTaken < 0) damageTaken = 0;
+		damageTaken += critDamage;
+		// console.log('damage taken after defense before resilience: ' + damageTaken);
+		// if(damageTaken > this.resilience && this.resilience > -1){
+		// 	damageTaken = this.resilience;
+		// 	this.HP -= damageTaken;
+		// 	console.log('Resilience reduces damage to: (' + damageTaken + ')');
+		// }
+		if(damageTaken > 0){
 			this.HP -= damageTaken;
 		}
 		else{
 			damageTaken = 0;
 		}
 		
-		console.log('damage taken: ' + damageTaken);
+		// console.log('damage taken: ' + damageTaken);
+		console.log('PreviousHP:' + this.previousHP + '; NewHP: ' + this.HP);
 		
-		showDamageCanvas(this.currentHex.xpos,this.currentHex.ypos,damageTaken);		
+		// showDamageCanvas(this.currentHex.xpos,this.currentHex.ypos,damageTaken);		
 		//this.returnDamage(damageTaken,diceArray,damage,critDamage,critDamageFinal,pen,imp,newlyStunned,tempDefense);
-		return damageTaken;
-		
+		// return damageTaken;
 	}
 	
 	this.takeStabilityDmg = function(damage){

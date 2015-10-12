@@ -241,8 +241,11 @@
 	};
 
 	VirtArenaControl.TurnController.virtActivation.attackSubphase = function(){
+		//select weapon and show possible targets
 		console.log('\tsubPHASE: attackSubphase - ' + VirtArenaControl.ObjectController.currentVirtActivating.name);
-		VirtArenaControl.TurnController.delayPhaseChange();
+		VirtArenaControl.ObjectController.setTileRangeForWeapons(VirtArenaControl.ObjectController.currentVirtActivating);
+		VirtArenaControl.ObjectController.checkUsableWeapons(VirtArenaControl.ObjectController.currentVirtActivating);
+		// VirtArenaControl.TurnController.delayPhaseChange();
 	};
 
 	VirtArenaControl.TurnController.virtActivation.endActivation = function(){
@@ -262,6 +265,7 @@
 	VirtArenaControl.TurnController.endOfTurn.setVariablesForEndOfTurn = function(){
 		console.log('\tsubPHASE: setVariablesForEndOfTurn');
 		VirtArenaControl.ObjectController.setLastStanceSelected();
+		VirtArenaControl.ObjectController.resetWeaponSelected();
 		VirtArenaControl.ObjectController.resetActivationOrder();
 		VirtArenaControl.TurnController.delayPhaseChange();
 	};

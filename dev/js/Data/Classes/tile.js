@@ -13,13 +13,19 @@ function Tile(row,column,dimensions){
 	this.virt = '';
 	this.index = '';
 	this.moveCost = 0;
-	this.draw = function(index){
+	this.rangeForWeapon = 0;
+	this.draw = function(){
 		VirtArenaControl.Graphics.ctx.textAlign = "left";
 		VirtArenaControl.Graphics.ctx.font = '10px Arial';
 		VirtArenaControl.Graphics.ctx.fillStyle = 'black';
 		VirtArenaControl.Graphics.ctx.fillRect(this.x,this.y,this.width,this.height);
+	};
+	this.drawIndex = function(index){
+		VirtArenaControl.Graphics.ctx.font = '10px Arial';
+		if(this.hover) VirtArenaControl.Graphics.ctx.fillStyle = 'black';
+		else VirtArenaControl.Graphics.ctx.fillStyle = 'white';
+		
 		if(index >= 0){
-			VirtArenaControl.Graphics.ctx.fillStyle = 'white';
 			VirtArenaControl.Graphics.ctx.fillText(index,this.x,this.y + this.height/3);
 		}
 	};
@@ -29,21 +35,23 @@ function Tile(row,column,dimensions){
 		VirtArenaControl.Graphics.ctx.fillStyle = 'green';
 		VirtArenaControl.Graphics.ctx.fillText('P',this.x,this.y + this.height/3);
 	};
-	this.drawHover = function(index){
+	this.drawHover = function(){
 		VirtArenaControl.Graphics.ctx.textAlign = "left";
 		VirtArenaControl.Graphics.ctx.font = '10px Arial';
 		VirtArenaControl.Graphics.ctx.fillStyle = 'white';
 		VirtArenaControl.Graphics.ctx.fillRect(this.x,this.y,this.width,this.height);
 		VirtArenaControl.Graphics.ctx.strokeStyle = 'black';
 		VirtArenaControl.Graphics.ctx.strokeRect(this.x,this.y,this.width,this.height);
-		if(index >= 0){
-			VirtArenaControl.Graphics.ctx.fillStyle = 'black';
-			VirtArenaControl.Graphics.ctx.fillText(index,this.x,this.y + this.height/3);
-		}
 	};
-	this.drawHighlightForMovement = function(){
-		VirtArenaControl.Graphics.ctx.fillStyle = "rgba(50,255,50,0.5)";
+	this.drawHighlight = function(color){
+		VirtArenaControl.Graphics.ctx.fillStyle = color;
 		VirtArenaControl.Graphics.ctx.fillRect(this.x,this.y,this.width,this.height);
+	}
+	this.drawHighlightForMovement = function(){
+		this.drawHighlight("rgba(50,255,50,0.5)");
+	};
+	this.drawHighlightForAttack = function(){
+		this.drawHighlight("rgba(255,50,50,0.5)");
 	};
 	this.isOpen = function(){
 		var tileIsOpen = true;

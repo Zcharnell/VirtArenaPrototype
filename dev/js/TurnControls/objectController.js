@@ -6,11 +6,11 @@
 		currentVirtActivating:'',
 		setVirtTile: function(virt,tile){
 			virt.tile = tile;
-			tile.virt = virt.name;
+			tile.virt = virt;
 		},
-		selectVirt: function(virtName){
+		selectVirt: function(virt){
 			for(var i in VirtArenaControl.Virts.virts){
-				if(VirtArenaControl.Virts.virts[i].name === virtName){
+				if(VirtArenaControl.Virts.virts[i] === virt){
 					this.selectedVirt = VirtArenaControl.Virts.virts[i];
 					return;
 				}
@@ -30,11 +30,28 @@
 			var virts = VirtArenaControl.Virts.virts;
 			for(var i in virts){
 				virts[i].lastStanceSelected = virts[i].stanceSelected;
+				virts[i].stanceSelected = '';
+			}
+		},
+		resetWeaponSelected: function(){
+			var virts = VirtArenaControl.Virts.virts;
+			for(var i in virts){
+				virts[i].weaponSelected = '';
 			}
 		},
 		resetActivationOrder: function(){
 			this.activationOrder = [];
 			this.currentVirtActivating = '';
+		},
+		setVirtStance: function(virt,stanceNumber){
+			virt.setStance("stance" + stanceNumber);
+			VirtArenaControl.Buttons.removeButton('selectStance');
+			VirtArenaControl.TurnController.nextPhase();
+		},
+		selectCommanderVirt: function(virt,team){
+			VirtArenaControl.Virts.teams[team].addCommander(virt);
+			VirtArenaControl.Buttons.removeButton('selectVirt');
+			VirtArenaControl.TurnController.gameStarter.nextPhase();
 		}
 	};
 })();

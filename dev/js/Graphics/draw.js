@@ -23,15 +23,23 @@
 
 		for(var i=0; i<tiles.length; i++){
 			if(tiles[i].hover || tiles[i].adjacentToHover){
-				tiles[i].drawHover(i);
+				tiles[i].drawHover();
 			} else {
-				tiles[i].draw(i);
+				tiles[i].draw();
 			}
 			if(VirtArenaControl.TurnController.currentSubphase === "movementSubphase" 
 				&& tiles[i].moveCost <= VirtArenaControl.ObjectController.currentVirtActivating.turnStats.move
-				&& tiles[i].isOpen()){
+				&& tiles[i].isOpen()) {
 				tiles[i].drawHighlightForMovement();
 			}
+			if(VirtArenaControl.TurnController.currentSubphase === "attackSubphase" 
+				&& tiles[i].rangeForWeapon <= VirtArenaControl.ObjectController.currentVirtActivating.getWeaponRange()
+				&& tiles[i].virt
+				&& tiles[i].virt.team != VirtArenaControl.ObjectController.currentVirtActivating.team) {
+				tiles[i].drawHighlightForAttack();
+			}
+
+			tiles[i].drawIndex(i);
 		}
 	}
 

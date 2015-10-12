@@ -16,6 +16,7 @@ function Imperator(){
 //Weapons
 	var weapon1 = {
 		name:"Radiation Claw Grasp",
+		number:1,
 		power:60,
 		range:1,
 		penetration:60,
@@ -23,6 +24,7 @@ function Imperator(){
 	}
 	var weapon2 = {
 		name:"Particle Cannon Shot",
+		number:2,
 		power:40,
 		range:3,
 		penetration:20,
@@ -35,6 +37,7 @@ function Imperator(){
 	var stance1 = {
 		name:"Tackle",
 		desc:"May Push 1 or Pull 1 target enemy within Range 1 after moving.",
+		number:1,
 		speed:50,
 		move:2,
 		defense:50,
@@ -45,6 +48,7 @@ function Imperator(){
 	var stance2 = {
 		name:"Vigorous",
 		desc:"Vampiric",
+		number:2,
 		speed:20,
 		move:1,
 		defense:0,
@@ -55,6 +59,7 @@ function Imperator(){
 	var stance3 = {
 		name:"Indomitable",
 		desc:"Immune to Stun",
+		number:3,
 		speed:10,
 		move:2,
 		defense:100,

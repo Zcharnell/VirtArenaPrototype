@@ -8,6 +8,7 @@
 	VirtArenaControl.Buttons.addButton = function(buttonType,misc){
 		if(buttonType === 'selectVirt') addSelectVirtButtons(misc);
 		else if(buttonType === 'selectStances') addSelectStanceButtons(misc);
+		else if(buttonType === 'selectWeapon') addSelectWeaponButton(misc);
 	};
 
 	VirtArenaControl.Buttons.removeButton = function(buttonType,misc){
@@ -27,6 +28,14 @@
 				//get the buttons with a name that includes selectVirt
 				for(var i in buttons){
 					if(buttons[i].indexOf('selectStance') != -1){
+						buttonsToRemove.push(buttons[i]);
+					}
+				}
+				break;
+			case 'selectWeapon':
+				//get the buttons with a name that includes selectVirt
+				for(var i in buttons){
+					if(buttons[i].indexOf('selectWeapon') != -1){
 						buttonsToRemove.push(buttons[i]);
 					}
 				}
@@ -81,9 +90,7 @@
 				width:100,
 				height:40,
 				onClick:function(){
-					VirtArenaControl.Virts.teams[this.team].addCommander(this.virt);
-					VirtArenaControl.Buttons.removeButton('selectVirt');
-					VirtArenaControl.TurnController.gameStarter.nextPhase();
+					VirtArenaControl.ObjectController.selectCommanderVirt(this.virt,this.team);
 				},
 				update:function(){
 					this.x = VirtArenaControl.Camera.width - 20 - this.width;
@@ -117,9 +124,7 @@
 				height:40,
 				onClick:function(){
 					if(!this.disabled){
-						virt.setStance("stance" + (parseInt(this.index)+1));
-						VirtArenaControl.Buttons.removeButton('selectStance');
-						VirtArenaControl.TurnController.nextPhase();
+						VirtArenaControl.ObjectController.setVirtStance(this.virt,(parseInt(this.index)+1));
 					}
 				},
 				update:function(){
@@ -131,12 +136,51 @@
 				spacing:25,
 				index:i,
 				buttonsOfThisType:keys.length,
-				disabled:(virt.lastStanceSelected === keys[i]) ? true : false
+				disabled:(virt.lastStanceSelected === keys[i]) ? true : false,
+				virt:virt
 			}
 
 			VirtArenaControl.Buttons[buttonName].init(variablesForButton);
 			VirtArenaControl.Buttons.buttonsToDraw.push(buttonName);
 		};
+	};
+
+
+	var addSelectWeaponButton = function(misc){
+		//{virt:virt,weapon:virt.weapons[keys[i]],disabled:outOfRange,index:i,buttonsOfThisType:keys.length}
+
+		var virt = misc.virt;
+		var weapon = misc.weapon;
+
+		var buttonName = 'selectWeapon'+weapon.name;
+		VirtArenaControl.Buttons[buttonName] = new Button();
+		var variablesForButton = {
+			text:weapon.name,
+			x:-999,
+			y:-999,
+			width:100,
+			height:40,
+			onClick:function(){
+				if(!this.disabled){
+					VirtArenaControl.ObjectController.selectWeapon(this.virt,this.weapon);
+				}
+			},
+			update:function(){
+				var startX = this.buttonsOfThisType * -(this.width/2) - this.spacing;
+				var dynamicX = startX + (this.index*(this.width+this.spacing));
+				this.x = VirtArenaControl.Camera.width/2 + dynamicX;
+				this.y = VirtArenaControl.Camera.height - this.height - 20;
+			},
+			spacing:25,
+			index:misc.index,
+			buttonsOfThisType:misc.buttonsOfThisType,
+			disabled:misc.disabled,
+			virt:virt,
+			weapon:weapon
+		}
+		VirtArenaControl.Buttons[buttonName].init(variablesForButton);
+		VirtArenaControl.Buttons.buttonsToDraw.push(buttonName);
+
 	};
 	
 })();

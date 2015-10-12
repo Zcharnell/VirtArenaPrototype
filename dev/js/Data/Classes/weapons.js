@@ -1,6 +1,7 @@
 
 function Weapon(initVars){
 	this.name = '';
+	this.number = 0;
 	this.power = 0;
 	this.range = 0;
 	this.penetration = 0;
