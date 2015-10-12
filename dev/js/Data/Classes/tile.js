@@ -10,7 +10,7 @@ function Tile(row,column,dimensions){
 	this.x = (this.oddRow) ? this.column*(this.width+this.spacing) : this.column*(this.width+this.spacing)+((this.width+this.spacing)/2);
 	this.y = this.row*(this.height+this.spacing);
 	this.adjacentTiles = [];
-	this.virt = '';
+	this.unit = '';
 	this.index = '';
 	this.moveCost = 0;
 	this.rangeForWeapon = 0;
@@ -24,7 +24,7 @@ function Tile(row,column,dimensions){
 		VirtArenaControl.Graphics.ctx.font = '10px Arial';
 		if(this.hover) VirtArenaControl.Graphics.ctx.fillStyle = 'black';
 		else VirtArenaControl.Graphics.ctx.fillStyle = 'white';
-		
+
 		if(index >= 0){
 			VirtArenaControl.Graphics.ctx.fillText(index,this.x,this.y + this.height/3);
 		}
@@ -55,7 +55,7 @@ function Tile(row,column,dimensions){
 	};
 	this.isOpen = function(){
 		var tileIsOpen = true;
-		if(this.virt) tileIsOpen = false;
+		if(this.unit) tileIsOpen = false;
 
 		return tileIsOpen;
 	};

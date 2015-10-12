@@ -21,7 +21,7 @@
 	VirtArenaControl.Interaction = {};
 	VirtArenaControl.TurnController = {};
 	VirtArenaControl.ObjectController = {};
-	VirtArenaControl.Virts = {};
+	VirtArenaControl.Units = {};
 	VirtArenaControl.AI = {};
 	VirtArenaControl.AI.Scripts = {};
 
@@ -46,7 +46,7 @@
 			// this.drawFunctions.push('drawSquare');
 			this.drawFunctions.push('drawBoardTiles');
 			this.drawFunctions.push('drawButtons');
-			this.drawFunctions.push('drawVirts');
+			this.drawFunctions.push('drawUnits');
 			this.drawFunctions.push('drawPath');
 		},
 		setShadow: function(color,blur,offsetX,offsetY){

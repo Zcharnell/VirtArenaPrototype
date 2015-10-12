@@ -1,27 +1,28 @@
 
-function Virt(){
-	this.speed = 0;
+function Unit(){
+	// this.speed = 0;
 	this.HP = 200;
 	this.totalHP = 200;
 	this.previousHP = 200;
 	this.HPPercent = 100;
 	this.energy = 90;
 	this.energyExtra = 30;
-	this.capacityLimit = 0;
-	this.capacity = 0;
-	this.supply = 0;
-	this.name = 'Virt';
-	this.virtType = 'Virt';
-	this.virtClassType = 'Commander';
+	// this.capacityLimit = 0;
+	// this.capacity = 0;
+	// this.supply = 0;
+	this.name = '';
+	this.virtType = '';
+	this.virtClassType = '';
 	this.isAlive = true;
-	this.activationNum;
 	this.weapons = {};
 	this.stances = {};
 	this.stanceSelected = '';
 	this.lastStanceSelected = '';
 	this.weaponSelected = {};
+	this.team = '';
 
 	this.turnStats = {
+		speed: 0,
 		move: 0,
 		defense: 0,
 		evasion: 0,
@@ -67,11 +68,11 @@ function Virt(){
 	this.tile = {};
 
 	this.draw = function(){
-		if(this.name === VirtArenaControl.ObjectController.selectedVirt.name) {
+		if(this.name === VirtArenaControl.ObjectController.selectedUnit.name) {
 			VirtArenaControl.Graphics.ctx.textAlign = "center";
 			VirtArenaControl.Graphics.ctx.font = "30px Arial";
 			VirtArenaControl.Graphics.ctx.strokeStyle = 'black';
-			VirtArenaControl.Graphics.ctx.fillStyle = VirtArenaControl.Virts.teams[this.team].color;
+			VirtArenaControl.Graphics.ctx.fillStyle = VirtArenaControl.Units.teams[this.team].color;
 			VirtArenaControl.Graphics.ctx.strokeRect(this.tile.x,this.tile.y,this.tile.width,this.tile.height);
 			VirtArenaControl.Graphics.ctx.fillRect(this.tile.x,this.tile.y,this.tile.width,this.tile.height);
 			VirtArenaControl.Graphics.ctx.fillStyle = 'white';
@@ -79,8 +80,8 @@ function Virt(){
 		} else {
 			VirtArenaControl.Graphics.ctx.textAlign = "center";
 			VirtArenaControl.Graphics.ctx.font = "30px Arial";
-			VirtArenaControl.Graphics.ctx.fillStyle = VirtArenaControl.Virts.teams[this.team].color;
-			VirtArenaControl.Graphics.ctx.strokeStyle = VirtArenaControl.Virts.teams[this.team].color;
+			VirtArenaControl.Graphics.ctx.fillStyle = VirtArenaControl.Units.teams[this.team].color;
+			VirtArenaControl.Graphics.ctx.strokeStyle = VirtArenaControl.Units.teams[this.team].color;
 			VirtArenaControl.Graphics.ctx.strokeRect(this.tile.x,this.tile.y,this.tile.width,this.tile.height);
 			var fillText = {
 				text:this.name[0],
@@ -125,7 +126,7 @@ function Virt(){
 		// if(this.turnStats.isStunned){
 		// 	this.turnStats.defense -= stunDefenseVal;
 		// }
-		this.virtStanceAffectingVariables();
+		this.unitStanceAffectingVariables();
 	}
 
 	this.setWeapon = function(numWeapon){
@@ -141,7 +142,7 @@ function Virt(){
 		// if(this.turnStats.isStunned){
 		// 	this.weaponSelected.power -= stunPowerVal;
 		// }
-		this.virtTypeSpecialValues();
+		this.unitTypeSpecialValues();
 	}
 
 	this.getWeaponRange = function(){
@@ -298,66 +299,66 @@ function Virt(){
 		}
 	}
 
-	this.setDead = function(virtName,deadhex){
-		//set isAlive and remove the virt from the board
-		this.isAlive = false;
-		setCurrentHex(virtName,deadhex);
+	// this.setDead = function(unitName,deadhex){
+	// 	//set isAlive and remove the virt from the board
+	// 	this.isAlive = false;
+	// 	setCurrentHex(unitName,deadhex);
 
-		//Adjust virtArray so that this virt is not in the array
-		var j;
-		var tempVirtArray = [];
-		for(var i=0; i<virtArray.length; i++){
-			if(virtArray[i] === virtName){
-				j = i;
-			}
-		}
-		for(var i=0; i<j; i++){
-			tempVirtArray[i] = virtArray[i];
-		}
-		for(var i=(j+1); i<virtArray.length; i++){
-			tempVirtArray[i-1] = virtArray[i];
-		}
-		virtArray = [];
-		virtArray = tempVirtArray;
+	// 	//Adjust virtArray so that this virt is not in the array
+	// 	var j;
+	// 	var tempVirtArray = [];
+	// 	for(var i=0; i<virtArray.length; i++){
+	// 		if(virtArray[i] === virtName){
+	// 			j = i;
+	// 		}
+	// 	}
+	// 	for(var i=0; i<j; i++){
+	// 		tempVirtArray[i] = virtArray[i];
+	// 	}
+	// 	for(var i=(j+1); i<virtArray.length; i++){
+	// 		tempVirtArray[i-1] = virtArray[i];
+	// 	}
+	// 	virtArray = [];
+	// 	virtArray = tempVirtArray;
 
-		//Remove this virt from the activation order if it has not activated yet
-		tempVirtArray = [];
-		for(var i=0; i<virtActivationOrder.length; i++){
-			if(virtActivationOrder[i] === virtName){
-				j = i;
-			}
-		}
-		if(j>currentVirtActivating){
-			for(var i=0; i<j; i++){
-				tempVirtArray[i] = virtActivationOrder[i];
-			}
-			for(var i=(j+1); i<virtActivationOrder.length; i++){
-				tempVirtArray[i-1] = virtActivationOrder[i];
-			}
-			virtActivationOrder = [];
-			virtActivationOrder = tempVirtArray;
-			finalVirtActivation -= 1;
-			updateVirtActivationOrderDisplay(currentVirtActivating);
-			activationOrderBarUpdate();
-		}
-		if(j<=currentVirtActivating){
-			for(var i=0; i<j; i++){
-				tempVirtArray[i] = virtActivationOrder[i];
-			}
-			for(var i=(j+1); i<virtActivationOrder.length; i++){
-				tempVirtArray[i-1] = virtActivationOrder[i];
-			}
-			virtActivationOrder = [];
-			virtActivationOrder = tempVirtArray;
-			currentVirtActivating -= 1;
-			finalVirtActivation -= 1;
-			updateVirtActivationOrderDisplay(currentVirtActivating);
-			activationOrderBarUpdate();
-		}
-	}
+	// 	//Remove this virt from the activation order if it has not activated yet
+	// 	tempVirtArray = [];
+	// 	for(var i=0; i<virtActivationOrder.length; i++){
+	// 		if(virtActivationOrder[i] === virtName){
+	// 			j = i;
+	// 		}
+	// 	}
+	// 	if(j>currentVirtActivating){
+	// 		for(var i=0; i<j; i++){
+	// 			tempVirtArray[i] = virtActivationOrder[i];
+	// 		}
+	// 		for(var i=(j+1); i<virtActivationOrder.length; i++){
+	// 			tempVirtArray[i-1] = virtActivationOrder[i];
+	// 		}
+	// 		virtActivationOrder = [];
+	// 		virtActivationOrder = tempVirtArray;
+	// 		finalVirtActivation -= 1;
+	// 		updateVirtActivationOrderDisplay(currentVirtActivating);
+	// 		activationOrderBarUpdate();
+	// 	}
+	// 	if(j<=currentVirtActivating){
+	// 		for(var i=0; i<j; i++){
+	// 			tempVirtArray[i] = virtActivationOrder[i];
+	// 		}
+	// 		for(var i=(j+1); i<virtActivationOrder.length; i++){
+	// 			tempVirtArray[i-1] = virtActivationOrder[i];
+	// 		}
+	// 		virtActivationOrder = [];
+	// 		virtActivationOrder = tempVirtArray;
+	// 		currentVirtActivating -= 1;
+	// 		finalVirtActivation -= 1;
+	// 		updateVirtActivationOrderDisplay(currentVirtActivating);
+	// 		activationOrderBarUpdate();
+	// 	}
+	// }
 
-	this.virtStanceAffectingVariables = function(){};
-	this.virtTypeSpecialValues = function(){};
+	this.unitStanceAffectingVariables = function(){};
+	this.unitTypeSpecialValues = function(){};
 
 }
 

@@ -55,13 +55,13 @@
 		}
 	}
 
-	VirtArenaControl.Graphics.drawVirts = function(){
-		var virts = VirtArenaControl.Virts.getVirtsToDraw();
+	VirtArenaControl.Graphics.drawUnits = function(){
+		var units = VirtArenaControl.Units.getUnitsToDraw();
 
-		for(var i in virts){
-			var virt = virts[i];
-			if(virt){
-				virt.draw();
+		for(var i in units){
+			var unit = unit[i];
+			if(unit){
+				unit.draw();
 			}
 		}
 	}

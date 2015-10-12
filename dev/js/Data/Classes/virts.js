@@ -1,25 +1,25 @@
 (function(){
 
-	VirtArenaControl.Virts = {
-		virts:[],
+	VirtArenaControl.Units = {
+		units:[],
 		teams:[],
-		addVirt: function(virt){
-			this.virts.push(virt);
+		addUnit: function(unit){
+			this.units.push(unit);
 		},
-		getVirtsToDraw: function(){
-			var virtsToDraw = [];
-			for(var i in this.virts){
-				if(this.virts[i]){
-					virtsToDraw.push(this.virts[i]);
+		getUnitsToDraw: function(){
+			var unitsToDraw = [];
+			for(var i in this.units){
+				if(this.units[i]){
+					unitsToDraw.push(this.units[i]);
 				}
 			}
 
-			return virtsToDraw;
+			return unitsToDraw;
 		},
-		getVirtObject: function(virtName){
+		getUnitObject: function(unitName){
 			//returns a new object based on the virtName, which should be class
-			var virt = new window[virtName]();
-			return virt;
+			var unit = new window[unitName]();
+			return unit;
 		},
 
 		//commander virts to choose from

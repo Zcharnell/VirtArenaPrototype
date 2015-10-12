@@ -84,20 +84,20 @@
 	}
 
 	VirtArenaControl.Updater.checkVirtPositions = function(){
-		var virts = VirtArenaControl.Virts.virts;
+		var units = VirtArenaControl.Units.units;
 		var tiles = VirtArenaControl.Board.tiles;
-		var tilesWithVirts = [];
+		var tilesWithUnits = [];
 
-		for(var i in virts){
-			tilesWithVirts.push(virts[i].tile.index);
+		for(var i in units){
+			tilesWithUnits.push(units[i].tile.index);
 		}
 
 		for(var i in tiles){
-			if(tiles[i].virt != ''){
+			if(tiles[i].unit != ''){
 			}
-			if(tiles[i].virt != '' && tilesWithVirts.indexOf(tiles[i].index) === -1){
+			if(tiles[i].unit != '' && tilesWithUnits.indexOf(tiles[i].index) === -1){
 				//if a tile thinks it has a virt but it doesn't, reset the variable
-				tiles[i].virt = '';
+				tiles[i].unit = '';
 			}
 		}
 	}

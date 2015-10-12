@@ -1,6 +1,6 @@
 (function(){
 	VirtArenaControl.ObjectController = {
-		selectedVirt:'',
+		selectedUnit:'',
 		movementStepDelay:250,
 		activationOrder:[],
 		currentVirtActivating:'',
@@ -11,13 +11,13 @@
 		selectVirt: function(virt){
 			for(var i in VirtArenaControl.Virts.virts){
 				if(VirtArenaControl.Virts.virts[i] === virt){
-					this.selectedVirt = VirtArenaControl.Virts.virts[i];
+					this.selectedUnit = VirtArenaControl.Virts.virts[i];
 					return;
 				}
 			}
 		},
 		resetSelectedObject: function(){
-			if(this.selectedVirt) this.selectedVirt = '';
+			if(this.selectedUnit) this.selectedUnit = '';
 		},
 		setActivationOrder: function(){
 			this.activationOrder = VirtArenaControl.Virts.virts;
