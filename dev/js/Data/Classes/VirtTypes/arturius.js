@@ -1,4 +1,6 @@
 function Arturius(){
+	this.setStartingVars();
+
 	this.name = 'Arturius';
 	this.virtType = 'Arturius';
 	this.virtClassType = 'Commander';
@@ -86,4 +88,4 @@ function Arturius(){
 	}
 }
 
-Arturius.prototype = new Virt();
+Arturius.prototype = new Unit();

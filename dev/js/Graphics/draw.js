@@ -28,14 +28,14 @@
 				tiles[i].draw();
 			}
 			if(VirtArenaControl.TurnController.currentSubphase === "movementSubphase" 
-				&& tiles[i].moveCost <= VirtArenaControl.ObjectController.currentVirtActivating.turnStats.move
+				&& tiles[i].moveCost <= VirtArenaControl.ObjectController.currentUnitActivating.turnStats.move
 				&& tiles[i].isOpen()) {
 				tiles[i].drawHighlightForMovement();
 			}
 			if(VirtArenaControl.TurnController.currentSubphase === "attackSubphase" 
-				&& tiles[i].rangeForWeapon <= VirtArenaControl.ObjectController.currentVirtActivating.getWeaponRange()
-				&& tiles[i].virt
-				&& tiles[i].virt.team != VirtArenaControl.ObjectController.currentVirtActivating.team) {
+				&& tiles[i].rangeForWeapon <= VirtArenaControl.ObjectController.currentUnitActivating.getWeaponRange()
+				&& tiles[i].unit
+				&& tiles[i].unit.team != VirtArenaControl.ObjectController.currentUnitActivating.team) {
 				tiles[i].drawHighlightForAttack();
 			}
 
@@ -59,7 +59,7 @@
 		var units = VirtArenaControl.Units.getUnitsToDraw();
 
 		for(var i in units){
-			var unit = unit[i];
+			var unit = units[i];
 			if(unit){
 				unit.draw();
 			}

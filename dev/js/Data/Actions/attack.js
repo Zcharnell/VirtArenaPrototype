@@ -1,14 +1,14 @@
 (function(){
 	
-	VirtArenaControl.ObjectController.checkUsableWeapons = function(virt){
-		var keys = Object.keys(virt.weapons);
-		var virtsInRange = {};
+	VirtArenaControl.ObjectController.checkUsableWeapons = function(unit){
+		var keys = Object.keys(unit.weapons);
+		var unitsInRange = {};
 		var hasWeaponInRange = false;
 
 		for(var i in keys){
-			virtsInRange[keys[i]] = VirtArenaControl.ObjectController.getVirtsInRange(virt,virt.weapons[keys[i]]);
-			var outOfRange = (virtsInRange[keys[i]].length > 0) ? false : true;
-			VirtArenaControl.Buttons.addButton('selectWeapon',{virt:virt,weapon:virt.weapons[keys[i]],disabled:outOfRange,index:i,buttonsOfThisType:keys.length});
+			unitsInRange[keys[i]] = VirtArenaControl.ObjectController.getUnitsInRange(unit,unit.weapons[keys[i]]);
+			var outOfRange = (unitsInRange[keys[i]].length > 0) ? false : true;
+			VirtArenaControl.Buttons.addButton('selectWeapon',{unit:unit,weapon:unit.weapons[keys[i]],disabled:outOfRange,index:i,buttonsOfThisType:keys.length});
 			if(!outOfRange) hasWeaponInRange = true;
 		}
 
@@ -16,12 +16,12 @@
 
 	};
 
-	VirtArenaControl.ObjectController.selectWeapon = function(virt,weapon){
-		virt.setWeapon(weapon.number);
+	VirtArenaControl.ObjectController.selectWeapon = function(unit,weapon){
+		unit.setWeapon(weapon.number);
 	};
 
-	VirtArenaControl.ObjectController.setTileRangeForWeapons = function(virt){
-		var initialTile = virt.tile;
+	VirtArenaControl.ObjectController.setTileRangeForWeapons = function(unit){
+		var initialTile = unit.tile;
 		var tiles = VirtArenaControl.Board.tiles;
 		var openTiles = [];
 		var closedTiles = [];
@@ -64,21 +64,21 @@
 		}
 	};
 	
-	VirtArenaControl.ObjectController.virtAttackSelectTarget = function(virtAttacking,virtTarget){
-		if(virtTarget.tile.rangeForWeapon > virtAttacking.getWeaponRange()){
-			console.log('OUTOFRANGE: ' + virtTarget.name, tile);
+	VirtArenaControl.ObjectController.unitAttackSelectTarget = function(unitAttacking,unitTarget){
+		if(unitTarget.tile.rangeForWeapon > unitAttacking.getWeaponRange()){
+			console.log('OUTOFRANGE: ' + unitTarget.name, tile);
 		} else {
 			console.log('Attack!');
 			VirtArenaControl.Buttons.removeButton('selectWeapon');
-			VirtArenaControl.ObjectController.virtAttackTarget(virtAttacking,virtTarget);
+			VirtArenaControl.ObjectController.unitAttackTarget(unitAttacking,unitTarget);
 
 		}
 	};
 
-	VirtArenaControl.ObjectController.virtAttackTarget = function(virt,target){
+	VirtArenaControl.ObjectController.unitAttackTarget = function(unit,target){
 		//roll damage based on power
 		//send that damage value (with crit, penetration, and anything special) in an object to the virt's takeDamage function
-		var obj = virt.getDamageAndStatsForAttacking();
+		var obj = unit.getDamageAndStatsForAttacking();
 		target.takeDamage(obj);
 		VirtArenaControl.ObjectController.endAttackSubphase();
 	}
@@ -88,20 +88,20 @@
 		VirtArenaControl.TurnController.delayPhaseChange();
 	};
 
-	VirtArenaControl.ObjectController.getVirtsInRange = function(virt,weapon){
+	VirtArenaControl.ObjectController.getUnitsInRange = function(unit,weapon){
 		var range = weapon.range;
-		var virts = VirtArenaControl.Virts.virts;
-		var virtsInRange = [];
+		var units = VirtArenaControl.Units.units;
+		var unitsInRange = [];
 
-		for(var i in VirtArenaControl.Virts.virts){
-			if(virts[i].team != virt.team) {
-				if(virts[i].tile.rangeForWeapon <= range){
-					virtsInRange.push(virts[i]);
+		for(var i in VirtArenaControl.Units.units){
+			if(units[i].team != unit.team) {
+				if(units[i].tile.rangeForWeapon <= range){
+					unitsInRange.push(units[i]);
 				}
 			}
 		}
 
-		return virtsInRange;
+		return unitsInRange;
 	};
 
 })();

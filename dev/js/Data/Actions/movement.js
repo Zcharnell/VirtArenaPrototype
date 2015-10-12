@@ -1,18 +1,18 @@
 (function(){
 	
-	VirtArenaControl.ObjectController.virtMovement = function(virt,endTile){
+	VirtArenaControl.ObjectController.unitMovement = function(unit,endTile){
 		//get the path between the virt and the selected tile (from tiles.js)
 		//check if the movement cost of the end tile is greater than the virt's movement
-		VirtArenaControl.ObjectController.path = VirtArenaControl.ObjectController.findMovementPath(virt,endTile);
+		VirtArenaControl.ObjectController.path = VirtArenaControl.ObjectController.findMovementPath(unit,endTile);
 
-		if(endTile.moveCost <= virt.turnStats.move){
-			VirtArenaControl.ObjectController.stepMovement(virt,VirtArenaControl.ObjectController.path);
+		if(endTile.moveCost <= unit.turnStats.move){
+			VirtArenaControl.ObjectController.stepMovement(unit,VirtArenaControl.ObjectController.path);
 		} else {
 			//error feedback for not enough movement? still move along the path?
 		}
 	};
 
-	VirtArenaControl.ObjectController.findMovementPath = function(virt,endTile){
+	VirtArenaControl.ObjectController.findMovementPath = function(unit,endTile){
 		//get initial tile
 		//get end tile
 		//make an array of all tiles adjacent to initial, set their parents to initial
@@ -24,14 +24,14 @@
 		//repeat until the final tile is in the array, then return an array with each of the 
 		//tiles and their parent tile until the initial tile is in the array
 
-		var initialTile = virt.tile;
+		var initialTile = unit.tile;
 		var tiles = VirtArenaControl.Board.tiles;
 		var openTiles = [];
 		var closedTiles = [];
 		var moveCost = 1;
 		var error = 0;
 
-		this.setTileMoveCosts(virt);
+		this.setTileMoveCosts(unit);
 
 		var path = [];
 		var step = endTile;
@@ -44,22 +44,22 @@
 		return path;
 	};
 
-	VirtArenaControl.ObjectController.stepMovement = function(virt,path){
+	VirtArenaControl.ObjectController.stepMovement = function(unit,path){
 		var nextTile = path.shift();
-		this.setVirtTile(virt,nextTile);
-		virt.turnStats.move -= nextTile.moveCost;
-		this.setTileMoveCosts(virt);
+		this.setUnitTile(unit,nextTile);
+		unit.turnStats.move -= nextTile.moveCost;
+		this.setTileMoveCosts(unit);
 		if(path.length > 0){
 			setTimeout(function(){
-				VirtArenaControl.ObjectController.stepMovement(virt,path);
+				VirtArenaControl.ObjectController.stepMovement(unit,path);
 			},this.movementStepDelay);
-		} else if(virt.turnStats.move === 0){
+		} else if(unit.turnStats.move === 0){
 			VirtArenaControl.TurnController.delayPhaseChange(500);
 		}
 	};
 
-	VirtArenaControl.ObjectController.setTileMoveCosts = function(virt){
-		var initialTile = virt.tile;
+	VirtArenaControl.ObjectController.setTileMoveCosts = function(unit){
+		var initialTile = unit.tile;
 		var tiles = VirtArenaControl.Board.tiles;
 		var openTiles = [];
 		var closedTiles = [];

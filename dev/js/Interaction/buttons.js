@@ -77,27 +77,27 @@
 
 
 	var addSelectVirtButtons = function(misc){
-		var obj = VirtArenaControl.Virts;
+		var obj = VirtArenaControl.Units;
 		for(var i in obj.chooseVirtCommanderVirts){
-			var virtName = obj.chooseVirtCommanderVirts[i];
-			var buttonName = 'selectVirt'+virtName;
+			var unitName = obj.chooseVirtCommanderVirts[i];
+			var buttonName = 'selectVirt'+unitName;
 			VirtArenaControl.Buttons[buttonName] = new Button();
 
 			var variablesForButton = {
-				text:virtName,
+				text:unitName,
 				x:600,
 				y:100+(i*50),
 				width:100,
 				height:40,
 				onClick:function(){
-					VirtArenaControl.ObjectController.selectCommanderVirt(this.virt,this.team);
+					VirtArenaControl.ObjectController.selectCommanderUnit(this.unit,this.team);
 				},
 				update:function(){
 					this.x = VirtArenaControl.Camera.width - 20 - this.width;
 					this.y = 100+(this.orderOfButtons*50);
 				},
 				orderOfButtons:i,
-				virt:virtName,
+				unit:unitName,
 				team:misc.team
 			}
 
@@ -108,23 +108,26 @@
 
 
 	var addSelectStanceButtons = function(misc){
-		var virt = misc.team.commander;
-		var keys = Object.keys(virt.stances);
+		console.log(misc.team);
+		var unit = misc.team.commander;
+		console.log(misc.team.commander);
+		var keys = Object.keys(unit.stances);
 
 		for(var i in keys){
-			var stance = virt[keys[i]];
+			var stance = unit.stances[keys[i]];
+			console.log(stance);
 			var buttonName = 'selectStance'+keys[i];
 			VirtArenaControl.Buttons[buttonName] = new Button();
 
 			var variablesForButton = {
-				text:virt.stances[keys[i]].name,
+				text:unit.stances[keys[i]].name,
 				x:-999,
 				y:-999,
 				width:100,
 				height:40,
 				onClick:function(){
 					if(!this.disabled){
-						VirtArenaControl.ObjectController.setVirtStance(this.virt,(parseInt(this.index)+1));
+						VirtArenaControl.ObjectController.setUnitStance(this.unit,(parseInt(this.index)+1));
 					}
 				},
 				update:function(){
@@ -136,8 +139,8 @@
 				spacing:25,
 				index:i,
 				buttonsOfThisType:keys.length,
-				disabled:(virt.lastStanceSelected === keys[i]) ? true : false,
-				virt:virt
+				disabled:(unit.lastStanceSelected === keys[i]) ? true : false,
+				unit:unit
 			}
 
 			VirtArenaControl.Buttons[buttonName].init(variablesForButton);
@@ -147,9 +150,9 @@
 
 
 	var addSelectWeaponButton = function(misc){
-		//{virt:virt,weapon:virt.weapons[keys[i]],disabled:outOfRange,index:i,buttonsOfThisType:keys.length}
+		//{unit:unit,weapon:unit.weapons[keys[i]],disabled:outOfRange,index:i,buttonsOfThisType:keys.length}
 
-		var virt = misc.virt;
+		var unit = misc.unit;
 		var weapon = misc.weapon;
 
 		var buttonName = 'selectWeapon'+weapon.name;
@@ -162,7 +165,7 @@
 			height:40,
 			onClick:function(){
 				if(!this.disabled){
-					VirtArenaControl.ObjectController.selectWeapon(this.virt,this.weapon);
+					VirtArenaControl.ObjectController.selectWeapon(this.unit,this.weapon);
 				}
 			},
 			update:function(){
@@ -175,7 +178,7 @@
 			index:misc.index,
 			buttonsOfThisType:misc.buttonsOfThisType,
 			disabled:misc.disabled,
-			virt:virt,
+			unit:unit,
 			weapon:weapon
 		}
 		VirtArenaControl.Buttons[buttonName].init(variablesForButton);

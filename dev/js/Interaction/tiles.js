@@ -2,24 +2,24 @@
 
 
 	Tile.prototype.onClick = function(){
-		var obj = VirtArenaControl.Virts;
-		if(VirtArenaControl.ObjectController.selectedUnit === VirtArenaControl.ObjectController.currentVirtActivating
+		var obj = VirtArenaControl.Units;
+		if(VirtArenaControl.ObjectController.selectedUnit === VirtArenaControl.ObjectController.currentUnitActivating
 			&& VirtArenaControl.ObjectController.selectedUnit.weaponSelected
-			&& this.virt 
-			&& this.virt.team != VirtArenaControl.ObjectController.selectedUnit.team 
+			&& this.unit 
+			&& this.unit.team != VirtArenaControl.ObjectController.selectedUnit.team 
 			&& VirtArenaControl.TurnController.currentSubphase === 'attackSubphase'){
 
-			var virt = VirtArenaControl.ObjectController.selectedUnit;
-			VirtArenaControl.ObjectController.virtAttackSelectTarget(virt,this.virt);
+			var unit = VirtArenaControl.ObjectController.selectedUnit;
+			VirtArenaControl.ObjectController.unitAttackSelectTarget(unit,this.unit);
 
-		} else if(VirtArenaControl.ObjectController.selectedUnit === VirtArenaControl.ObjectController.currentVirtActivating 
+		} else if(VirtArenaControl.ObjectController.selectedUnit === VirtArenaControl.ObjectController.currentUnitActivating 
 			&& VirtArenaControl.TurnController.currentSubphase === 'movementSubphase'){
 
-			var virt = VirtArenaControl.ObjectController.selectedUnit;
-			VirtArenaControl.ObjectController.virtMovement(virt,this);
+			var unit = VirtArenaControl.ObjectController.selectedUnit;
+			VirtArenaControl.ObjectController.unitMovement(unit,this);
 
-		} else if(this.virt != ''){
-			VirtArenaControl.ObjectController.selectVirt(this.virt);
+		} else if(this.unit != ''){
+			VirtArenaControl.ObjectController.selectUnit(this.unit);
 		}
 	};
 	

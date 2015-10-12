@@ -1,4 +1,6 @@
 function Imperator(){
+	this.setStartingVars();
+	
 	this.name = 'Imperator';
 	this.virtType = 'Imperator';
 	this.virtClassType = 'Commander';
@@ -72,4 +74,4 @@ function Imperator(){
 	this.stances.stance3 = new Stance(stance3);
 }
 
-Imperator.prototype = new Virt();
+Imperator.prototype = new Unit();

@@ -1,71 +1,80 @@
 
 function Unit(){
-	// this.speed = 0;
-	this.HP = 200;
-	this.totalHP = 200;
-	this.previousHP = 200;
-	this.HPPercent = 100;
-	this.energy = 90;
-	this.energyExtra = 30;
-	// this.capacityLimit = 0;
-	// this.capacity = 0;
-	// this.supply = 0;
-	this.name = '';
-	this.virtType = '';
-	this.virtClassType = '';
-	this.isAlive = true;
-	this.weapons = {};
-	this.stances = {};
-	this.stanceSelected = '';
-	this.lastStanceSelected = '';
-	this.weaponSelected = {};
-	this.team = '';
+	this.setStartingVars = function(){
+		// this.speed = 0;
+		this.HP = 200;
+		this.totalHP = 200;
+		this.previousHP = 200;
+		this.HPPercent = 100;
+		this.energy = 90;
+		this.energyExtra = 30;
+		// this.capacityLimit = 0;
+		// this.capacity = 0;
+		// this.supply = 0;
+		this.name = '';
+		this.virtType = '';
+		this.virtClassType = '';
+		this.isAlive = true;
+		this.weapons = {};
+		this.stances = {};
+		this.stanceSelected = '';
+		this.lastStanceSelected = '';
+		this.weaponSelected = {};
+		this.team = '';
 
-	this.turnStats = {
-		speed: 0,
-		move: 0,
-		defense: 0,
-		evasion: 0,
-		stability: 0,
-		deflect: 0,
-		power: 0,
-		range: 0,
-		penetration: 0,
-		impact: 0,
-		deflect: 0,
-		rapidFire: 0,
-		vampiric: false,			//Attacks heal the virt for half of the damage done
-		attackVulnerability: 0,	//reduces defense of target virt by this amount when next attacked
-		attackWeakness: 0,		//reduces power of target virt by this amount when next attacking
-		attackSlow: false,		//reduces speed of target virt by 2 for their next activation (changes activation order if they havent activated, otherwise affects the next stance selection phase)
-		attackDisable: 0,			//reduces move of target virt by 1 next activation
-		vulnerability: 0,			//Lowers defense by the value of Vulnerability
-		weakness: 0,				//Lowers power by the value of Weakness
-		slow: 0,					//Speed -2
-		slowUsed: false,			//Checks whether the slow has reduced the virt's speed. Makes it so that the virt cant be slowed twice
-		disable: 0,				//Move -1
-		resilience: -1, 			//max damage taken per attack, if 0 or higher
-		attackBlast: false,		//Attack causes damage to all enemies adjacent to the target
-		attackLineOfFire: false,	//Attack causes damage to all enemies in the line of fire (and maybe blast those hexes too)
-		isStunned: false,
-		stunnedThisAttack: false,
-		stunnedThisTurn: false,
-		movedThisTurn: false,
-		moveRangeLeast: 0,
-		moveRangeMax: 0,
-		hasActivated: false,
-		isVersatile: false,		//Can attack before moving
-		attackBeforeMove: false,
-		weapon1Used: false,
-		weapon2Used: false
-	}
+		//virts
+		this.energy = 90;
+		this.energyExtra = 30;
+		this.capacityLimit = 0;
+		this.capacity = 0;
+		this.supply = 0;
 
-	//Knights Challenge (Lancer)
-	this.knightChallenger = '';
-	this.knightChallengeTurn = 0;
+		this.turnStats = {
+			speed: 0,
+			move: 0,
+			defense: 0,
+			evasion: 0,
+			stability: 0,
+			deflect: 0,
+			power: 0,
+			range: 0,
+			penetration: 0,
+			impact: 0,
+			deflect: 0,
+			rapidFire: 0,
+			vampiric: false,			//Attacks heal the virt for half of the damage done
+			attackVulnerability: 0,	//reduces defense of target virt by this amount when next attacked
+			attackWeakness: 0,		//reduces power of target virt by this amount when next attacking
+			attackSlow: false,		//reduces speed of target virt by 2 for their next activation (changes activation order if they havent activated, otherwise affects the next stance selection phase)
+			attackDisable: 0,			//reduces move of target virt by 1 next activation
+			vulnerability: 0,			//Lowers defense by the value of Vulnerability
+			weakness: 0,				//Lowers power by the value of Weakness
+			slow: 0,					//Speed -2
+			slowUsed: false,			//Checks whether the slow has reduced the virt's speed. Makes it so that the virt cant be slowed twice
+			disable: 0,				//Move -1
+			resilience: -1, 			//max damage taken per attack, if 0 or higher
+			attackBlast: false,		//Attack causes damage to all enemies adjacent to the target
+			attackLineOfFire: false,	//Attack causes damage to all enemies in the line of fire (and maybe blast those hexes too)
+			isStunned: false,
+			stunnedThisAttack: false,
+			stunnedThisTurn: false,
+			movedThisTurn: false,
+			moveRangeLeast: 0,
+			moveRangeMax: 0,
+			hasActivated: false,
+			isVersatile: false,		//Can attack before moving
+			attackBeforeMove: false,
+			weapon1Used: false,
+			weapon2Used: false
+		}
 
-	//for drawing
-	this.tile = {};
+		//Knights Challenge (Lancer)
+		this.knightChallenger = '';
+		this.knightChallengeTurn = 0;
+
+		//for drawing
+		this.tile = {};
+	};
 
 	this.draw = function(){
 		if(this.name === VirtArenaControl.ObjectController.selectedUnit.name) {
