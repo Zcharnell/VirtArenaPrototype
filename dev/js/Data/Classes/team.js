@@ -8,7 +8,7 @@ function Team(name,color){
 	this.hasPriority = false;
 
 	this.addUnit = function(unit){
-		unit.team = this.name;
+		unit.team = this;
 		VirtArenaControl.Units.addUnit(unit);
 		this.units.push(unit);
 	};

@@ -21,9 +21,12 @@ function Unit(){
 		this.stanceSelected = '';
 		this.lastStanceSelected = '';
 		this.weaponSelected = {};
-		this.team = '';
+		this.team = {};
 		this.activated = false;
 		this.id = '';
+
+		//for drawing
+		this.tile = {};
 
 		//virts
 		this.energy = 90;
@@ -31,6 +34,11 @@ function Unit(){
 		this.capacityLimit = 0;
 		this.capacity = 0;
 		this.supply = 0;
+
+		//Knights Challenge (Lancer)
+		// this.knightChallenger = '';
+		// this.knightChallengeTurn = 0;
+
 
 		this.turnStats = {
 			speed: 0,
@@ -68,13 +76,6 @@ function Unit(){
 			isVersatile: false,		//Can attack before moving
 			attackBeforeMove: false,
 		}
-
-		//Knights Challenge (Lancer)
-		this.knightChallenger = '';
-		this.knightChallengeTurn = 0;
-
-		//for drawing
-		this.tile = {};
 	};
 
 	this.draw = function(){
@@ -82,7 +83,7 @@ function Unit(){
 			VirtArenaControl.Graphics.ctx.textAlign = "center";
 			VirtArenaControl.Graphics.ctx.font = "30px Arial";
 			VirtArenaControl.Graphics.ctx.strokeStyle = 'black';
-			VirtArenaControl.Graphics.ctx.fillStyle = VirtArenaControl.Units.teams[this.team].color;
+			VirtArenaControl.Graphics.ctx.fillStyle = this.team.color;
 			VirtArenaControl.Graphics.ctx.strokeRect(this.tile.x,this.tile.y,this.tile.width,this.tile.height);
 			VirtArenaControl.Graphics.ctx.fillRect(this.tile.x,this.tile.y,this.tile.width,this.tile.height);
 			VirtArenaControl.Graphics.ctx.fillStyle = 'white';
@@ -90,8 +91,8 @@ function Unit(){
 		} else {
 			VirtArenaControl.Graphics.ctx.textAlign = "center";
 			VirtArenaControl.Graphics.ctx.font = "30px Arial";
-			VirtArenaControl.Graphics.ctx.fillStyle = VirtArenaControl.Units.teams[this.team].color;
-			VirtArenaControl.Graphics.ctx.strokeStyle = VirtArenaControl.Units.teams[this.team].color;
+			VirtArenaControl.Graphics.ctx.fillStyle = this.team.color;
+			VirtArenaControl.Graphics.ctx.strokeStyle = this.team.color;
 			VirtArenaControl.Graphics.ctx.strokeRect(this.tile.x,this.tile.y,this.tile.width,this.tile.height);
 			var fillText = {
 				text:this.name[0],

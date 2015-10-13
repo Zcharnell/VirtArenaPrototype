@@ -73,10 +73,10 @@
 			VirtArenaControl.TurnController.nextPhase();
 		},
 		selectCommanderUnit: function(unit,team){
-			VirtArenaControl.Units.teams[team].addCommander(unit);
+			team.addCommander(unit);
 			// /*
-			VirtArenaControl.Units.teams[team].addCompanion(unit);
-			VirtArenaControl.Units.teams[team].addCompanion(unit);
+			team.addCompanion(unit);
+			team.addCompanion(unit);
 			// */
 			VirtArenaControl.Buttons.removeButton('selectVirt');
 			VirtArenaControl.TurnController.gameStarter.nextPhase();

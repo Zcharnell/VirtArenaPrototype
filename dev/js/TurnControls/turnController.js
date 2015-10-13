@@ -88,7 +88,7 @@
 			},delay);
 		},
 		selectVirtPhase: function(team){
-			console.log('PHASE: selectVirtPhase: ' + team);
+			console.log('PHASE: selectVirtPhase: ' + team.name);
 			VirtArenaControl.Buttons.addButton('selectVirt',{team:team});
 		},
 		endOfGame: function(){
@@ -132,14 +132,16 @@
 		},
 		selectPlayerVirt: function(){
 			console.log('Select Player Virt');
-			VirtArenaControl.TurnController.selectVirtPhase('blueTeam');
+			var team = VirtArenaControl.Units.teams.blueTeam;
+			VirtArenaControl.TurnController.selectVirtPhase(team);
 			// var virtName = "Arturius";
 			// VirtArenaControl.Units.teams.blueTeam.addCommander(virtName);
 			// VirtArenaControl.TurnController.gameStarter.nextPhase();
 		},
 		selectEnemyVirt: function(){
 			console.log('Select Enemy Virt');
-			VirtArenaControl.TurnController.selectVirtPhase('redTeam');
+			var team = VirtArenaControl.Units.teams.redTeam;
+			VirtArenaControl.TurnController.selectVirtPhase(team);
 			// var virtName = "Imperator";
 			// VirtArenaControl.Units.teams.redTeam.addCommander(virtName);
 			// VirtArenaControl.TurnController.gameStarter.nextPhase();
@@ -150,11 +152,11 @@
 
 			switch(this.currentPhase){
 				case 'selectPlayerVirt':
-					team = 'blueTeam';
+					team = VirtArenaControl.Units.teams.blueTeam;
 					tiles = {commanderTile:51,secondTile:38,thirdTile:63};
 					break;
 				case 'selectEnemyVirt':
-					team = 'redTeam';
+					team = VirtArenaControl.Units.teams.redTeam;
 					tiles = {commanderTile:60,secondTile:48,thirdTile:73};
 					break;
 			}
@@ -166,7 +168,7 @@
 		setStartingPosition: function(team,tiles){
 			// var leftTiles = {commanderTile:51};
 			// var rightTiles = {commanderTile:60};
-			VirtArenaControl.Units.teams[team].setStartingPosition(tiles);
+			team.setStartingPosition(tiles);
 			// console.log(VirtArenaControl.Units.teams[team].commander.weapons);
 			// console.log(VirtArenaControl.Units.teams[team].commander.stances);
 		},

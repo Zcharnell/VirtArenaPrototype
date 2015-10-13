@@ -15,8 +15,8 @@
 		if(a.turnStats.speed > b.turnStats.speed) return -1;
 		if(a.turnStats.speed < b.turnStats.speed) return 1;
 		//check which team has priority
-		if(a.turnStats.speed === b.turnStats.speed && VirtArenaControl.Units.teams[a.team].hasPriority) return -1;
-		if(a.turnStats.speed === b.turnStats.speed && !VirtArenaControl.Units.teams[a.team].hasPriority) return 1;
+		if(a.turnStats.speed === b.turnStats.speed && a.team.hasPriority) return -1;
+		if(a.turnStats.speed === b.turnStats.speed && !a.team.hasPriority) return 1;
 	};
 
 	Scripts.rollDamageDie = function(){
