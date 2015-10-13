@@ -66,5 +66,8 @@ function Tile(row,column,dimensions){
 		this.x += VirtArenaControl.Board.x + VirtArenaControl.Board.horizontalPadding;
 		this.y += VirtArenaControl.Board.y + VirtArenaControl.Board.verticalPadding;
 	};
+	this.resetUnit = function(){
+		this.unit = '';
+	};
 }
 

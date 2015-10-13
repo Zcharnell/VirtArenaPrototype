@@ -8,6 +8,7 @@ function Weapon(initVars){
 	this.impact = 0;
 	this.targetInRange = false;
 	this.special = '';
+	this.used = false;
 
 	//set initial variables with initVars
 	var keys = Object.keys(initVars);

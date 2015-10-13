@@ -20,11 +20,23 @@
 			if(this.selectedUnit) this.selectedUnit = '';
 		},
 		setActivationOrder: function(){
-			this.activationOrder = VirtArenaControl.Units.units;
+			this.activationOrder = [];
+			var units = VirtArenaControl.Units.units;
+			for(var i in units){
+				if(units[i].canActivateThisTurn()){
+					this.activationOrder.push(units[i]);
+				}
+			}
+			
 			this.activationOrder.sort(Scripts.sortUnitsBySpeed);
 		},
 		setUnitActivating: function(unit){
 			this.currentUnitActivating = unit;
+		},
+		resetUnitValues: function(){
+			this.setLastStanceSelected();
+			this.resetWeapons();
+			this.resetHasActivated();
 		},
 		setLastStanceSelected: function(){
 			var units = VirtArenaControl.Units.units;
@@ -33,10 +45,22 @@
 				units[i].stanceSelected = '';
 			}
 		},
-		resetWeaponSelected: function(){
+		resetWeapons: function(){
+			//reset the selected weapon variable, and reset the used value of the unit's weapons
 			var units = VirtArenaControl.Units.units;
 			for(var i in units){
 				units[i].weaponSelected = '';
+				var weapons = Object.keys(units[i].weapons);
+				for(var j in weapons){
+					var weapon = weapons[j];
+					units[i].weapons[weapon].used = false;
+				}
+			}
+		},
+		resetHasActivated: function(){
+			var units = VirtArenaControl.Units.units;
+			for(var i in units){
+				units[i].activated = false;
 			}
 		},
 		resetActivationOrder: function(){
@@ -50,8 +74,27 @@
 		},
 		selectCommanderUnit: function(unit,team){
 			VirtArenaControl.Units.teams[team].addCommander(unit);
+			// /*
+			VirtArenaControl.Units.teams[team].addCompanion(unit);
+			VirtArenaControl.Units.teams[team].addCompanion(unit);
+			// */
 			VirtArenaControl.Buttons.removeButton('selectVirt');
 			VirtArenaControl.TurnController.gameStarter.nextPhase();
+		},
+		removeUnitFromActivationOrder: function(unit){
+			var index = this.activationOrder.indexOf(unit);
+			this.activationOrder.splice(index,1);
+		},
+		unactivatedUnitsInActivationOrder: function(){
+			//check if all units in the activation order have activated
+			for(var i in this.activationOrder){
+				if(!this.activationOrder[i].activated)
+					return true;
+			}
+			return false;
+		},
+		setEndOfActivationVariables: function(virt){
+			virt.activated = true;
 		}
 	};
 })();

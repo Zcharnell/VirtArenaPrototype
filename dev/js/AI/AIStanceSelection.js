@@ -1,8 +1,10 @@
 (function(){
 	
-	VirtArenaControl.AI.Scripts.stanceSelection = function(virt){
-		var randomStance = this.randomStance(virt);
-		virt.setStance(randomStance);
+	VirtArenaControl.AI.Scripts.stanceSelection = function(team){
+		for(var i in team.units){
+			var randomStance = this.randomStance(team.units[i]);
+			team.units[i].setStance(randomStance);
+		}
 	};
 
 	VirtArenaControl.AI.Scripts.randomStance = function(virt){

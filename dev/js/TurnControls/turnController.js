@@ -39,7 +39,7 @@
 			var objControl = VirtArenaControl.ObjectController;
 			var phaseIndex;
 			var goToNextSubphase;
-			var continueActivation = (this.currentPhase === 'unitActivation' && objControl.currentUnitActivating != objControl.activationOrder[objControl.activationOrder.length-1]) ? true : false;
+			var continueActivation = (this.currentPhase === "unitActivation" && objControl.unactivatedUnitsInActivationOrder()) ? true : false;
 			var goToNextPhase = ((this.currentSubphase === 'END' || this.currentSubphase === '') && !continueActivation) ? true : false;
 
 			if(goToNextPhase){
@@ -58,6 +58,9 @@
 			}
 		},
 		nextSubphase: function(){
+			//if the currentSubphase is not in the subphase order, set currentSubphase to the first subphase
+			//else, set the currentSubphase to the next subPhase; if no next subphase, set it to END
+			//if there currentSubphase is not END, activate it; else, call the next phase
 			var phase = this[this.currentPhase];
 			var subphase;
 			var subphaseIndex;
@@ -77,6 +80,7 @@
 				this.nextPhase();
 		},
 		delayPhaseChange: function(delay){
+			//call the next phase after a delay
 			var delay = delay || this.phaseChangeDelay;
 			setTimeout(function(){
 				VirtArenaControl.TurnController.nextPhase();
@@ -85,6 +89,9 @@
 		selectVirtPhase: function(team){
 			console.log('PHASE: selectVirtPhase: ' + team);
 			VirtArenaControl.Buttons.addButton('selectVirt',{team:team});
+		},
+		endGame: function(){
+
 		}
 	};
 
@@ -108,7 +115,6 @@
 		setupTeams: function(){
 			VirtArenaControl.Units.teams.blueTeam = new Team('blueTeam','blue');
 			VirtArenaControl.Units.teams.redTeam = new Team('redTeam','red');
-			console.log(VirtArenaControl.Units.teams);
 		},
 		selectPlayerVirt: function(){
 			console.log('Select Player Virt');
@@ -131,11 +137,11 @@
 			switch(this.currentPhase){
 				case 'selectPlayerVirt':
 					team = 'blueTeam';
-					tiles = {commanderTile:51};
+					tiles = {commanderTile:51,secondTile:38,thirdTile:63};
 					break;
 				case 'selectEnemyVirt':
 					team = 'redTeam';
-					tiles = {commanderTile:60};
+					tiles = {commanderTile:60,secondTile:48,thirdTile:73};
 					break;
 			}
 
@@ -147,8 +153,8 @@
 			// var leftTiles = {commanderTile:51};
 			// var rightTiles = {commanderTile:60};
 			VirtArenaControl.Units.teams[team].setStartingPosition(tiles);
-			console.log(VirtArenaControl.Units.teams[team].commander.weapons);
-			console.log(VirtArenaControl.Units.teams[team].commander.stances);
+			// console.log(VirtArenaControl.Units.teams[team].commander.weapons);
+			// console.log(VirtArenaControl.Units.teams[team].commander.stances);
 		},
 		nextPhase: function(){
 			var obj = VirtArenaControl.TurnController.gameStarter;
@@ -206,7 +212,7 @@
 		var team = VirtArenaControl.Units.teams.blueTeam;
 		VirtArenaControl.Buttons.addButton('selectStances',{team:team});
 		//random stance for AI
-		VirtArenaControl.AI.Scripts.stanceSelection(VirtArenaControl.Units.teams.redTeam.commander);
+		VirtArenaControl.AI.Scripts.stanceSelection(VirtArenaControl.Units.teams.redTeam);
 		// VirtArenaControl.TurnController.delayPhaseChange(500);
 	};
 
@@ -222,6 +228,7 @@
 
 	VirtArenaControl.TurnController.unitActivation.nextUnitActivation = function(){
 		console.log('\tsubPHASE: nextUnitActivation');
+		//get the index of the current activating unit, and set the activating unit to the next unit in the activation order
 		var indexOfCurrentUnit = VirtArenaControl.ObjectController.activationOrder.indexOf(VirtArenaControl.ObjectController.currentUnitActivating);
 		var nextUnitToActivate = VirtArenaControl.ObjectController.activationOrder[indexOfCurrentUnit+1];
 		VirtArenaControl.ObjectController.setUnitActivating(nextUnitToActivate);
@@ -238,6 +245,9 @@
 		//tiles.js and movement.js
 		console.log('\tsubPHASE: movementSubphase - ' + VirtArenaControl.ObjectController.currentUnitActivating.name);
 		VirtArenaControl.ObjectController.setTileMoveCosts(VirtArenaControl.ObjectController.currentUnitActivating);
+		if(VirtArenaControl.ObjectController.currentUnitActivating.turnStats.move === 0){
+			VirtArenaControl.TurnController.delayPhaseChange();
+		}
 	};
 
 	VirtArenaControl.TurnController.unitActivation.attackSubphase = function(){
@@ -250,6 +260,7 @@
 
 	VirtArenaControl.TurnController.unitActivation.endActivation = function(){
 		console.log('\tsubPHASE: endActivation - ' + VirtArenaControl.ObjectController.currentUnitActivating.name);
+		VirtArenaControl.ObjectController.setEndOfActivationVariables(VirtArenaControl.ObjectController.currentUnitActivating);
 		VirtArenaControl.TurnController.delayPhaseChange();
 	};
 
@@ -264,8 +275,7 @@
 
 	VirtArenaControl.TurnController.endOfTurn.setVariablesForEndOfTurn = function(){
 		console.log('\tsubPHASE: setVariablesForEndOfTurn');
-		VirtArenaControl.ObjectController.setLastStanceSelected();
-		VirtArenaControl.ObjectController.resetWeaponSelected();
+		VirtArenaControl.ObjectController.resetUnitValues();
 		VirtArenaControl.ObjectController.resetActivationOrder();
 		VirtArenaControl.TurnController.delayPhaseChange();
 	};

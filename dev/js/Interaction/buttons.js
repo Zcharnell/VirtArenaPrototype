@@ -108,14 +108,11 @@
 
 
 	var addSelectStanceButtons = function(misc){
-		console.log(misc.team);
 		var unit = misc.team.commander;
-		console.log(misc.team.commander);
 		var keys = Object.keys(unit.stances);
 
 		for(var i in keys){
 			var stance = unit.stances[keys[i]];
-			console.log(stance);
 			var buttonName = 'selectStance'+keys[i];
 			VirtArenaControl.Buttons[buttonName] = new Button();
 

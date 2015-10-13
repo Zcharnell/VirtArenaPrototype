@@ -14,13 +14,15 @@ function Unit(){
 		this.name = '';
 		this.virtType = '';
 		this.virtClassType = '';
-		this.isAlive = true;
+		this.alive = true;
 		this.weapons = {};
 		this.stances = {};
 		this.stanceSelected = '';
 		this.lastStanceSelected = '';
 		this.weaponSelected = {};
 		this.team = '';
+		this.activated = false;
+		this.id = '';
 
 		//virts
 		this.energy = 90;
@@ -64,8 +66,6 @@ function Unit(){
 			hasActivated: false,
 			isVersatile: false,		//Can attack before moving
 			attackBeforeMove: false,
-			weapon1Used: false,
-			weapon2Used: false
 		}
 
 		//Knights Challenge (Lancer)
@@ -77,7 +77,7 @@ function Unit(){
 	};
 
 	this.draw = function(){
-		if(this.name === VirtArenaControl.ObjectController.selectedUnit.name) {
+		if(this.id === VirtArenaControl.ObjectController.selectedUnit.id) {
 			VirtArenaControl.Graphics.ctx.textAlign = "center";
 			VirtArenaControl.Graphics.ctx.font = "30px Arial";
 			VirtArenaControl.Graphics.ctx.strokeStyle = 'black';
@@ -308,63 +308,23 @@ function Unit(){
 		}
 	}
 
-	// this.setDead = function(unitName,deadhex){
-	// 	//set isAlive and remove the virt from the board
-	// 	this.isAlive = false;
-	// 	setCurrentHex(unitName,deadhex);
+	this.setDead = function(){
+		//remove unit from the tile it was on, and reset the tile's unit to ''
+		//set unit alive = false
+		//remove unit from activation order
 
-	// 	//Adjust virtArray so that this virt is not in the array
-	// 	var j;
-	// 	var tempVirtArray = [];
-	// 	for(var i=0; i<virtArray.length; i++){
-	// 		if(virtArray[i] === virtName){
-	// 			j = i;
-	// 		}
-	// 	}
-	// 	for(var i=0; i<j; i++){
-	// 		tempVirtArray[i] = virtArray[i];
-	// 	}
-	// 	for(var i=(j+1); i<virtArray.length; i++){
-	// 		tempVirtArray[i-1] = virtArray[i];
-	// 	}
-	// 	virtArray = [];
-	// 	virtArray = tempVirtArray;
+		this.alive = false;
+		this.tile.resetUnit();
+		VirtArenaControl.ObjectController.removeUnitFromActivationOrder(this);
+	}
 
-	// 	//Remove this virt from the activation order if it has not activated yet
-	// 	tempVirtArray = [];
-	// 	for(var i=0; i<virtActivationOrder.length; i++){
-	// 		if(virtActivationOrder[i] === virtName){
-	// 			j = i;
-	// 		}
-	// 	}
-	// 	if(j>currentVirtActivating){
-	// 		for(var i=0; i<j; i++){
-	// 			tempVirtArray[i] = virtActivationOrder[i];
-	// 		}
-	// 		for(var i=(j+1); i<virtActivationOrder.length; i++){
-	// 			tempVirtArray[i-1] = virtActivationOrder[i];
-	// 		}
-	// 		virtActivationOrder = [];
-	// 		virtActivationOrder = tempVirtArray;
-	// 		finalVirtActivation -= 1;
-	// 		updateVirtActivationOrderDisplay(currentVirtActivating);
-	// 		activationOrderBarUpdate();
-	// 	}
-	// 	if(j<=currentVirtActivating){
-	// 		for(var i=0; i<j; i++){
-	// 			tempVirtArray[i] = virtActivationOrder[i];
-	// 		}
-	// 		for(var i=(j+1); i<virtActivationOrder.length; i++){
-	// 			tempVirtArray[i-1] = virtActivationOrder[i];
-	// 		}
-	// 		virtActivationOrder = [];
-	// 		virtActivationOrder = tempVirtArray;
-	// 		currentVirtActivating -= 1;
-	// 		finalVirtActivation -= 1;
-	// 		updateVirtActivationOrderDisplay(currentVirtActivating);
-	// 		activationOrderBarUpdate();
-	// 	}
-	// }
+	this.canActivateThisTurn = function(){
+		var canActivate = true;
+
+		if(!this.alive) canActivate = false;
+		
+		return canActivate;
+	}
 
 	this.unitStanceAffectingVariables = function(){};
 	this.unitTypeSpecialValues = function(){};
