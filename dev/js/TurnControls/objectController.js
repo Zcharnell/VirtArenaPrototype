@@ -49,7 +49,7 @@
 			//reset the selected weapon variable, and reset the used value of the unit's weapons
 			var units = VirtArenaControl.Units.units;
 			for(var i in units){
-				units[i].weaponSelected = '';
+				units[i].weaponSelected = {};
 				var weapons = Object.keys(units[i].weapons);
 				for(var j in weapons){
 					var weapon = weapons[j];
@@ -81,6 +81,13 @@
 			VirtArenaControl.Buttons.removeButton('selectVirt');
 			VirtArenaControl.TurnController.gameStarter.nextPhase();
 		},
+		unitHasDied: function(unit){
+			if(unit.commander){
+				VirtArenaControl.TurnController.endOfGame();
+			} else {
+				this.removeUnitFromActivationOrder(unit);
+			}
+		},
 		removeUnitFromActivationOrder: function(unit){
 			var index = this.activationOrder.indexOf(unit);
 			this.activationOrder.splice(index,1);
@@ -93,8 +100,8 @@
 			}
 			return false;
 		},
-		setEndOfActivationVariables: function(virt){
-			virt.activated = true;
+		setEndOfActivationVariables: function(unit){
+			unit.activated = true;
 		}
 	};
 })();

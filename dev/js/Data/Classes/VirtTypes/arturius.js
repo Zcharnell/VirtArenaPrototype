@@ -24,7 +24,7 @@ function Arturius(){
 	var weapon2 = {
 		name:"V-Shield Beam",
 		number:2,
-		power:50,
+		power:999,
 		range:5,
 		penetration:40,
 		special:"Power -20 at Range 1"

@@ -53,7 +53,7 @@ function Imperator(){
 		number:2,
 		speed:20,
 		move:1,
-		defense:0,
+		defense:50,
 		stability:80,
 		evasion:10,
 		vampiric:true

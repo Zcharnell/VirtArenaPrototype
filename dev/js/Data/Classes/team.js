@@ -20,6 +20,7 @@ function Team(name,color){
 
 	this.addCommander = function(unitName){
 		var unit = VirtArenaControl.Units.getUnitObject(unitName);
+		unit.commander = true;
 		this.commander = unit;
 		this.addUnit(unit);
 	};
@@ -40,7 +41,7 @@ function Team(name,color){
 				positions.splice(0,1);
 			}
 			// console.log(this.units[i],' ; ', this.units[i].tile);
-			console.log(positions);
+			// console.log(positions);
 		}
 	};
 }

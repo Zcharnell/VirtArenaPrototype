@@ -25,6 +25,7 @@
 			cycleCards:{},
 			setVariablesForEndOfTurn:{}
 		},
+		gameEnd: false,
 		currentPhase:'',
 		currentSubphase:'',
 		phaseChangeDelay:100,
@@ -47,12 +48,12 @@
 				this.currentPhase = this.turnOrder[phaseIndex+1];
 
 				console.log('PHASE:' + this.currentPhase);
-				if(this.currentPhase === 'END'){
+				if(this.currentPhase === 'END' && !this.gameEnd){
 					this.currentPhase = this.turnOrder[0];
 				}
 			}
 			
-			goToNextSubphase = (this.currentPhase != 'END') ? true : false;
+			goToNextSubphase = (this.currentPhase != 'END' && !this.gameEnd) ? true : false;
 			if(goToNextSubphase){
 				this.nextSubphase();
 			}
@@ -90,8 +91,21 @@
 			console.log('PHASE: selectVirtPhase: ' + team);
 			VirtArenaControl.Buttons.addButton('selectVirt',{team:team});
 		},
-		endGame: function(){
+		endOfGame: function(){
+			// var units = VirtArenaControl.Units.units;
+			var teams = VirtArenaControl.Units.teams;
+			var losingTeam = '';
+			var winningTeam = '';
+			for(var i in teams){
+				if(!teams[i].commander.alive){
+					losingTeam = teams[i].name;
+				} else {
+					winningTeam = teams[i].name;
+				}
+			}
 
+			this.gameEnd = true;
+			console.log(winningTeam + ' wins!');
 		}
 	};
 

@@ -14,6 +14,7 @@ function Unit(){
 		this.name = '';
 		this.virtType = '';
 		this.virtClassType = '';
+		this.commander = false;
 		this.alive = true;
 		this.weapons = {};
 		this.stances = {};
@@ -272,6 +273,11 @@ function Unit(){
 		
 		// console.log('damage taken: ' + damageTaken);
 		console.log('PreviousHP:' + this.previousHP + '; NewHP: ' + this.HP);
+
+		//check if dead
+		if(this.HP <= 0){
+			this.setDead();
+		}
 		
 		// showDamageCanvas(this.currentHex.xpos,this.currentHex.ypos,damageTaken);		
 		//this.returnDamage(damageTaken,diceArray,damage,critDamage,critDamageFinal,pen,imp,newlyStunned,tempDefense);
@@ -315,7 +321,7 @@ function Unit(){
 
 		this.alive = false;
 		this.tile.resetUnit();
-		VirtArenaControl.ObjectController.removeUnitFromActivationOrder(this);
+		VirtArenaControl.ObjectController.unitHasDied(this);
 	}
 
 	this.canActivateThisTurn = function(){
