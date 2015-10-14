@@ -6,6 +6,7 @@ function Team(name,color){
 	this.units = [];
 	this.commander = {};
 	this.hasPriority = false;
+	this.deck = {};
 
 	this.addUnit = function(unit){
 		unit.team = this;
@@ -23,7 +24,12 @@ function Team(name,color){
 		unit.commander = true;
 		this.commander = unit;
 		this.addUnit(unit);
+		this.addDeck();
 	};
+
+	this.addDeck = function(){
+		this.deck = new Deck({commander:this.commander});
+	}
 
 	this.setStartingPosition = function(positionObj){
 		var commanderSet = false;

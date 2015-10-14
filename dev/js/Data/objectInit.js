@@ -24,6 +24,7 @@
 	VirtArenaControl.Units = {};
 	VirtArenaControl.AI = {};
 	VirtArenaControl.AI.Scripts = {};
+	VirtArenaControl.Abilities = {};
 
 	VirtArenaControl.Buttons = {};
 

@@ -73,7 +73,7 @@ function Arturius(){
 	this.stances.stance3 = new Stance(stance3);
 
 	
-	this.virtTypeSpecialValues = function(){
+	this.unitTypeSpecialValues = function(){
 		if(this.powerNextAttackThisTurn){
 			this.power += 20;
 			this.powerNextAttackThisTurn = false;

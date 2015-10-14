@@ -14,6 +14,7 @@ function Stance(initVars){
 	this.rapidFire = 0;
 	this.impact = 0;
 	this.dualWield = false;
+	this.precision = false;
 	this.reveal = "none";
 	this.misc = "none";
 	this.desc = '';
