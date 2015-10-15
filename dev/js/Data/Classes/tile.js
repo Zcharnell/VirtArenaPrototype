@@ -14,6 +14,8 @@ function Tile(row,column,dimensions){
 	this.index = '';
 	this.moveCost = 0;
 	this.rangeForWeapon = 0;
+	this.range = 0;
+	this.targetFor = '';
 	this.draw = function(){
 		VirtArenaControl.Graphics.ctx.textAlign = "left";
 		VirtArenaControl.Graphics.ctx.font = '10px Arial';
@@ -52,6 +54,19 @@ function Tile(row,column,dimensions){
 	};
 	this.drawHighlightForAttack = function(){
 		this.drawHighlight("rgba(255,50,50,0.5)");
+	};
+	this.drawHighlightForAction = function(){
+		this.drawHighlight("rgba(50,50,255,0.5)");
+	};
+	this.drawBorderForActivatingUnit = function(){
+		this.drawBorder("#FFFFFF");
+	};
+	this.drawBorder = function(color){
+		VirtArenaControl.Graphics.ctx.lineWidth = 5;
+		VirtArenaControl.Graphics.ctx.strokeStyle = color;
+		// VirtArenaControl.Graphics.strokeRectWithShadow(this.x,this.y,this.width,this.height,'#CCCCCC',20,0,1);
+		VirtArenaControl.Graphics.ctx.strokeRect(this.x,this.y,this.width,this.height);
+		VirtArenaControl.Graphics.ctx.lineWidth = 1;
 	};
 	this.isOpen = function(){
 		var tileIsOpen = true;

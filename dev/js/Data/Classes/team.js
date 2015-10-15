@@ -6,30 +6,36 @@ function Team(name,color){
 	this.units = [];
 	this.commander = {};
 	this.hasPriority = false;
-	this.deck = {};
+	this.deck = '';
 
 	this.addUnit = function(unit){
 		unit.team = this;
 		VirtArenaControl.Units.addUnit(unit);
 		this.units.push(unit);
+		// if(VirtArenaControl.ObjectController.activationOrder.length > 0){
+		// 	VirtArenaControl.ObjectController.addUnitToActivationOrder
+		// }
 	};
 
-	this.addCompanion = function(unitName){
+	this.addCompanion = function(unitName,tile){
 		var unit = VirtArenaControl.Units.getUnitObject(unitName);
+		if(tile) VirtArenaControl.ObjectController.setUnitTile(unit,tile);
 		this.addUnit(unit);
 	};
 
 	this.addCommander = function(unitName){
 		var unit = VirtArenaControl.Units.getUnitObject(unitName);
-		unit.commander = true;
+		unit.setCommander();
 		this.commander = unit;
 		this.addUnit(unit);
 		this.addDeck();
 	};
 
 	this.addDeck = function(){
-		this.deck = new Deck({commander:this.commander});
-	}
+		this.deck = new Deck({commander:this.commander,team:this});
+		this.deck.shuffle();
+		this.deck.drawCardsStartOfGame();
+	};
 
 	this.setStartingPosition = function(positionObj){
 		var commanderSet = false;
@@ -49,6 +55,22 @@ function Team(name,color){
 			// console.log(this.units[i],' ; ', this.units[i].tile);
 			// console.log(positions);
 		}
+	};
+
+	this.spawnUnitNearCommander = function(card,companion){
+		VirtArenaControl.TurnController.setCurrentAction("spawnCompanion",{card:card,team:this,companion:companion});
+	};
+
+	this.cardUsed = function(card){
+		var cardToDiscard = this.deck.cardsInHand.splice(card.positionInHand,1);
+		this.deck.discardPile.push(cardToDiscard);
+	};
+
+	this.allStancesSelected = function(){
+		for(var i in this.units){
+			if(this.units[i].stanceSelected === '') return false;
+		}
+		return true;
 	};
 }
 

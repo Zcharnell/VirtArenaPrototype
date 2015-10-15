@@ -8,6 +8,8 @@
 	VirtArenaControl.Graphics.redrawCanvas = function(){
 		this.ctx.textAlign = "center";
 		this.ctx.fillStyle = '#666';
+		VirtArenaControl.Graphics.ctx.lineWidth = 1;
+		VirtArenaControl.Graphics.ctx.textBaseline = 'middle';
 		this.ctx.fillRect(0,0,this.canvas.width,this.canvas.height);
 		// this.ctx.strokeStyle = 'gray';
 		// this.ctx.strokeRect(0,0,VirtArenaControl.Camera.width,VirtArenaControl.Camera.height);
@@ -27,16 +29,18 @@
 			} else {
 				tiles[i].draw();
 			}
-			if(VirtArenaControl.TurnController.currentSubphase === "movementSubphase" 
-				&& tiles[i].moveCost <= VirtArenaControl.ObjectController.currentUnitActivating.turnStats.move
-				&& tiles[i].isOpen()) {
+			if(tiles[i].unit && tiles[i].unit === VirtArenaControl.ObjectController.currentUnitActivating){
+				tiles[i].drawBorderForActivatingUnit();
+			}
+			// console.log(tiles[i].targetFor);
+			if(tiles[i].targetFor === "movement") {
 				tiles[i].drawHighlightForMovement();
 			}
-			if(VirtArenaControl.TurnController.currentSubphase === "attackSubphase" 
-				&& tiles[i].rangeForWeapon <= VirtArenaControl.ObjectController.currentUnitActivating.getWeaponRange()
-				&& tiles[i].unit
-				&& tiles[i].unit.team != VirtArenaControl.ObjectController.currentUnitActivating.team) {
+			if(tiles[i].targetFor === "attack") {
 				tiles[i].drawHighlightForAttack();
+			}
+			if(tiles[i].targetFor === "action") {
+				tiles[i].drawHighlightForAction();
 			}
 
 			tiles[i].drawIndex(i);
@@ -75,5 +79,11 @@
 
 	VirtArenaControl.Graphics.drawBoardBackground = function(){
 		VirtArenaControl.Board.drawBackground();
+	};
+
+	VirtArenaControl.Graphics.drawPlayerCards = function(){
+		var deck;
+		if(VirtArenaControl.Units.teams.blueTeam) deck = VirtArenaControl.Units.teams.blueTeam.deck;
+		if(deck) deck.graphicsDrawCards();
 	};
 })();

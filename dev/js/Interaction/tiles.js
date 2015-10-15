@@ -3,17 +3,17 @@
 
 	Tile.prototype.onClick = function(){
 		var obj = VirtArenaControl.Units;
-		if(VirtArenaControl.ObjectController.selectedUnit === VirtArenaControl.ObjectController.currentUnitActivating
-			&& VirtArenaControl.ObjectController.selectedUnit.weaponSelected
-			&& this.unit 
-			&& this.unit.team != VirtArenaControl.ObjectController.selectedUnit.team 
-			&& VirtArenaControl.TurnController.currentSubphase === 'attackSubphase'){
+		if(VirtArenaControl.TurnController.currentAction.action === "spawnCompanion"
+			&& this.targetFor === "action"){
+
+			VirtArenaControl.Abilities.summonCompanion(this);
+
+		} else if(this.targetFor === "attack"){
 
 			var unit = VirtArenaControl.ObjectController.selectedUnit;
 			VirtArenaControl.ObjectController.unitAttackSelectTarget(unit,this.unit);
 
-		} else if(VirtArenaControl.ObjectController.selectedUnit === VirtArenaControl.ObjectController.currentUnitActivating 
-			&& VirtArenaControl.TurnController.currentSubphase === 'movementSubphase'){
+		} else if(this.targetFor === "movement"){
 
 			var unit = VirtArenaControl.ObjectController.selectedUnit;
 			VirtArenaControl.ObjectController.unitMovement(unit,this);

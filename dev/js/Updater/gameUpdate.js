@@ -43,6 +43,8 @@
 				// }
 			} else if(obj.constructor.name === "Button") {
 				obj.hover = false;
+			} else if(obj.constructor.name === "Card") {
+				obj.hover = false;
 			}
 			
 			// console.log(this.hoveredObjects[i].constructor.name);
@@ -54,8 +56,21 @@
 	VirtArenaControl.Updater.getHoveredObjects = function(){
 		var tiles = VirtArenaControl.Board.tiles;
 		var buttons = VirtArenaControl.Buttons.buttonsToDraw;
+		var cards = {};
+		if(VirtArenaControl.Units.teams.blueTeam && VirtArenaControl.Units.teams.blueTeam.deck.cardsInHand) cards = VirtArenaControl.Units.teams.blueTeam.deck.cardsInHand;
 		this.resetHoveredObjects();
 		var objectIsHovered = false;
+
+		if(!objectIsHovered){
+			for(var i=0; i<cards.length; i++){
+				var card = cards[i];
+				if(Scripts.mouseInObject(card)){
+					objectIsHovered = true;
+					card.hover = true;
+					this.hoveredObjects.push(card);
+				}
+			}
+		}
 
 		if(!objectIsHovered){
 			for(var i=0; i<buttons.length; i++){
@@ -79,6 +94,37 @@
 					// 	tiles[adjIndex].adjacentToHover = true;
 					// }
 				}
+			}
+		}
+	}
+
+	VirtArenaControl.Updater.updateTileVariables = function(){
+		var tiles = VirtArenaControl.Board.tiles;
+		for(var i in tiles){
+			tiles[i].targetFor = '';
+
+			if(VirtArenaControl.TurnController.currentAction.action === "spawnCompanion"
+				&& tiles[i].range <= VirtArenaControl.TurnController.currentAction.range
+				&& tiles[i].isOpen()) {
+
+				tiles[i].targetFor = "action";
+
+			} else if (VirtArenaControl.ObjectController.selectedUnit 
+				&& VirtArenaControl.ObjectController.selectedUnit === VirtArenaControl.ObjectController.currentUnitActivating
+				&& VirtArenaControl.ObjectController.selectedUnit.weaponSelected
+				&& tiles[i].rangeForWeapon <= VirtArenaControl.ObjectController.currentUnitActivating.getWeaponRange()
+				&& tiles[i].unit 
+				&& tiles[i].unit.team != VirtArenaControl.ObjectController.selectedUnit.team 
+				&& VirtArenaControl.TurnController.currentSubphase === 'attackSubphase') {
+
+				tiles[i].targetFor = "attack";
+
+			} else if(VirtArenaControl.TurnController.currentSubphase === "movementSubphase" 
+				&& tiles[i].moveCost <= VirtArenaControl.ObjectController.currentUnitActivating.turnStats.move
+				&& tiles[i].isOpen()) {
+
+				tiles[i].targetFor = "movement";
+
 			}
 		}
 	}
@@ -111,5 +157,11 @@
 
 	VirtArenaControl.Updater.updateBoardPosition = function(){
 		VirtArenaControl.Board.updatePosition();
+	}
+
+	VirtArenaControl.Updater.updateDeck = function(){
+		var deck;
+		if(VirtArenaControl.Units.teams.blueTeam) deck = VirtArenaControl.Units.teams.blueTeam.deck;
+		if(deck) deck.updateCards();
 	}
 })();

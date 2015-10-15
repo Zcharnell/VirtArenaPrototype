@@ -49,4 +49,10 @@
 			desc:"+20 Defense. After resolving the attack, make a Power 30 Penetration 80 attack against the attacker if it’s within Range 1."
 		}
 	}
+
+	VirtArenaControl.Abilities.summonCompanion = function(tile){
+		VirtArenaControl.TurnController.currentAction.misc.team.addCompanion(VirtArenaControl.TurnController.currentAction.misc.companion,tile);
+		VirtArenaControl.TurnController.currentAction.misc.team.cardUsed(VirtArenaControl.TurnController.currentAction.card);
+		VirtArenaControl.TurnController.resetCurrentAction();
+	}
 })();

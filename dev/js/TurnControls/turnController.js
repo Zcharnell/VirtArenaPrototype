@@ -28,6 +28,14 @@
 		gameEnd: false,
 		currentPhase:'',
 		currentSubphase:'',
+		currentAction:{
+			action:'',
+			user:'',
+			target:'',
+			range:0,
+			misc:{},
+			card:''
+		},
 		phaseChangeDelay:100,
 		startTurn: function(){
 			// this.currentPhase = this.turnOrder[0];
@@ -106,6 +114,31 @@
 
 			this.gameEnd = true;
 			console.log(winningTeam + ' wins!');
+		},
+		setCurrentAction: function(action,misc){
+			switch(action){
+				case 'spawnCompanion':
+					this.currentAction = {
+						action:action,
+						user:misc.team.commander,
+						target:'tile',
+						range:1,
+						misc:{team:misc.team,companion:misc.companion},
+						card:misc.card
+					};
+					VirtArenaControl.ObjectController.setTileRange(this.currentAction.user);
+					break;
+			}
+		},
+		resetCurrentAction: function(){
+			this.currentAction = {
+				action:'',
+				user:'',
+				target:'',
+				range:0,
+				misc:{},
+				card:''
+			}
 		}
 	};
 
@@ -211,6 +244,10 @@
 
 	VirtArenaControl.TurnController.startOfTurn.drawCards = function(){
 		console.log('\tsubPHASE: drawCards');
+		var teams = Object.keys(VirtArenaControl.Units.teams);
+		for(var i in teams){
+			VirtArenaControl.Units.teams[teams[i]].deck.drawCardsPhase();
+		}
 		VirtArenaControl.TurnController.delayPhaseChange();
 	};
 

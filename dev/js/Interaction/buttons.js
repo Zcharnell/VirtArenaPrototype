@@ -108,40 +108,49 @@
 
 
 	var addSelectStanceButtons = function(misc){
-		var unit = misc.team.commander;
-		var keys = Object.keys(unit.stances);
+		var units = misc.team.units;
+		for(var j in units){
+			var unit = units[j];
+			var keys = Object.keys(unit.stances);
+			for(var i in keys){
+				var stance = unit.stances[keys[i]];
+				var buttonName = 'selectStance'+j+keys[i];
+				VirtArenaControl.Buttons[buttonName] = new Button();
 
-		for(var i in keys){
-			var stance = unit.stances[keys[i]];
-			var buttonName = 'selectStance'+keys[i];
-			VirtArenaControl.Buttons[buttonName] = new Button();
+				var variablesForButton = {
+					text:unit.stances[keys[i]].name,
+					x:-999,
+					y:-999,
+					width:100,
+					height:40,
+					onClick:function(){
+						if(!this.disabled){
+							VirtArenaControl.ObjectController.setUnitStance(this.unit,(parseInt(this.index)+1));
+						}
+					},
+					update:function(){
+						var startX = this.buttonsOfThisType * -(this.width/2) - this.spacing;
+						var dynamicX = startX + (this.index*(this.width+this.spacing));
+						this.x = VirtArenaControl.Camera.width/2 + dynamicX;
+						this.y = VirtArenaControl.Camera.height - this.height - 20 - this.indexInUnitArray*50;
+						if(this.unit.stanceSelected === this.stance) {
+							this.selected = true;
+						} else if(this.selected){
+							this.selected = false;
+						}
+					},
+					spacing:25,
+					index:i,
+					buttonsOfThisType:keys.length,
+					indexInUnitArray:j,
+					disabled:(unit.lastStanceSelected === keys[i]) ? true : false,
+					unit:unit,
+					stance:keys[i]
+				}
 
-			var variablesForButton = {
-				text:unit.stances[keys[i]].name,
-				x:-999,
-				y:-999,
-				width:100,
-				height:40,
-				onClick:function(){
-					if(!this.disabled){
-						VirtArenaControl.ObjectController.setUnitStance(this.unit,(parseInt(this.index)+1));
-					}
-				},
-				update:function(){
-					var startX = this.buttonsOfThisType * -(this.width/2) - this.spacing;
-					var dynamicX = startX + (this.index*(this.width+this.spacing));
-					this.x = VirtArenaControl.Camera.width/2 + dynamicX;
-					this.y = VirtArenaControl.Camera.height - this.height - 20;
-				},
-				spacing:25,
-				index:i,
-				buttonsOfThisType:keys.length,
-				disabled:(unit.lastStanceSelected === keys[i]) ? true : false,
-				unit:unit
-			}
-
-			VirtArenaControl.Buttons[buttonName].init(variablesForButton);
-			VirtArenaControl.Buttons.buttonsToDraw.push(buttonName);
+				VirtArenaControl.Buttons[buttonName].init(variablesForButton);
+				VirtArenaControl.Buttons.buttonsToDraw.push(buttonName);
+			};
 		};
 	};
 

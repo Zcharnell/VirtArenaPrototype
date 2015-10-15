@@ -27,6 +27,7 @@ function Unit(){
 
 		//for drawing
 		this.tile = {};
+		this.font = "30px Arial";
 
 		//virts
 		this.energy = 90;
@@ -81,23 +82,23 @@ function Unit(){
 	this.draw = function(){
 		if(this.id === VirtArenaControl.ObjectController.selectedUnit.id) {
 			VirtArenaControl.Graphics.ctx.textAlign = "center";
-			VirtArenaControl.Graphics.ctx.font = "30px Arial";
+			VirtArenaControl.Graphics.ctx.font = this.font;
 			VirtArenaControl.Graphics.ctx.strokeStyle = 'black';
 			VirtArenaControl.Graphics.ctx.fillStyle = this.team.color;
 			VirtArenaControl.Graphics.ctx.strokeRect(this.tile.x,this.tile.y,this.tile.width,this.tile.height);
 			VirtArenaControl.Graphics.ctx.fillRect(this.tile.x,this.tile.y,this.tile.width,this.tile.height);
 			VirtArenaControl.Graphics.ctx.fillStyle = 'white';
-			VirtArenaControl.Graphics.ctx.fillText(this.name[0],this.tile.x+this.tile.width/2,this.tile.y+this.tile.height*0.75);
+			VirtArenaControl.Graphics.ctx.fillText(this.name[0],this.tile.x+this.tile.width/2,this.tile.y+this.tile.height/2);
 		} else {
 			VirtArenaControl.Graphics.ctx.textAlign = "center";
-			VirtArenaControl.Graphics.ctx.font = "30px Arial";
+			VirtArenaControl.Graphics.ctx.font = this.font;
 			VirtArenaControl.Graphics.ctx.fillStyle = this.team.color;
 			VirtArenaControl.Graphics.ctx.strokeStyle = this.team.color;
 			VirtArenaControl.Graphics.ctx.strokeRect(this.tile.x,this.tile.y,this.tile.width,this.tile.height);
 			var fillText = {
 				text:this.name[0],
 				x:this.tile.x+this.tile.width/2,
-				y:this.tile.y+this.tile.height*0.75,
+				y:this.tile.y+this.tile.height/2,
 				color:'#9F9F9F',
 				blur:5,
 				offsetX:0,
@@ -108,6 +109,10 @@ function Unit(){
 			VirtArenaControl.Graphics.ctx.lineWidth = 1;
 			VirtArenaControl.Graphics.ctx.strokeText(fillText.text,fillText.x,fillText.y);
 		}
+	};
+
+	this.setCommander = function(){
+		this.font = "36px Arial";
 	};
 
 	this.setStance = function(stanceKey){

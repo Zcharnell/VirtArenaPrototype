@@ -5,8 +5,10 @@
 		activationOrder:[],
 		currentUnitActivating:'',
 		setUnitTile: function(unit,tile){
+			var oldTile = unit.tile;
 			unit.tile = tile;
 			tile.unit = unit;
+			if(oldTile) oldTile.unit = '';
 		},
 		selectUnit: function(unit){
 			for(var i in VirtArenaControl.Units.units){
@@ -69,8 +71,10 @@
 		},
 		setUnitStance: function(unit,stanceNumber){
 			unit.setStance("stance" + stanceNumber);
-			VirtArenaControl.Buttons.removeButton('selectStance');
-			VirtArenaControl.TurnController.nextPhase();
+			if(unit.team.allStancesSelected()){
+				VirtArenaControl.Buttons.removeButton('selectStance');
+				VirtArenaControl.TurnController.nextPhase();
+			}
 		},
 		selectCommanderUnit: function(unit,team){
 			team.addCommander(unit);
@@ -102,6 +106,49 @@
 		},
 		setEndOfActivationVariables: function(unit){
 			unit.activated = true;
+		},
+		setTileRange: function(unit){
+			var initialTile = unit.tile;
+			var tiles = VirtArenaControl.Board.tiles;
+			var openTiles = [];
+			var closedTiles = [];
+			var range = 1;
+
+			for(var i in initialTile.adjacentTiles){
+				var index = initialTile.adjacentTiles[i];
+				tiles[index].parentTile = initialTile;
+				tiles[index].range = range;
+				openTiles.push(tiles[index]);
+			}
+			var error = 0;
+
+			while(error < 1000 && openTiles.length > 0){	
+				error++;
+
+				for(var i=0; i<openTiles.length; i++){
+					var nextRange = openTiles[i].range + 1;
+					for(var j in openTiles[i].adjacentTiles){
+						var index = openTiles[i].adjacentTiles[j];
+						var indexInOpenTiles = openTiles.indexOf(tiles[index]);
+						if(indexInOpenTiles === -1){
+							tiles[index].parentTile = openTiles[i];
+							tiles[index].range = nextRange;
+							openTiles.push(tiles[index]);
+						} else if(openTiles[indexInOpenTiles].range > nextRange){
+							openTiles[indexInOpenTiles].parentTile = openTiles[i];
+							openTiles[indexInOpenTiles].range = nextRange;
+						}
+					}
+					closedTiles.push(openTiles[i]);
+				}
+
+				for(var i=0; i<closedTiles.length; i++){
+					var index = openTiles.indexOf(closedTiles[i]);
+					if(index != -1){
+						openTiles.splice(index,1);
+					}
+				}
+			}
 		}
 	};
 })();
