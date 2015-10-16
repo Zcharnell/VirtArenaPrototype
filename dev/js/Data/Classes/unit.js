@@ -109,10 +109,21 @@ function Unit(){
 			VirtArenaControl.Graphics.ctx.lineWidth = 1;
 			VirtArenaControl.Graphics.ctx.strokeText(fillText.text,fillText.x,fillText.y);
 		}
+
+		if(this.commander){
+			VirtArenaControl.Graphics.ctx.textAlign = "right";
+			VirtArenaControl.Graphics.ctx.textBaseline = 'top';
+			VirtArenaControl.Graphics.ctx.font = "10px Arial";
+			VirtArenaControl.Graphics.ctx.fillStyle = "#FFFFFF";
+			var text = String.fromCharCode(9733);
+			VirtArenaControl.Graphics.ctx.fillText(text,this.tile.x+this.tile.width-2,this.tile.y+2);
+			VirtArenaControl.Graphics.ctx.textBaseline = 'middle';
+		}
 	};
 
 	this.setCommander = function(){
 		this.font = "36px Arial";
+		this.commander = true;
 	};
 
 	this.setStance = function(stanceKey){

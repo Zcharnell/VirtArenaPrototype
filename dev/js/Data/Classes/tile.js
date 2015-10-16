@@ -64,7 +64,7 @@ function Tile(row,column,dimensions){
 	this.drawBorder = function(color){
 		VirtArenaControl.Graphics.ctx.lineWidth = 5;
 		VirtArenaControl.Graphics.ctx.strokeStyle = color;
-		// VirtArenaControl.Graphics.strokeRectWithShadow(this.x,this.y,this.width,this.height,'#CCCCCC',20,0,1);
+		// VirtArenaControl.Graphics.strokeRectWithShadow(this.x,this.y,this.width,this.height,1,'#CCCCCC',20,0,1);
 		VirtArenaControl.Graphics.ctx.strokeRect(this.x,this.y,this.width,this.height);
 		VirtArenaControl.Graphics.ctx.lineWidth = 1;
 	};
@@ -79,7 +79,7 @@ function Tile(row,column,dimensions){
 		this.y = this.row*(this.height+this.spacing);
 
 		this.x += VirtArenaControl.Board.x + VirtArenaControl.Board.horizontalPadding;
-		this.y += VirtArenaControl.Board.y + VirtArenaControl.Board.verticalPadding;
+		this.y += VirtArenaControl.Board.y + VirtArenaControl.Board.topPadding;
 	};
 	this.resetUnit = function(){
 		this.unit = '';

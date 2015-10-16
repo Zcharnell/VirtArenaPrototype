@@ -5,8 +5,9 @@
 		y:0,
 		width:0,
 		height:0,
-		horizontalPadding:100,
-		verticalPadding:40,
+		horizontalPadding:200,
+		topPadding:90,
+		bottomPadding:150,
 		tilesCount: 0,
 		rows: 0,
 		columns: 0,
@@ -21,13 +22,14 @@
 			this.tilesCount = this.rows*this.columns + this.oddRows;
 			this.setupTiles();
 			this.width = (this.columns+1)*this.tileWidth + this.columns*this.tileSpacing + this.horizontalPadding*2;
-			this.height = (this.rows)*this.tileHeight + this.rows*this.tileSpacing + this.verticalPadding*2;
+			this.height = (this.rows)*this.tileHeight + this.rows*this.tileSpacing + this.topPadding + this.bottomPadding;
 		},
 		drawBackground: function(){
 			VirtArenaControl.Graphics.ctx.fillStyle = '#ebf5f7';
-			VirtArenaControl.Graphics.fillRectWithShadow(this.x,this.y,this.width,VirtArenaControl.Camera.height,'#111',20,0,15);
+			VirtArenaControl.Graphics.fillRectWithShadow(this.x,this.y,this.width,this.height,'#111',20,0,15);
 			VirtArenaControl.Graphics.ctx.fillStyle = '#ffffff';
-			VirtArenaControl.Graphics.ctx.fillRect(this.x+this.padding/2,this.y,this.width-this.padding,VirtArenaControl.Camera.height);
+			VirtArenaControl.Graphics.ctx.fillRect(this.x+this.horizontalPadding/2,this.y,this.width-this.horizontalPadding,this.height);
+			VirtArenaControl.Graphics.ctx.drawImage(VirtArenaControl.Images.boardBackground,this.x,this.y,this.width,this.height);
 		},
 		updatePosition: function(){
 			var oldX = this.x;

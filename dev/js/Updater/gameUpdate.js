@@ -120,6 +120,7 @@
 				tiles[i].targetFor = "attack";
 
 			} else if(VirtArenaControl.TurnController.currentSubphase === "movementSubphase" 
+				&& VirtArenaControl.ObjectController.path.length === 0
 				&& tiles[i].moveCost <= VirtArenaControl.ObjectController.currentUnitActivating.turnStats.move
 				&& tiles[i].isOpen()) {
 

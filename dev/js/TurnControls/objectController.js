@@ -1,9 +1,10 @@
 (function(){
 	VirtArenaControl.ObjectController = {
 		selectedUnit:'',
-		movementStepDelay:250,
+		movementStepDelay:350,
 		activationOrder:[],
 		currentUnitActivating:'',
+		path:[],
 		setUnitTile: function(unit,tile){
 			var oldTile = unit.tile;
 			unit.tile = tile;

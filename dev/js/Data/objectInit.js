@@ -47,8 +47,9 @@
 			// this.drawFunctions.push('drawSquare');
 			this.drawFunctions.push('drawBoardTiles');
 			this.drawFunctions.push('drawUnits');
-			this.drawFunctions.push('drawPath');
+			// this.drawFunctions.push('drawPath');
 			this.drawFunctions.push('drawButtons');
+			this.drawFunctions.push('drawActivationOrder');
 			this.drawFunctions.push('drawPlayerCards');
 		},
 		setShadow: function(color,blur,offsetX,offsetY){
@@ -69,8 +70,9 @@
 			this.ctx.fillText(text,x,y);
 			this.ctx.restore();
 		},
-		strokeRectWithShadow: function(x,y,width,height,color,blur,offsetX,offsetY){
+		strokeRectWithShadow: function(x,y,width,height,lineWidth,color,blur,offsetX,offsetY){
 			this.ctx.save();
+			this.ctx.lineWidth = lineWidth;
 			this.setShadow(color,blur,offsetX,offsetY);
 			this.ctx.strokeRect(x,y,width,height);
 			this.ctx.restore();
@@ -96,7 +98,7 @@
 		}
 	};
 
-
-
 	Scripts = {};
+
+	VirtArenaControl.Images = {};
 })();
