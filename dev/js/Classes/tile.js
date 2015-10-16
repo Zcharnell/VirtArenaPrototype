@@ -19,13 +19,18 @@ function Tile(row,column,dimensions){
 	this.draw = function(){
 		VirtArenaControl.Graphics.ctx.textAlign = "left";
 		VirtArenaControl.Graphics.ctx.font = '10px Arial';
-		VirtArenaControl.Graphics.ctx.fillStyle = 'black';
+		if(this.unit) VirtArenaControl.Graphics.ctx.fillStyle = '#000000';
+		else VirtArenaControl.Graphics.ctx.fillStyle = 'rgba(0,0,0,0.5)';
+		VirtArenaControl.Graphics.ctx.strokeStyle = 'rgba(0,0,0,0.9)';
 		VirtArenaControl.Graphics.ctx.fillRect(this.x,this.y,this.width,this.height);
+		VirtArenaControl.Graphics.ctx.strokeRect(this.x,this.y,this.width,this.height);
 	};
 	this.drawIndex = function(index){
 		VirtArenaControl.Graphics.ctx.font = '10px Arial';
-		if(this.hover) VirtArenaControl.Graphics.ctx.fillStyle = 'black';
-		else VirtArenaControl.Graphics.ctx.fillStyle = 'white';
+		// if(this.hover) 
+		// 		VirtArenaControl.Graphics.ctx.fillStyle = 'black';
+		// else 
+			VirtArenaControl.Graphics.ctx.fillStyle = 'white';
 
 		if(index >= 0){
 			VirtArenaControl.Graphics.ctx.fillText(index,this.x,this.y + this.height/3);
@@ -40,10 +45,10 @@ function Tile(row,column,dimensions){
 	this.drawHover = function(){
 		VirtArenaControl.Graphics.ctx.textAlign = "left";
 		VirtArenaControl.Graphics.ctx.font = '10px Arial';
-		VirtArenaControl.Graphics.ctx.fillStyle = 'white';
+		VirtArenaControl.Graphics.ctx.fillStyle = 'black';
 		VirtArenaControl.Graphics.ctx.fillRect(this.x,this.y,this.width,this.height);
-		VirtArenaControl.Graphics.ctx.strokeStyle = 'black';
-		VirtArenaControl.Graphics.ctx.strokeRect(this.x,this.y,this.width,this.height);
+		VirtArenaControl.Graphics.ctx.strokeStyle = 'white';
+		VirtArenaControl.Graphics.strokeRectWithShadow(this.x,this.y,this.width,this.height,2,"#ffffff",2,0,1);
 	};
 	this.drawHighlight = function(color){
 		VirtArenaControl.Graphics.ctx.fillStyle = color;
@@ -59,14 +64,13 @@ function Tile(row,column,dimensions){
 		this.drawHighlight("rgba(50,50,255,0.5)");
 	};
 	this.drawBorderForActivatingUnit = function(){
-		this.drawBorder("#FFFFFF");
+		this.drawBorder("#00FF00");
 	};
 	this.drawBorder = function(color){
-		VirtArenaControl.Graphics.ctx.lineWidth = 5;
+		VirtArenaControl.Graphics.ctx.lineHeight = 3;
 		VirtArenaControl.Graphics.ctx.strokeStyle = color;
-		// VirtArenaControl.Graphics.strokeRectWithShadow(this.x,this.y,this.width,this.height,1,'#CCCCCC',20,0,1);
-		VirtArenaControl.Graphics.ctx.strokeRect(this.x,this.y,this.width,this.height);
-		VirtArenaControl.Graphics.ctx.lineWidth = 1;
+		VirtArenaControl.Graphics.strokeRectWithShadow(this.x,this.y,this.width,this.height,3,'rgba(255,255,255,1)',2,0,1);
+		// VirtArenaControl.Graphics.ctx.strokeRect(this.x,this.y,this.width,this.height);
 	};
 	this.isOpen = function(){
 		var tileIsOpen = true;

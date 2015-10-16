@@ -29,7 +29,7 @@
 			} else {
 				tiles[i].draw();
 			}
-			if(tiles[i].unit && tiles[i].unit === VirtArenaControl.ObjectController.currentUnitActivating){
+			if(tiles[i].unit && tiles[i].unit === VirtArenaControl.Units.currentUnitActivating){
 				tiles[i].drawBorderForActivatingUnit();
 			}
 			// console.log(tiles[i].targetFor);
@@ -43,7 +43,7 @@
 				tiles[i].drawHighlightForAction();
 			}
 
-			tiles[i].drawIndex(i);
+			// tiles[i].drawIndex(i);
 		}
 	}
 
@@ -88,15 +88,15 @@
 	};
 
 	VirtArenaControl.Graphics.drawActivationOrder = function(){
-		for(var i in VirtArenaControl.ObjectController.activationOrder){
+		for(var i in VirtArenaControl.Units.activationOrder){
 			var activationAvatar = {
-				name:VirtArenaControl.ObjectController.activationOrder[i].name,
+				name:VirtArenaControl.Units.activationOrder[i].name,
 				x: VirtArenaControl.Board.x + 5,
 				y: VirtArenaControl.Board.y + VirtArenaControl.Board.topPadding/2 + i*85,
 				width:80,
 				height:80,
-				activating:(VirtArenaControl.ObjectController.activationOrder[i].id === VirtArenaControl.ObjectController.currentUnitActivating.id) ? true : false,
-				selected:(VirtArenaControl.ObjectController.activationOrder[i].id === VirtArenaControl.ObjectController.selectedUnit.id) ? true : false
+				activating:(VirtArenaControl.Units.activationOrder[i].id === VirtArenaControl.Units.currentUnitActivating.id) ? true : false,
+				selected:(VirtArenaControl.Units.activationOrder[i].id === VirtArenaControl.Units.selectedUnit.id) ? true : false
 			}
 
 			VirtArenaControl.Graphics.ctx.textAlign = "center";

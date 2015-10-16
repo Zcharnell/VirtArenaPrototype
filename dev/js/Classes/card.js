@@ -89,7 +89,7 @@ function Card(initVars){
 
 	this.onClick = function(){
 		if(this.companion) {
-			if(this.team.commander.id === VirtArenaControl.ObjectController.currentUnitActivating.id){
+			if(this.team.commander.id === VirtArenaControl.Units.currentUnitActivating.id){
 				this.team.spawnUnitNearCommander(this,this.companion);
 			}
 		} else if(this.ability) {

@@ -1,9 +1,6 @@
 (function(){
 	VirtArenaControl.ObjectController = {
-		selectedUnit:'',
 		movementStepDelay:350,
-		activationOrder:[],
-		currentUnitActivating:'',
 		path:[],
 		setUnitTile: function(unit,tile){
 			var oldTile = unit.tile;
@@ -14,27 +11,27 @@
 		selectUnit: function(unit){
 			for(var i in VirtArenaControl.Units.units){
 				if(VirtArenaControl.Units.units[i] === unit){
-					this.selectedUnit = VirtArenaControl.Units.units[i];
+					VirtArenaControl.Units.selectedUnit = VirtArenaControl.Units.units[i];
 					return;
 				}
 			}
 		},
 		resetSelectedObject: function(){
-			if(this.selectedUnit) this.selectedUnit = '';
+			if(VirtArenaControl.Units.selectedUnit) VirtArenaControl.Units.selectedUnit = '';
 		},
 		setActivationOrder: function(){
-			this.activationOrder = [];
+			VirtArenaControl.Units.activationOrder = [];
 			var units = VirtArenaControl.Units.units;
 			for(var i in units){
 				if(units[i].canActivateThisTurn()){
-					this.activationOrder.push(units[i]);
+					VirtArenaControl.Units.activationOrder.push(units[i]);
 				}
 			}
 			
-			this.activationOrder.sort(Scripts.sortUnitsBySpeed);
+			VirtArenaControl.Units.activationOrder.sort(Scripts.sortUnitsBySpeed);
 		},
 		setUnitActivating: function(unit){
-			this.currentUnitActivating = unit;
+			VirtArenaControl.Units.currentUnitActivating = unit;
 		},
 		resetUnitValues: function(){
 			this.setLastStanceSelected();
@@ -67,8 +64,8 @@
 			}
 		},
 		resetActivationOrder: function(){
-			this.activationOrder = [];
-			this.currentUnitActivating = '';
+			VirtArenaControl.Units.activationOrder = [];
+			VirtArenaControl.Units.currentUnitActivating = '';
 		},
 		setUnitStance: function(unit,stanceNumber){
 			unit.setStance("stance" + stanceNumber);
@@ -94,13 +91,13 @@
 			}
 		},
 		removeUnitFromActivationOrder: function(unit){
-			var index = this.activationOrder.indexOf(unit);
-			this.activationOrder.splice(index,1);
+			var index = VirtArenaControl.Units.activationOrder.indexOf(unit);
+			VirtArenaControl.Units.activationOrder.splice(index,1);
 		},
 		unactivatedUnitsInActivationOrder: function(){
 			//check if all units in the activation order have activated
-			for(var i in this.activationOrder){
-				if(!this.activationOrder[i].activated)
+			for(var i in VirtArenaControl.Units.activationOrder){
+				if(!VirtArenaControl.Units.activationOrder[i].activated)
 					return true;
 			}
 			return false;
@@ -150,6 +147,25 @@
 					}
 				}
 			}
-		}
+		},
+		addUnit: function(unit){
+			VirtArenaControl.Units.units.push(unit);
+		},
+		getUnitObject: function(unitName){
+			//returns a new object based on the virtName, which should be class
+			var unit = jQuery.extend(true, {}, new window[unitName]());
+			unit.id = this.setUnitId(unit);
+			return unit;
+		},
+		setUnitId: function(unit){
+			var id = VirtArenaControl.Units.units.length;
+
+			for(var i in VirtArenaControl.Units.units){
+				if(VirtArenaControl.Units.units[i].id == id)
+					id++;
+			}
+
+			return id;
+		},
 	};
 })();

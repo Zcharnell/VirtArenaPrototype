@@ -80,15 +80,41 @@ function Unit(){
 	};
 
 	this.draw = function(){
-		if(this.id === VirtArenaControl.ObjectController.selectedUnit.id) {
+		if(this.id === VirtArenaControl.Units.selectedUnit.id) {
+			// VirtArenaControl.Graphics.ctx.textAlign = "center";
+			// VirtArenaControl.Graphics.ctx.font = this.font;
+			// VirtArenaControl.Graphics.ctx.strokeStyle = 'black';
+			// VirtArenaControl.Graphics.ctx.fillStyle = this.team.color;
+			// VirtArenaControl.Graphics.ctx.strokeRect(this.tile.x,this.tile.y,this.tile.width,this.tile.height);
+			// VirtArenaControl.Graphics.ctx.fillRect(this.tile.x,this.tile.y,this.tile.width,this.tile.height);
+			// VirtArenaControl.Graphics.ctx.fillStyle = 'white';
+			// VirtArenaControl.Graphics.ctx.fillText(this.name[0],this.tile.x+this.tile.width/2,this.tile.y+this.tile.height/2);
+
+			VirtArenaControl.Graphics.ctx.textAlign = "left";
+			VirtArenaControl.Graphics.ctx.font = '10px Arial';
+			VirtArenaControl.Graphics.ctx.fillStyle = 'black';
+			VirtArenaControl.Graphics.ctx.fillRect(this.tile.x,this.tile.y,this.tile.width,this.tile.height);
+			VirtArenaControl.Graphics.ctx.strokeStyle = 'white';
+			VirtArenaControl.Graphics.strokeRectWithShadow(this.tile.x,this.tile.y,this.tile.width,this.tile.height,2,"#ffffff",2,0,1);
+
 			VirtArenaControl.Graphics.ctx.textAlign = "center";
 			VirtArenaControl.Graphics.ctx.font = this.font;
-			VirtArenaControl.Graphics.ctx.strokeStyle = 'black';
-			VirtArenaControl.Graphics.ctx.fillStyle = this.team.color;
+			VirtArenaControl.Graphics.ctx.fillStyle = "#FFFFFF";
+			VirtArenaControl.Graphics.ctx.strokeStyle = this.team.color;
 			VirtArenaControl.Graphics.ctx.strokeRect(this.tile.x,this.tile.y,this.tile.width,this.tile.height);
-			VirtArenaControl.Graphics.ctx.fillRect(this.tile.x,this.tile.y,this.tile.width,this.tile.height);
-			VirtArenaControl.Graphics.ctx.fillStyle = 'white';
-			VirtArenaControl.Graphics.ctx.fillText(this.name[0],this.tile.x+this.tile.width/2,this.tile.y+this.tile.height/2);
+			var fillText = {
+				text:this.name[0],
+				x:this.tile.x+this.tile.width/2,
+				y:this.tile.y+this.tile.height/2,
+				color:this.team.color,
+				blur:5,
+				offsetX:0,
+				offsetY:1
+			}
+			VirtArenaControl.Graphics.fillTextWithShadow(fillText.text,fillText.x,fillText.y,fillText.color,fillText.blur,fillText.offsetX,fillText.offsetY);
+			VirtArenaControl.Graphics.ctx.strokeStyle = "#999";
+			VirtArenaControl.Graphics.ctx.lineWidth = 1;
+			VirtArenaControl.Graphics.ctx.strokeText(fillText.text,fillText.x,fillText.y);
 		} else {
 			VirtArenaControl.Graphics.ctx.textAlign = "center";
 			VirtArenaControl.Graphics.ctx.font = this.font;

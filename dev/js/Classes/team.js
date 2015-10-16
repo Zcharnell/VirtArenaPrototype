@@ -10,21 +10,21 @@ function Team(name,color){
 
 	this.addUnit = function(unit){
 		unit.team = this;
-		VirtArenaControl.Units.addUnit(unit);
+		VirtArenaControl.ObjectController.addUnit(unit);
 		this.units.push(unit);
-		// if(VirtArenaControl.ObjectController.activationOrder.length > 0){
+		// if(VirtArenaControl.Units.activationOrder.length > 0){
 		// 	VirtArenaControl.ObjectController.addUnitToActivationOrder
 		// }
 	};
 
 	this.addCompanion = function(unitName,tile){
-		var unit = VirtArenaControl.Units.getUnitObject(unitName);
+		var unit = VirtArenaControl.ObjectController.getUnitObject(unitName);
 		if(tile) VirtArenaControl.ObjectController.setUnitTile(unit,tile);
 		this.addUnit(unit);
 	};
 
 	this.addCommander = function(unitName){
-		var unit = VirtArenaControl.Units.getUnitObject(unitName);
+		var unit = VirtArenaControl.ObjectController.getUnitObject(unitName);
 		unit.setCommander();
 		this.commander = unit;
 		this.addUnit(unit);

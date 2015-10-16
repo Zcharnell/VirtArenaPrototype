@@ -109,19 +109,19 @@
 
 				tiles[i].targetFor = "action";
 
-			} else if (VirtArenaControl.ObjectController.selectedUnit 
-				&& VirtArenaControl.ObjectController.selectedUnit === VirtArenaControl.ObjectController.currentUnitActivating
-				&& VirtArenaControl.ObjectController.selectedUnit.weaponSelected
-				&& tiles[i].rangeForWeapon <= VirtArenaControl.ObjectController.currentUnitActivating.getWeaponRange()
+			} else if (VirtArenaControl.Units.selectedUnit 
+				&& VirtArenaControl.Units.selectedUnit === VirtArenaControl.Units.currentUnitActivating
+				&& VirtArenaControl.Units.selectedUnit.weaponSelected
+				&& tiles[i].rangeForWeapon <= VirtArenaControl.Units.currentUnitActivating.getWeaponRange()
 				&& tiles[i].unit 
-				&& tiles[i].unit.team != VirtArenaControl.ObjectController.selectedUnit.team 
+				&& tiles[i].unit.team != VirtArenaControl.Units.selectedUnit.team 
 				&& VirtArenaControl.TurnController.currentSubphase === 'attackSubphase') {
 
 				tiles[i].targetFor = "attack";
 
 			} else if(VirtArenaControl.TurnController.currentSubphase === "movementSubphase" 
 				&& VirtArenaControl.ObjectController.path.length === 0
-				&& tiles[i].moveCost <= VirtArenaControl.ObjectController.currentUnitActivating.turnStats.move
+				&& tiles[i].moveCost <= VirtArenaControl.Units.currentUnitActivating.turnStats.move
 				&& tiles[i].isOpen()) {
 
 				tiles[i].targetFor = "movement";

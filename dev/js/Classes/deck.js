@@ -208,70 +208,70 @@ Deck.prototype.createDeck = function(commander){
 			new Card(
 				{name:"Lancer",
 				type:"companion",
-				companion:VirtArenaControl.Units.getUnitObject("Lancer"),
+				companion:"Lancer",
 				team:this.team
 			}));
 		deck.cards.push(
 			new Card(
 				{name:"Lancer",
 				type:"companion",
-				companion:VirtArenaControl.Units.getUnitObject("Lancer"),
+				companion:"Lancer",
 				team:this.team
 			}));
 		deck.cards.push(
 			new Card(
 				{name:"Lancer",
 				type:"companion",
-				companion:VirtArenaControl.Units.getUnitObject("Lancer"),
+				companion:"Lancer",
 				team:this.team
 			}));
 		deck.cards.push(
 			new Card(
 				{name:"Knight",
 				type:"companion",
-				companion:VirtArenaControl.Units.getUnitObject("Knight"),
+				companion:"Knight",
 				team:this.team
 			}));
 		deck.cards.push(
 			new Card(
 				{name:"Knight",
 				type:"companion",
-				companion:VirtArenaControl.Units.getUnitObject("Knight"),
+				companion:"Knight",
 				team:this.team
 			}));
 		deck.cards.push(
 			new Card(
 				{name:"Praetorian",
 				type:"companion",
-				companion:VirtArenaControl.Units.getUnitObject("Praetorian"),
+				companion:"Praetorian",
 				team:this.team
 			}));
 		deck.cards.push(
 			new Card(
 				{name:"Praetorian",
 				type:"companion",
-				companion:VirtArenaControl.Units.getUnitObject("Praetorian"),
+				companion:"Praetorian",
 				team:this.team
 			}));
 		deck.cards.push(
 			new Card(
 				{name:"Hecate",
 				type:"companion",
-				companion:VirtArenaControl.Units.getUnitObject("Hecate"),
+				companion:"Hecate",
 				team:this.team
 			}));
 		deck.cards.push(
 			new Card(
 				{name:"Hecate",
 				type:"companion",
-				companion:VirtArenaControl.Units.getUnitObject("Hecate"),
+				companion:"Hecate",
 				team:this.team
 			}));
 		deck.cards.push(
 			new Card(
 				{name:"Hecate",
 				type:"companion",
-				companion:VirtArenaControl.Units.getUnitObject("Hecate"),
+				companion:"Hecate",
 				team:this.team
 			}));
 		deck.cards.push(

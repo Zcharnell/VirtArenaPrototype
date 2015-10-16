@@ -10,13 +10,13 @@
 
 		} else if(this.targetFor === "attack"){
 
-			var unit = VirtArenaControl.ObjectController.selectedUnit;
+			var unit = VirtArenaControl.Units.selectedUnit;
 			VirtArenaControl.ObjectController.unitAttackSelectTarget(unit,this.unit);
 
 		} else if(this.targetFor === "movement"
-			&& VirtArenaControl.ObjectController.selectedUnit.id === VirtArenaControl.ObjectController.currentUnitActivating.id){
+			&& VirtArenaControl.Units.selectedUnit.id === VirtArenaControl.Units.currentUnitActivating.id){
 
-			var unit = VirtArenaControl.ObjectController.selectedUnit;
+			var unit = VirtArenaControl.Units.selectedUnit;
 			VirtArenaControl.ObjectController.unitMovement(unit,this);
 
 		} else if(this.unit != ''){
