@@ -2,8 +2,21 @@
 	
 	////////////////////////////////////////////////////////////
 	//AI Movement
+	VirtArenaControl.AI.Scripts.determineAIMovement = function(aiUnit){
+		VirtArenaControl.ObjectController.setTileMoveCosts(aiUnit);
+		VirtArenaControl.ObjectController.setTileRangeForWeapons(aiUnit);
+		var enemyTeam = {
+			team: VirtArenaControl.AI.Scripts.getEnemyTeam(aiUnit)
+		};
+		enemyTeam.units = enemyTeam.team.units;
+		enemyTeam.unitDistances = VirtArenaControl.AI.Scripts.getMoveDistanceFromUnits(aiUnit,enemyTeam.units);
+		
+		var closestUnit = enemyTeam.unitDistances[0];
+	};
 
-	function algorithmMoveAI(currentVirt,targetVirtHex){
+
+
+	VirtArenaControl.AI.Scripts.algorithmMoveAI = function(currentVirt,targetVirtHex){
 		
 		//closestHex and furthestHex are global variables at the top of this file.
 
@@ -202,7 +215,7 @@
 		console.log(closestHex,furthestHex);
 	}
 
-	function determineAIActionMovement(currentVirt){
+	VirtArenaControl.AI.Scripts.determineAIActionMovement = function(currentVirt){
 		
 		//If the current virt cannot move, advance to choosing weapon.
 		if(currentVirt.move <= 0){
