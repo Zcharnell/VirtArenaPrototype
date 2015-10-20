@@ -1,5 +1,6 @@
 (function(){
-
+	VirtArenaControl.Buttons.buttonsToDraw = ['startGame'];
+	VirtArenaControl.Buttons.startGame = new Button();
 
 	VirtArenaControl.Buttons.init = function(){
 		this.startGame.init(startGameInit());
@@ -55,9 +56,6 @@
 		}
 	};
 
-	VirtArenaControl.Buttons.buttonsToDraw = ['startGame'];
-	
-	VirtArenaControl.Buttons.startGame = new Button();
 
 	var startGameInit = function(){
 		var obj = {};

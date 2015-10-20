@@ -27,6 +27,7 @@
 	VirtArenaControl.Abilities = {};
 
 	VirtArenaControl.Buttons = {};
+	VirtArenaControl.Avatars = {};
 
 	VirtArenaControl.Graphics = {
 		canvas: undefined,
@@ -90,11 +91,13 @@
 			// this.updateFunctions.push('animateSquare');
 			this.updateFunctions.push('getMousePosition');
 			this.updateFunctions.push('getHoveredObjects');
-			this.updateFunctions.push('checkVirtPositions');
+			this.updateFunctions.push('checkUnitPositions');
 			this.updateFunctions.push('updateButtonPositions');
 			this.updateFunctions.push('updateBoardPosition');
 			this.updateFunctions.push('updateDeck');
 			this.updateFunctions.push('updateTileVariables');
+			this.updateFunctions.push('updateActivationAvatars');
+			this.updateFunctions.push('updateUnitAnimations');
 		}
 	};
 

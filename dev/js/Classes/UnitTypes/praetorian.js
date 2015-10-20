@@ -2,8 +2,8 @@ function Praetorian(){
 	this.setStartingVars();
 
 	this.name = 'Praetorian';
-	this.virtType = 'Praetorian';
-	this.virtClassType = 'Companion';
+	this.unitType = 'Praetorian';
+	this.unitClass = 'Companion';
 	this.HP = 100;
 	this.totalHP = 100;
 	this.energy = 60;

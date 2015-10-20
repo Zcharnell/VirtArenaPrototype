@@ -2,8 +2,9 @@ function Imperator(){
 	this.setStartingVars();
 	
 	this.name = 'Imperator';
-	this.virtType = 'Imperator';
-	this.virtClassType = 'Commander';
+	this.unitType = 'Imperator';
+	this.unitClass = 'Commander';
+	this.unitArt = VirtArenaControl.Images.imperatorUnitArt;
 	this.HP = 300;
 	this.totalHP = 300;
 	this.previousHP = 300;

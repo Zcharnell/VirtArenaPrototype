@@ -29,6 +29,9 @@
 			}
 			
 			VirtArenaControl.Units.activationOrder.sort(Scripts.sortUnitsBySpeed);
+			for(var i in VirtArenaControl.Units.activationOrder){
+				VirtArenaControl.Units.activationOrder[i].activationOrderIndex = i;
+			}
 		},
 		setUnitActivating: function(unit){
 			VirtArenaControl.Units.currentUnitActivating = unit;
@@ -150,6 +153,7 @@
 		},
 		addUnit: function(unit){
 			VirtArenaControl.Units.units.push(unit);
+			unit.avatar = VirtArenaControl.Avatars.newAvatar(unit);
 		},
 		getUnitObject: function(unitName){
 			//returns a new object based on the virtName, which should be class

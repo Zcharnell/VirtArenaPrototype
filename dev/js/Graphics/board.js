@@ -11,8 +11,8 @@
 		tilesCount: 0,
 		rows: 0,
 		columns: 0,
-		tileWidth:40,
-		tileHeight:40,
+		tileWidth:41,
+		tileHeight:41,
 		tileSpacing:5,
 		tiles:[],
 		init: function(){
@@ -34,8 +34,8 @@
 		updatePosition: function(){
 			var oldX = this.x;
 			var oldY = this.y;
-			this.x = VirtArenaControl.Camera.width/2-this.width/2;
-			this.y = VirtArenaControl.Camera.y;
+			this.x = Math.floor(VirtArenaControl.Camera.width/2-this.width/2);
+			this.y = Math.floor(VirtArenaControl.Camera.y);
 			if(this.x != oldX || this.y != oldY){
 				this.resetTilePositions();
 			}

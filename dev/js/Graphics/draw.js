@@ -24,7 +24,7 @@
 		var tiles = VirtArenaControl.Board.tiles;
 
 		for(var i=0; i<tiles.length; i++){
-			if(tiles[i].hover || tiles[i].adjacentToHover){
+			if(tiles[i].hover || (tiles[i].unit && tiles[i].unit.avatar.hover)){
 				tiles[i].drawHover();
 			} else {
 				tiles[i].draw();
@@ -89,33 +89,7 @@
 
 	VirtArenaControl.Graphics.drawActivationOrder = function(){
 		for(var i in VirtArenaControl.Units.activationOrder){
-			var activationAvatar = {
-				name:VirtArenaControl.Units.activationOrder[i].name,
-				x: VirtArenaControl.Board.x + 5,
-				y: VirtArenaControl.Board.y + VirtArenaControl.Board.topPadding/2 + i*85,
-				width:80,
-				height:80,
-				activating:(VirtArenaControl.Units.activationOrder[i].id === VirtArenaControl.Units.currentUnitActivating.id) ? true : false,
-				selected:(VirtArenaControl.Units.activationOrder[i].id === VirtArenaControl.Units.selectedUnit.id) ? true : false
-			}
-
-			VirtArenaControl.Graphics.ctx.textAlign = "center";
-			VirtArenaControl.Graphics.ctx.font = "18px Arial";
-			VirtArenaControl.Graphics.ctx.fillStyle = '#333333';
-			VirtArenaControl.Graphics.ctx.strokeStyle = '#000000';
-			VirtArenaControl.Graphics.ctx.fillRect(activationAvatar.x,activationAvatar.y,activationAvatar.width,activationAvatar.height);
-			VirtArenaControl.Graphics.ctx.strokeRect(activationAvatar.x,activationAvatar.y,activationAvatar.width,activationAvatar.height);
-			VirtArenaControl.Graphics.ctx.fillStyle = '#FFFFFF';
-			VirtArenaControl.Graphics.ctx.fillText(activationAvatar.name,activationAvatar.x+activationAvatar.width/2,activationAvatar.y+activationAvatar.height/2);
-
-			if(activationAvatar.selected){
-				VirtArenaControl.Graphics.ctx.strokeStyle = 'rgb(200,220,255)';
-				VirtArenaControl.Graphics.strokeRectWithShadow(activationAvatar.x,activationAvatar.y,activationAvatar.width+2,activationAvatar.height+2,2,'rgba(200,220,255,0.7)',20,0,1);
-			}
-			if(activationAvatar.activating){
-				VirtArenaControl.Graphics.ctx.strokeStyle = 'rgb(50,255,50)';
-				VirtArenaControl.Graphics.strokeRectWithShadow(activationAvatar.x,activationAvatar.y,activationAvatar.width+2,activationAvatar.height+2,2,'rgba(50,255,50,0.7)',20,0,1);
-			}
+			VirtArenaControl.Units.activationOrder[i].avatar.draw();
 		}
 	};
 })();

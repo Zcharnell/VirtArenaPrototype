@@ -52,6 +52,11 @@ function Team(name,color){
 				VirtArenaControl.ObjectController.setUnitTile(this.units[i],tile);
 				positions.splice(0,1);
 			}
+			if(this.units[i].tile.column <= VirtArenaControl.Board.columns/2){
+				this.units[i].setDirection('right');
+			} else {
+				this.units[i].setDirection('left');
+			}
 			// console.log(this.units[i],' ; ', this.units[i].tile);
 			// console.log(positions);
 		}

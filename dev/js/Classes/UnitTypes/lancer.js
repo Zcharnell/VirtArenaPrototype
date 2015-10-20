@@ -2,8 +2,8 @@ function Lancer(){
 	this.setStartingVars();
 
 	this.name = 'Lancer';
-	this.virtType = 'Lancer';
-	this.virtClassType = 'Companion';
+	this.unitType = 'Lancer';
+	this.unitClass = 'Companion';
 	this.HP = 80;
 	this.totalHP = 80;
 	this.energy = 60;

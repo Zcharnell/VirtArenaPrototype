@@ -12,8 +12,8 @@ function Unit(){
 		// this.capacity = 0;
 		// this.supply = 0;
 		this.name = '';
-		this.virtType = '';
-		this.virtClassType = '';
+		this.unitType = '';
+		this.unitClass = '';
 		this.commander = false;
 		this.alive = true;
 		this.weapons = {};
@@ -24,10 +24,17 @@ function Unit(){
 		this.team = {};
 		this.activated = false;
 		this.id = '';
+		this.activationOrderIndex = 0;
 
 		//for drawing
 		this.tile = {};
+		this.avatar = {};
+		this.direction = 0;
 		this.font = "30px Arial";
+		this.animation = "idle";
+		this.animationTime = 0;
+		this.animationFrame = 0;
+		this.animationDuration = 5;
 
 		//virts
 		this.energy = 90;
@@ -111,10 +118,17 @@ function Unit(){
 				offsetX:0,
 				offsetY:1
 			}
-			VirtArenaControl.Graphics.fillTextWithShadow(fillText.text,fillText.x,fillText.y,fillText.color,fillText.blur,fillText.offsetX,fillText.offsetY);
-			VirtArenaControl.Graphics.ctx.strokeStyle = "#999";
-			VirtArenaControl.Graphics.ctx.lineWidth = 1;
-			VirtArenaControl.Graphics.ctx.strokeText(fillText.text,fillText.x,fillText.y);
+			if(this.unitArt) {
+				var spritesheet = VirtArenaControl.Images.spritesheet;
+				VirtArenaControl.Graphics.ctx.drawImage(
+					spritesheet.image,this.unitArt.x+(this.animationFrame*spritesheet.cellWidth),this.unitArt.y+(this.direction*spritesheet.cellHeight),spritesheet.cellWidth,spritesheet.cellHeight,
+					this.tile.x,this.tile.y,spritesheet.cellWidth,spritesheet.cellHeight);
+			} else {
+				VirtArenaControl.Graphics.fillTextWithShadow(fillText.text,fillText.x,fillText.y,fillText.color,fillText.blur,fillText.offsetX,fillText.offsetY);
+				VirtArenaControl.Graphics.ctx.strokeStyle = "#999";
+				VirtArenaControl.Graphics.ctx.lineWidth = 1;
+				VirtArenaControl.Graphics.ctx.strokeText(fillText.text,fillText.x,fillText.y);
+			}
 		} else {
 			VirtArenaControl.Graphics.ctx.textAlign = "center";
 			VirtArenaControl.Graphics.ctx.font = this.font;
@@ -130,10 +144,17 @@ function Unit(){
 				offsetX:0,
 				offsetY:1
 			}
-			VirtArenaControl.Graphics.fillTextWithShadow(fillText.text,fillText.x,fillText.y,fillText.color,fillText.blur,fillText.offsetX,fillText.offsetY);
-			VirtArenaControl.Graphics.ctx.strokeStyle = "#999";
-			VirtArenaControl.Graphics.ctx.lineWidth = 1;
-			VirtArenaControl.Graphics.ctx.strokeText(fillText.text,fillText.x,fillText.y);
+			if(this.unitArt) {
+				var spritesheet = VirtArenaControl.Images.spritesheet;
+				VirtArenaControl.Graphics.ctx.drawImage(
+					spritesheet.image,this.unitArt.x+(this.animationFrame*spritesheet.cellWidth),this.unitArt.y+(this.direction*spritesheet.cellHeight),spritesheet.cellWidth,spritesheet.cellHeight,
+					this.tile.x,this.tile.y,spritesheet.cellWidth,spritesheet.cellHeight);
+			} else {
+				VirtArenaControl.Graphics.fillTextWithShadow(fillText.text,fillText.x,fillText.y,fillText.color,fillText.blur,fillText.offsetX,fillText.offsetY);
+				VirtArenaControl.Graphics.ctx.strokeStyle = "#999";
+				VirtArenaControl.Graphics.ctx.lineWidth = 1;
+				VirtArenaControl.Graphics.ctx.strokeText(fillText.text,fillText.x,fillText.y);
+			}
 		}
 
 		if(this.commander){
@@ -146,6 +167,17 @@ function Unit(){
 			VirtArenaControl.Graphics.ctx.textBaseline = 'middle';
 		}
 	};
+
+	this.setDirection = function(direction){
+		switch(direction){
+			case 'left':
+				this.direction = 0;
+				break;
+			case 'right':
+				this.direction = 1;
+				break;
+		}
+	}
 
 	this.setCommander = function(){
 		this.font = "36px Arial";

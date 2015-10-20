@@ -19,6 +19,18 @@
 		if(a.turnStats.speed === b.turnStats.speed && !a.team.hasPriority) return 1;
 	};
 
+	Scripts.sortDescending = function(a,b){
+		if(a > b) return -1; //a before b
+		if(a < b) return 1; //a after b
+		return Math.floor(Math.random()*2-1); //random -1 or 0
+	};
+
+	Scripts.sortStancesDescending = function(a,b){
+		if(a.value > b.value) return -1; //a before b
+		if(a.value < b.value) return 1; //a after b
+		return Math.floor(Math.random()*2); //random 0 or 1
+	};
+
 	Scripts.rollDamageDie = function(){
 		var roll = Math.floor(Math.random()*3); //return 0 1 2
 		var crit = (Math.floor(Math.random()*2) && roll > 0) ? true : false; //return 0 1

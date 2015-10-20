@@ -285,6 +285,7 @@
 		var indexOfCurrentUnit = VirtArenaControl.Units.activationOrder.indexOf(VirtArenaControl.Units.currentUnitActivating);
 		var nextUnitToActivate = VirtArenaControl.Units.activationOrder[indexOfCurrentUnit+1];
 		VirtArenaControl.ObjectController.setUnitActivating(nextUnitToActivate);
+		VirtArenaControl.ObjectController.selectUnit(nextUnitToActivate);
 		VirtArenaControl.TurnController.delayPhaseChange();
 	};
 

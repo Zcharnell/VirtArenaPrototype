@@ -2,8 +2,9 @@ function Arturius(){
 	this.setStartingVars();
 
 	this.name = 'Arturius';
-	this.virtType = 'Arturius';
-	this.virtClassType = 'Commander';
+	this.unitType = 'Arturius';
+	this.unitClass = 'Commander';
+	this.unitArt = VirtArenaControl.Images.arturiusUnitArt;
 	this.HP = 200;
 	this.totalHP = 200;
 	this.energy = 90;
@@ -84,7 +85,7 @@ function Arturius(){
 			this.penetrationNextTurn = false;
 			console.log('Pre-emptive Strike Stance 3: +20 Penetration next attack');
 		}
-		console.log('Virt Type ' + this.virtType + ' special values from stances/weapon/etc added to stat values.');
+		console.log('Unit Type ' + this.unitType + ' special values from stances/weapon/etc added to stat values.');
 	}
 }
 

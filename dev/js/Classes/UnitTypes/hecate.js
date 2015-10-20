@@ -2,8 +2,8 @@ function Hecate(){
 	this.setStartingVars();
 
 	this.name = 'Hecate';
-	this.virtType = 'Hecate';
-	this.virtClassType = 'Companion';
+	this.unitType = 'Hecate';
+	this.unitClass = 'Companion';
 	this.HP = 80;
 	this.totalHP = 80;
 	this.energy = 60;

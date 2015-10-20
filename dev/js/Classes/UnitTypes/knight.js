@@ -2,8 +2,8 @@ function Knight(){
 	this.setStartingVars();
 
 	this.name = 'Knight';
-	this.virtType = 'Knight';
-	this.virtClassType = 'Companion';
+	this.unitType = 'Knight';
+	this.unitClass = 'Companion';
 	this.HP = 120;
 	this.totalHP = 120;
 	this.energy = 60;
