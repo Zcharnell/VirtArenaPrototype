@@ -75,7 +75,7 @@
 		}
 
 		tilesInMoveRange.sort(function(a,b){
-			return (a.tile.moveCost + a.range) - (b.tile.moveCost - b.range);
+			return (b.tile.moveCost + b.range) - (a.tile.moveCost - a.range);
 		});
 
 		console.log('tilesInMoveRange',tilesInMoveRange);
