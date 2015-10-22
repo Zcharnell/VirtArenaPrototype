@@ -4,6 +4,7 @@
 		//get the path between the virt and the selected tile (from tiles.js)
 		//check if the movement cost of the end tile is greater than the virt's movement
 		VirtArenaControl.ObjectController.path = VirtArenaControl.ObjectController.findMovementPath(unit,endTile);
+		console.log(unit,endTile,VirtArenaControl.ObjectController.path);
 
 		if(endTile.moveCost <= unit.turnStats.move){
 			VirtArenaControl.ObjectController.stepMovement(unit,VirtArenaControl.ObjectController.path);
@@ -35,6 +36,7 @@
 
 		var path = [];
 		var step = endTile;
+		console.log(endTile);
 		while(step != initialTile && error < 100){
 			error++;
 			path.unshift(step);
@@ -62,6 +64,7 @@
 		var initialTile = unit.tile;
 		var tiles = VirtArenaControl.Board.tiles;
 		var openTiles = [];
+		var blockedTiles = [];
 		var closedTiles = [];
 		var moveCost = 1;
 
@@ -71,6 +74,10 @@
 				tiles[index].parentTile = initialTile;
 				tiles[index].moveCost = moveCost;
 				openTiles.push(tiles[index]);
+			} else {
+				tiles[index].parentTile = initialTile;
+				tiles[index].moveCost = moveCost;
+				blockedTiles.push(tiles[index]);
 			}
 		}
 		var error = 0;
@@ -90,6 +97,16 @@
 					} else if(indexInOpenTiles != -1 && openTiles[indexInOpenTiles].moveCost > nextMoveCost){
 						openTiles[indexInOpenTiles].parentTile = openTiles[i];
 						openTiles[indexInOpenTiles].moveCost = nextMoveCost;
+					} else if(!tiles[index].isOpen()) {
+						if(blockedTiles.indexOf(tiles[index]) === -1){
+							tiles[index].parentTile = openTiles[i];
+							tiles[index].moveCost = nextMoveCost;
+							blockedTiles.push(tiles[index]);
+						} else if(tiles[index].moveCost > nextMoveCost){
+							tiles[index].parentTile = openTiles[i];
+							tiles[index].moveCost = nextMoveCost;
+						}
+
 					}
 				}
 				closedTiles.push(openTiles[i]);

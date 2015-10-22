@@ -43,7 +43,7 @@
 				tiles[i].drawHighlightForAction();
 			}
 
-			// tiles[i].drawIndex(i);
+			tiles[i].drawIndex();
 		}
 	}
 

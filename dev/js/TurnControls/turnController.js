@@ -302,6 +302,9 @@
 		if(VirtArenaControl.Units.currentUnitActivating.turnStats.move === 0){
 			VirtArenaControl.TurnController.delayPhaseChange();
 		}
+		if(VirtArenaControl.Units.currentUnitActivating.team.name === "redTeam"){
+			VirtArenaControl.AI.Scripts.aiActivationControl(VirtArenaControl.Units.currentUnitActivating);
+		}
 	};
 
 	VirtArenaControl.TurnController.unitActivation.attackSubphase = function(){

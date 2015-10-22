@@ -25,16 +25,14 @@ function Tile(row,column,dimensions){
 		VirtArenaControl.Graphics.ctx.fillRect(this.x,this.y,this.width,this.height);
 		VirtArenaControl.Graphics.ctx.strokeRect(this.x,this.y,this.width,this.height);
 	};
-	this.drawIndex = function(index){
+	this.drawIndex = function(){
 		VirtArenaControl.Graphics.ctx.font = '10px Arial';
 		// if(this.hover) 
 		// 		VirtArenaControl.Graphics.ctx.fillStyle = 'black';
 		// else 
-			VirtArenaControl.Graphics.ctx.fillStyle = 'white';
-
-		if(index >= 0){
-			VirtArenaControl.Graphics.ctx.fillText(index,this.x,this.y + this.height/3);
-		}
+		VirtArenaControl.Graphics.ctx.fillStyle = 'white';
+		VirtArenaControl.Graphics.ctx.fillText(this.row + ',' + this.column,this.x,this.y + this.height/3);
+		
 	};
 	this.drawPath = function(){
 		VirtArenaControl.Graphics.ctx.textAlign = "left";

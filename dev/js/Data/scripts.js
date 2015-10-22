@@ -25,6 +25,12 @@
 		return Math.floor(Math.random()*2-1); //random -1 or 0
 	};
 
+	Scripts.sortAscending = function(a,b){
+		if(a < b) return -1; //a before b
+		if(a > b) return 1; //a after b
+		return Math.floor(Math.random()*2-1); //random -1 or 0
+	};
+
 	Scripts.sortStancesDescending = function(a,b){
 		if(a.value > b.value) return -1; //a before b
 		if(a.value < b.value) return 1; //a after b
@@ -39,6 +45,71 @@
 			crit:crit
 		}
 		return dieRoll;
+	};
+
+	Scripts.getMoveRangeBetweenTiles = function(startTile,endTile){
+		var tiles = VirtArenaControl.Board.tiles;
+		var openTiles = [];
+		var closedTiles = [];
+		var blockedTiles = [];
+		var tempRange = 1;
+		// console.log(startTile,endTile);
+
+		for(var i in startTile.adjacentTiles){
+			var index = startTile.adjacentTiles[i];
+			if(tiles[index].isOpen()){
+				tiles[index].tempParentTile = startTile;
+				tiles[index].tempRange = tempRange;
+				openTiles.push(tiles[index]);
+			} else {
+				tiles[index].tempParentTile = startTile;
+				tiles[index].tempRange = tempRange;
+				blockedTiles.push(tiles[index]);
+			}
+		}
+		var error = 0;
+
+		while(error < 1000 && openTiles.length > 0) {
+			error++;
+
+			for(var i=0; i<openTiles.length; i++){
+				var nextTempRange = openTiles[i].tempRange + 1;
+				for(var j in openTiles[i].adjacentTiles){
+					var index = openTiles[i].adjacentTiles[j];
+					var indexInOpenTiles = openTiles.indexOf(tiles[index]);
+					if(indexInOpenTiles === -1 && tiles[index].isOpen()){
+						tiles[index].tempParentTile = openTiles[i];
+						tiles[index].tempRange = nextTempRange;
+						openTiles.push(tiles[index]);
+					} else if(indexInOpenTiles != -1 && openTiles[indexInOpenTiles].tempRange > nextTempRange){
+						openTiles[indexInOpenTiles].tempParentTile = openTiles[i];
+						openTiles[indexInOpenTiles].tempRange = nextTempRange;
+					} else if(!tiles[index].isOpen()) {
+						if(blockedTiles.indexOf(tiles[index]) === -1){
+							tiles[index].tempParentTile = openTiles[i];
+							tiles[index].tempRange = nextTempRange;
+							blockedTiles.push(tiles[index]);
+						} else if(tiles[index].tempRange > nextTempRange){
+							tiles[index].tempParentTile = openTiles[i];
+							tiles[index].tempRange = nextTempRange;
+						}
+
+					}
+				}
+				closedTiles.push(openTiles[i]);
+			}
+
+			for(var i=0; i<closedTiles.length; i++){
+				var index = openTiles.indexOf(closedTiles[i]);
+				if(index != -1){
+					openTiles.splice(index,1);
+				}
+			}
+		}
+
+		// console.log(endTile.tempRange);
+		var rangeToEndTile = endTile.tempRange;
+		return rangeToEndTile;
 	};
 
 	// Scripts.setFontSizeToFit = function(text,font,width){

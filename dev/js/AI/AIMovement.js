@@ -1,18 +1,43 @@
 (function(){
 	
-	////////////////////////////////////////////////////////////
+	 ///////////////////////////////////////////////////////////
 	//AI Movement
-	VirtArenaControl.AI.Scripts.determineAIMovement = function(aiUnit){
-		VirtArenaControl.ObjectController.setTileMoveCosts(aiUnit);
-		VirtArenaControl.ObjectController.setTileRangeForWeapons(aiUnit);
-		var enemyTeam = {
-			team: VirtArenaControl.AI.Scripts.getEnemyTeam(aiUnit)
-		};
-		enemyTeam.units = enemyTeam.team.units;
-		enemyTeam.unitDistances = VirtArenaControl.AI.Scripts.getMoveDistanceFromUnits(aiUnit,enemyTeam.units);
+
+	// VirtArenaControl.AI.Scripts.performAIMovement = function(aiUnit){
+	// 	 ///////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\
+	// 	////// Determine movement reason and target \\\\\\\
+	// 	var movementObj = VirtArenaControl.AI.Scripts.determineAIMovement(aiUnit);
+	// 	var target = movementObj.closestUnit;
+	// 	var state = movementObj.state;
+
+	// 	///////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\
+	// 	//////       Call movement function        \\\\\\\
+
+	// };
+
+	// VirtArenaControl.AI.Scripts.determineAIMovement = function(aiUnit){
+	// 	VirtArenaControl.ObjectController.setTileMoveCosts(aiUnit);
+	// 	VirtArenaControl.ObjectController.setTileRangeForWeapons(aiUnit);
+	// 	var enemyTeam = {
+	// 		team: VirtArenaControl.AI.Scripts.getEnemyTeam(aiUnit)
+	// 	};
+	// 	enemyTeam.units = enemyTeam.team.units;
+	// 	enemyTeam.unitDistances = VirtArenaControl.AI.Scripts.getMoveDistanceFromUnits(aiUnit,enemyTeam.units);
 		
-		var closestUnit = enemyTeam.unitDistances[0];
-	};
+	// 	//figure out what the unit should be doing
+	// 	//=====  CODE FOR SETTING UNIT STATE  =====//
+	// 	var state = "attackClosest";
+
+	// 	//===== CODE FOR THE RESULTING ACTION =====//
+	// 	//move towards the closest unit
+	// 	var closestUnit = enemyTeam.unitDistances[0];
+
+	// 	var aiMovementObj = {
+	// 		target:closestUnit,
+	// 		state:state
+	// 	};
+	// 	return aiMovementObj;
+	// };
 
 
 
