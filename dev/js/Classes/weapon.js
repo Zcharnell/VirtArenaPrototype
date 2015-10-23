@@ -53,5 +53,13 @@ function Weapon(initVars){
 		}
 		return returnString;
 	}
+
+	this.getPotentialPower = function(user,target){
+		var power = this.power + user.turnStats.power;
+		power -= target.turnStats.defense;
+		//check impact
+		//check penetration, etc
+		return power;
+	}
 }
 

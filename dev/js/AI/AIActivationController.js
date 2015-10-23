@@ -18,15 +18,25 @@
 		 ///////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\
 		/////////        Determine state         \\\\\\\\\\
 		aiObj.state = VirtArenaControl.AI.Scripts.determineAIState(aiUnit,enemyTeam);
+		aiUnit.ai.state = aiObj.state;
 
 		 ///////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\
 		//////   Determine target unit & tile    \\\\\\\\\\
 		aiObj.targets = VirtArenaControl.AI.Scripts.determineAITargetTile(aiUnit,enemyTeam,aiObj);
+		aiUnit.ai.targetUnit = aiObj.targets.unit.unit;
+		aiUnit.ai.targetTile = aiObj.targets.tile;
 
 		 ///////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\
 		//////       Call movement function        \\\\\\\\
-		console.log('targetTile',aiObj.targets.tile);
-		VirtArenaControl.ObjectController.unitMovement(aiUnit,aiObj.targets.tile);
+		if(VirtArenaControl.TurnController.currentSubphase === 'movementSubphase') {
+			// console.log('targetTile',aiObj.targets.tile);
+			VirtArenaControl.AI.Scripts.moveAI(aiUnit);
+		} else if(VirtArenaControl.TurnController.currentSubphase === 'attackSubphase') {
+			VirtArenaControl.AI.Scripts.setWeaponAndTarget(aiUnit);
+			setTimeout(function(){
+				VirtArenaControl.AI.Scripts.attackWithAI(aiUnit);
+			},VirtArenaControl.TurnController.phaseChangeDelay);
+		}
 	};
 
 	VirtArenaControl.AI.Scripts.determineAIState = function(aiUnit,enemyTeam){
@@ -48,8 +58,28 @@
 		return {unit:closestUnit,tile:tile};
 	};
 
-	VirtArenaControl.AI.Scripts.determineAITargetMovementTile = function(aiUnit){
-		
+	VirtArenaControl.AI.Scripts.moveAI = function(aiUnit){
+		VirtArenaControl.ObjectController.unitMovement(aiUnit,aiUnit.ai.targetTile,'ai');
+	};
+
+	VirtArenaControl.AI.Scripts.setWeaponAndTarget = function(aiUnit){
+		//determine which units are in range of each weapon
+		var unitsInRange = VirtArenaControl.AI.Scripts.findUnitsInRangeOfWeapons(aiUnit);
+		//select weapon and attack target
+		var preferredTarget = "mostVulnerable";
+		var select = VirtArenaControl.AI.Scripts.selectTarget(aiUnit,unitsInRange,preferredTarget);
+		aiUnit.ai.targetUnit = select.unit;
+		VirtArenaControl.ObjectController.selectWeapon(aiUnit,select.weapon);
+	};
+
+	VirtArenaControl.AI.Scripts.attackWithAI = function(aiUnit){
+		VirtArenaControl.ObjectController.unitAttackSelectTarget(aiUnit,aiUnit.ai.targetUnit);
+		//other team can play cards or pass
+		setTimeout(function(){
+			var unitAttacking = VirtArenaControl.TurnController.currentAction.user;
+			var unitTarget = VirtArenaControl.TurnController.currentAction.target;
+			VirtArenaControl.ObjectController.unitAttackTarget(unitAttacking,unitTarget);
+		},VirtArenaControl.TurnController.phaseChangeDelay);
 	};
 
 

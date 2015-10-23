@@ -39,6 +39,9 @@
 			if(tiles[i].targetFor === "attack") {
 				tiles[i].drawHighlightForAttack();
 			}
+			if(tiles[i].targetFor === "attackConfirm") {
+				tiles[i].drawHighlightForAttackConfirm();
+			}
 			if(tiles[i].targetFor === "action") {
 				tiles[i].drawHighlightForAction();
 			}

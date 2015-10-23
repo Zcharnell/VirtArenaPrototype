@@ -56,7 +56,10 @@ function Tile(row,column,dimensions){
 		this.drawHighlight("rgba(50,255,50,0.5)");
 	};
 	this.drawHighlightForAttack = function(){
-		this.drawHighlight("rgba(255,50,50,0.5)");
+		this.drawHighlight("rgba(255,50,50,0.4)");
+	};
+	this.drawHighlightForAttackConfirm = function(){
+		this.drawHighlight("rgba(255,50,50,0.7)");
 	};
 	this.drawHighlightForAction = function(){
 		this.drawHighlight("rgba(50,50,255,0.5)");

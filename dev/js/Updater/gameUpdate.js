@@ -125,9 +125,16 @@
 				&& tiles[i].rangeForWeapon <= VirtArenaControl.Units.currentUnitActivating.getWeaponRange()
 				&& tiles[i].unit 
 				&& tiles[i].unit.team != VirtArenaControl.Units.selectedUnit.team 
-				&& VirtArenaControl.TurnController.currentSubphase === 'attackSubphase') {
+				&& VirtArenaControl.TurnController.currentSubphase === 'attackSubphase'
+				&& VirtArenaControl.TurnController.currentAction.action != 'attack') {
 
 				tiles[i].targetFor = "attack";
+
+			} else if(VirtArenaControl.TurnController.currentSubphase === 'attackSubphase' 
+				&& VirtArenaControl.TurnController.currentAction.action === 'attack' 
+				&& tiles[i].unit == VirtArenaControl.TurnController.currentAction.target) {
+
+				tiles[i].targetFor = "attackConfirm";
 
 			} else if(VirtArenaControl.TurnController.currentSubphase === "movementSubphase" 
 				&& VirtArenaControl.ObjectController.path.length === 0

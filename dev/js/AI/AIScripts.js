@@ -26,13 +26,13 @@
 		moveDistance.sort(function(a,b){
 			return Scripts.sortAscending(a.moveDistance,b.moveDistance);
 		});
-		console.log(moveDistance);
+		// console.log(moveDistance);
 		return moveDistance;
 	};
 
 	VirtArenaControl.AI.Scripts.findClosestTileInMoveRange = function(unit,targetTile){
 		var tiles = VirtArenaControl.Board.tiles;
-		console.log(targetTile);
+		console.log('targetTile ',targetTile);
 		var adjacentTilesInRange = VirtArenaControl.AI.Scripts.getAdjacentTilesInRange(unit,targetTile);
 		if(adjacentTilesInRange.length > 0){
 			return adjacentTilesInRange[0];
@@ -41,7 +41,10 @@
 		//if no adjacent tiles in range, find next best tile
 		//get tile closest to the target tile
 		var tilesClosestToTarget = VirtArenaControl.AI.Scripts.getTilesClosestToTargetInRange(unit,targetTile);
-		return tilesClosestToTarget[0].tile;
+		if(tilesClosestToTarget[0]){
+			return tilesClosestToTarget[0].tile;
+		}
+		return null;
 	};
 
 	VirtArenaControl.AI.Scripts.getAdjacentTilesInRange = function(unit,targetTile){
@@ -59,7 +62,7 @@
 			return Scripts.sortAscending(a.moveCost,b.moveCost);
 		});
 
-		console.log('adjacentTiles',adjacentTiles);
+		// console.log('adjacentTiles',adjacentTiles);
 		return adjacentTiles;
 	};
 
@@ -84,7 +87,56 @@
 			return rangeDifference;
 		});
 
-		console.log('tilesInMoveRange',tilesInMoveRange);
+		// console.log('tilesInMoveRange',tilesInMoveRange);
 		return tilesInMoveRange;
 	};
+
+	VirtArenaControl.AI.Scripts.findUnitsInRangeOfWeapons = function(aiUnit){
+		var units = VirtArenaControl.Units.units;
+		var weaponsKeys = Object.keys(aiUnit.weapons);
+		var unitsInRange = [];
+		for(var i in weaponsKeys){
+			var unitsInRange = VirtArenaControl.AI.Scripts.orderUnitsInRange(aiUnit,aiUnit.weapons[weaponsKeys[i]]);
+			for(var j in unitsInRange){
+				unitsInRange[j] = {unit:unitsInRange[j],weapon:aiUnit.weapons[weaponsKeys[i]]};
+			}
+		}
+
+		return unitsInRange;
+		//based on state, find target
+		//default: find lowest health target, and always prefer using the melee weapon if it has one
+	};
+
+	VirtArenaControl.AI.Scripts.orderUnitsInRange = function(aiUnit,weapon){
+		var unitsInRange = VirtArenaControl.ObjectController.getUnitsInRange(aiUnit,weapon);
+
+		unitsInRange.sort(function(a,b){
+			return a.hp - b.hp; //lowest health first
+		});
+
+		return unitsInRange;
+	};
+
+
+	VirtArenaControl.AI.Scripts.selectTarget = function(aiUnit,units,preferredTarget){
+		var targets = [];
+		if(preferredTarget === "mostVulnerable"){
+			targets = VirtArenaControl.AI.Scripts.orderTargetUnitsByDamage(aiUnit,units);
+			return {unit:targets[0].unit,weapon:targets[0].weapon};
+		}
+	};
+
+	VirtArenaControl.AI.Scripts.orderTargetUnitsByDamage = function(aiUnit,units){
+		units.sort(function(a,b){
+			//check how much damage can be done, and how much health the target has
+			//this should take into account impact, penetration, etc
+			//sort descending
+			var aPower = a.weapon.getPotentialPower(aiUnit,a.unit);
+			var bPower = b.weapon.getPotentialPower(aiUnit,b.unit);
+			var difference = (bPower) - (aPower);
+			return difference;
+		});
+		return units;
+	};
+
 })();

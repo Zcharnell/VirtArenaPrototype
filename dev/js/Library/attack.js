@@ -12,8 +12,7 @@
 			if(!outOfRange) hasWeaponInRange = true;
 		}
 
-		if(!hasWeaponInRange) VirtArenaControl.ObjectController.endAttackSubphase();
-
+		return hasWeaponInRange;
 	};
 
 	VirtArenaControl.ObjectController.selectWeapon = function(unit,weapon){
@@ -65,11 +64,15 @@
 	};
 	
 	VirtArenaControl.ObjectController.unitAttackSelectTarget = function(unitAttacking,unitTarget){
-		if(unitTarget.tile.rangeForWeapon > unitAttacking.getWeaponRange()){
+		var range = unitTarget.tile.rangeForWeapon;
+		if(range > unitAttacking.getWeaponRange()){
 			console.log('OUTOFRANGE: ' + unitTarget.name, tile);
 		} else {
 			console.log('Attack!');
-			VirtArenaControl.TurnController.setCurrentAction("attack",{unit:unitAttacking,targetUnit:unitTarget});
+			VirtArenaControl.Buttons.removeButton('selectWeapon');
+			//set current action to attack, then wait for cards to be played on the unit to be clicked again
+			VirtArenaControl.TurnController.setCurrentAction('attack',{attackingUnit:unitAttacking,targetUnit:unitTarget,range:range});
+			// VirtArenaControl.ObjectController.unitAttackTarget(unitAttacking,unitTarget);
 		}
 	};
 
@@ -83,6 +86,7 @@
 
 	VirtArenaControl.ObjectController.endAttackSubphase = function(){
 		VirtArenaControl.Buttons.removeButton('selectWeapon');
+		VirtArenaControl.TurnController.resetCurrentAction();
 		VirtArenaControl.TurnController.delayPhaseChange();
 	};
 

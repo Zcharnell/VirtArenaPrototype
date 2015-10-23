@@ -43,6 +43,9 @@ function Unit(){
 		this.capacity = 0;
 		this.supply = 0;
 
+		//for ai units
+		this.ai = {};
+
 		//Knights Challenge (Lancer)
 		// this.knightChallenger = '';
 		// this.knightChallengeTurn = 0;
@@ -252,6 +255,7 @@ function Unit(){
 		var impact = this.weaponSelected.impact;
 
 		var obj = {
+			weapon: this.weaponSelected,
 			damage: diceRolls.damage,
 			critDamage: diceRolls.critDamage,
 			damageDice: diceRolls.damageDice,
@@ -305,9 +309,8 @@ function Unit(){
 		var penetration = obj.penetration;
 		var impact = obj.impact;
 
-		var tempDefense = this.turnStats.defense;
-		console.log(obj);
-		console.log(tempDefense);
+		var tempDefense = this.turnStats.defense;		
+		console.log('Attack: ',obj.weapon,obj,' Defense: ',tempDefense);
 		this.previousHP = this.HP;
 		
 		// if(damage > maxDamage){

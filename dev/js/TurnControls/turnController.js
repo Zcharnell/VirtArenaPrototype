@@ -117,6 +117,16 @@
 		},
 		setCurrentAction: function(action,misc){
 			switch(action){
+				case 'attack':
+					this.currentAction = {
+						action:action,
+						user:misc.attackingUnit,
+						target:misc.targetUnit,
+						range:misc.range
+						// misc:{team:misc.team,companion:misc.companion},
+						// card:misc.card
+					};
+					break;
 				case 'spawnCompanion':
 					this.currentAction = {
 						action:action,
@@ -139,6 +149,23 @@
 				misc:{},
 				card:''
 			}
+		},
+		endPhaseEarly: function(){
+			switch(this.currentPhase){
+				case 'unitActivation':
+					switch(this.currentSubphase){
+						case 'attackSubphase':
+							VirtArenaControl.ObjectController.endAttackSubphase();
+							break;
+						default:
+							this.nextPhase();
+							break;
+					}
+					break;
+				default:
+					this.nextPhase();
+					break;
+			}
 		}
 	};
 
@@ -160,8 +187,8 @@
 			VirtArenaControl.TurnController.gameStarter.nextPhase();
 		},
 		setupTeams: function(){
-			VirtArenaControl.Units.teams.blueTeam = new Team('blueTeam','blue');
-			VirtArenaControl.Units.teams.redTeam = new Team('redTeam','red');
+			VirtArenaControl.Units.teams.blueTeam = new Team('blueTeam','blue','player');
+			VirtArenaControl.Units.teams.redTeam = new Team('redTeam','red','ai');
 		},
 		selectPlayerVirt: function(){
 			console.log('Select Player Virt');
@@ -301,9 +328,10 @@
 		VirtArenaControl.ObjectController.setTileMoveCosts(VirtArenaControl.Units.currentUnitActivating);
 		if(VirtArenaControl.Units.currentUnitActivating.turnStats.move === 0){
 			VirtArenaControl.TurnController.delayPhaseChange();
-		}
-		if(VirtArenaControl.Units.currentUnitActivating.team.name === "redTeam"){
-			VirtArenaControl.AI.Scripts.aiActivationControl(VirtArenaControl.Units.currentUnitActivating);
+		} else {
+			if(VirtArenaControl.Units.currentUnitActivating.team.aiTeam){
+				VirtArenaControl.AI.Scripts.aiActivationControl(VirtArenaControl.Units.currentUnitActivating);
+			}
 		}
 	};
 
@@ -311,7 +339,14 @@
 		//select weapon and show possible targets
 		console.log('\tsubPHASE: attackSubphase - ' + VirtArenaControl.Units.currentUnitActivating.name);
 		VirtArenaControl.ObjectController.setTileRangeForWeapons(VirtArenaControl.Units.currentUnitActivating);
-		VirtArenaControl.ObjectController.checkUsableWeapons(VirtArenaControl.Units.currentUnitActivating);
+		var usableWeapons = VirtArenaControl.ObjectController.checkUsableWeapons(VirtArenaControl.Units.currentUnitActivating);
+		if(!usableWeapons){
+			VirtArenaControl.ObjectController.endAttackSubphase();
+		} else {
+			if(VirtArenaControl.Units.currentUnitActivating.team.aiTeam){
+				VirtArenaControl.AI.Scripts.aiActivationControl(VirtArenaControl.Units.currentUnitActivating);
+			}
+		}
 		// VirtArenaControl.TurnController.delayPhaseChange();
 	};
 

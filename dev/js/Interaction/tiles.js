@@ -13,6 +13,12 @@
 			var unit = VirtArenaControl.Units.selectedUnit;
 			VirtArenaControl.ObjectController.unitAttackSelectTarget(unit,this.unit);
 
+		} else if(this.targetFor === "attackConfirm"){
+
+			var unitAttacking = VirtArenaControl.TurnController.currentAction.user;
+			var unitTarget = VirtArenaControl.TurnController.currentAction.target;
+			VirtArenaControl.ObjectController.unitAttackTarget(unitAttacking,unitTarget);
+
 		} else if(this.targetFor === "movement"
 			&& VirtArenaControl.Units.selectedUnit.id === VirtArenaControl.Units.currentUnitActivating.id){
 

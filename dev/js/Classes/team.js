@@ -1,12 +1,14 @@
 
 	
-function Team(name,color){
+function Team(name,color,playerType){
 	this.name = name;
 	this.color = color;
 	this.units = [];
 	this.commander = {};
 	this.hasPriority = false;
 	this.deck = '';
+	this.aiTeam = (playerType === 'ai') ? true : false;
+	console.log(this.aiTeam);
 
 	this.addUnit = function(unit){
 		unit.team = this;

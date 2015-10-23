@@ -83,14 +83,11 @@
 		obj.height = 40;
 		obj.x = VirtArenaControl.Board.x + VirtArenaControl.Board.width - obj.width - 20;
 		obj.y = VirtArenaControl.Board.y + VirtArenaControl.Board.height/2 - obj.height;
-		obj.onClick = function(){VirtArenaControl.TurnController.nextPhase()};
+		obj.onClick = function(){VirtArenaControl.TurnController.endPhaseEarly()};
 		obj.disabled = false;
 		obj.update = function(){
 			this.x = VirtArenaControl.Board.x + VirtArenaControl.Board.width - this.width - 20;
 			this.y = VirtArenaControl.Board.y + VirtArenaControl.Board.height/2 - this.height;
-			// console.log(this.x,this.y);
-
-			// if(VirtArenaControl.TurnController.currentSubphase)
 		}
 		return obj;
 	};
