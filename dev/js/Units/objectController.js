@@ -2,6 +2,7 @@
 	VirtArenaControl.ObjectController = {
 		movementStepDelay:350,
 		path:[],
+		unitMoving:false,
 		setUnitTile: function(unit,tile){
 			var oldTile = unit.tile;
 			unit.tile = tile;

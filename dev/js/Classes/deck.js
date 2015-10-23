@@ -410,7 +410,7 @@ Deck.prototype.drawCardsPhase = function(){
 
 Deck.prototype.updateCards = function(){
 	for(var i in this.cardsInHand){
-		this.cardsInHand[i].update({index:i,cardsInHand:this.cardsInHand.length});
+		this.cardsInHand[i].update({index:i,cardsInHand:this.cardsInHand.length,oddLength:this.cardsInHand.length%2});
 	}
 }
 

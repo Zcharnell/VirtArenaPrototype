@@ -3,6 +3,7 @@
 	VirtArenaControl.ObjectController.unitMovement = function(unit,endTile,playerType){
 		//get the path between the virt and the selected tile (from tiles.js)
 		//check if the movement cost of the end tile is greater than the virt's movement
+		VirtArenaControl.ObjectController.unitMoving = true;
 		VirtArenaControl.ObjectController.path = VirtArenaControl.ObjectController.findMovementPath(unit,endTile);
 		// console.log(unit,endTile,VirtArenaControl.ObjectController.path);
 
@@ -56,8 +57,13 @@
 				VirtArenaControl.ObjectController.stepMovement(unit,path);
 			},this.movementStepDelay);
 		} else if(playerType === 'ai' || unit.turnStats.move === 0){
-			VirtArenaControl.TurnController.delayPhaseChange(500);
+			VirtArenaControl.ObjectController.endMovement();
 		}
+	};
+
+	VirtArenaControl.ObjectController.endMovement = function(){
+		VirtArenaControl.ObjectController.unitMoving = false;
+		VirtArenaControl.TurnController.delayPhaseChange(500);
 	};
 
 	VirtArenaControl.ObjectController.setTileMoveCosts = function(unit){

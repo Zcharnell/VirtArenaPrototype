@@ -37,6 +37,7 @@
 			card:''
 		},
 		phaseChangeDelay:500,
+		delayingPhaseChange:false,
 		startTurn: function(){
 			// this.currentPhase = this.turnOrder[0];
 			this.nextPhase();
@@ -90,9 +91,11 @@
 		},
 		delayPhaseChange: function(delay){
 			//call the next phase after a delay
-			var delay = delay || this.phaseChangeDelay;
+			var delay = delay || VirtArenaControl.TurnController.phaseChangeDelay;
+			VirtArenaControl.TurnController.delayingPhaseChange = true;
 			setTimeout(function(){
 				VirtArenaControl.TurnController.nextPhase();
+				VirtArenaControl.TurnController.delayingPhaseChange = false;
 			},delay);
 		},
 		selectVirtPhase: function(team){
@@ -151,20 +154,25 @@
 			}
 		},
 		endPhaseEarly: function(){
-			switch(this.currentPhase){
-				case 'unitActivation':
-					switch(this.currentSubphase){
-						case 'attackSubphase':
-							VirtArenaControl.ObjectController.endAttackSubphase();
-							break;
-						default:
-							this.nextPhase();
-							break;
-					}
-					break;
-				default:
-					this.nextPhase();
-					break;
+			if(!this.delayingPhaseChange){
+				switch(this.currentPhase){
+					case 'unitActivation':
+						switch(this.currentSubphase){
+							case 'movementSubphase':
+								VirtArenaControl.ObjectController.endMovement();
+								break;
+							case 'attackSubphase':
+								VirtArenaControl.ObjectController.endAttackSubphase();
+								break;
+							default:
+								this.nextPhase();
+								break;
+						}
+						break;
+					default:
+						this.nextPhase();
+						break;
+				}
 			}
 		}
 	};
