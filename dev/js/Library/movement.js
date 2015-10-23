@@ -58,6 +58,8 @@
 			},this.movementStepDelay);
 		} else if(playerType === 'ai' || unit.turnStats.move === 0){
 			VirtArenaControl.ObjectController.endMovement();
+		} else {
+			VirtArenaControl.ObjectController.unitMoving = false;
 		}
 	};
 

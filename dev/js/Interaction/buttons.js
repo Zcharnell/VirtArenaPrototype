@@ -88,8 +88,11 @@
 		obj.update = function(){
 			this.x = VirtArenaControl.Board.x + VirtArenaControl.Board.width - this.width - 20;
 			this.y = VirtArenaControl.Board.y + VirtArenaControl.Board.height/2 - this.height;
-			this.disabled = (VirtArenaControl.TurnController.delayingPhaseChange || VirtArenaControl.ObjectController.unitMoving
-							|| VirtArenaControl.TurnController.currentPhase != "unitActivation") ? true : false;
+			this.disabled = (VirtArenaControl.TurnController.delayingPhaseChange == true 
+				|| VirtArenaControl.ObjectController.unitMoving == true
+				|| VirtArenaControl.TurnController.currentPhase != "unitActivation"
+				|| VirtArenaControl.TurnController.currentSubphase == "nextUnitActivation"
+				|| VirtArenaControl.TurnController.currentSubphase == "endActivation") ? true : false;
 		}
 		return obj;
 	};
