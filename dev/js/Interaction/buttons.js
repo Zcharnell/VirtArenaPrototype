@@ -1,9 +1,11 @@
 (function(){
-	VirtArenaControl.Buttons.buttonsToDraw = ['startGame'];
+	VirtArenaControl.Buttons.buttonsToDraw = ['startGame','endPhase'];
 	VirtArenaControl.Buttons.startGame = new Button();
+	VirtArenaControl.Buttons.endPhase = new Button();
 
 	VirtArenaControl.Buttons.init = function(){
 		this.startGame.init(startGameInit());
+		this.endPhase.init(endPhaseInit());
 	};
 
 	VirtArenaControl.Buttons.addButton = function(buttonType,misc){
@@ -52,7 +54,9 @@
 
 		for(var i in buttonsToRemove){
 			var index = this.buttonsToDraw.indexOf(buttonsToRemove[i]);
-			this.buttonsToDraw.splice(index,1);
+			if(index >= 0){
+				this.buttonsToDraw.splice(index,1);
+			}
 		}
 	};
 
@@ -64,10 +68,29 @@
 		obj.height = 40;
 		obj.x = VirtArenaControl.Camera.width * 0.5 - obj.width/2;
 		obj.y = VirtArenaControl.Camera.height - 20 - this.height;
-		obj.onClick = VirtArenaControl.TurnController.gameStarter.startGame;
+		obj.onClick = function(){VirtArenaControl.TurnController.gameStarter.startGame()};
 		obj.update = function(){
 			this.x = VirtArenaControl.Camera.width * 0.5 - this.width/2;
 			this.y = VirtArenaControl.Camera.height - 20 - this.height;
+		}
+		return obj;
+	};
+
+	var endPhaseInit = function(){
+		var obj = {};
+		obj.text = 'Continue';
+		obj.width = 100;
+		obj.height = 40;
+		obj.x = VirtArenaControl.Board.x + VirtArenaControl.Board.width - obj.width - 20;
+		obj.y = VirtArenaControl.Board.y + VirtArenaControl.Board.height/2 - obj.height;
+		obj.onClick = function(){VirtArenaControl.TurnController.nextPhase()};
+		obj.disabled = false;
+		obj.update = function(){
+			this.x = VirtArenaControl.Board.x + VirtArenaControl.Board.width - this.width - 20;
+			this.y = VirtArenaControl.Board.y + VirtArenaControl.Board.height/2 - this.height;
+			// console.log(this.x,this.y);
+
+			// if(VirtArenaControl.TurnController.currentSubphase)
 		}
 		return obj;
 	};

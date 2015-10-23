@@ -36,7 +36,7 @@
 			misc:{},
 			card:''
 		},
-		phaseChangeDelay:100,
+		phaseChangeDelay:500,
 		startTurn: function(){
 			// this.currentPhase = this.turnOrder[0];
 			this.nextPhase();

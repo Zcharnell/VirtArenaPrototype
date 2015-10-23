@@ -56,7 +56,7 @@
 		}
 
 		adjacentTiles.sort(function(a,b){
-			return sortAscending(a.moveCost,b.moveCost);
+			return Scripts.sortAscending(a.moveCost,b.moveCost);
 		});
 
 		console.log('adjacentTiles',adjacentTiles);
@@ -75,7 +75,13 @@
 		}
 
 		tilesInMoveRange.sort(function(a,b){
-			return (b.tile.moveCost + b.range) - (a.tile.moveCost - a.range);
+			// return (a.range) - (b.range);
+			var rangeDifference = (a.tile.moveCost + a.range) - (b.tile.moveCost + b.range);
+			if(rangeDifference === 0){
+				rangeDifference = b.tile.moveCost - a.tile.moveCost;
+			}
+
+			return rangeDifference;
 		});
 
 		console.log('tilesInMoveRange',tilesInMoveRange);

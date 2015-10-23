@@ -69,9 +69,7 @@
 			console.log('OUTOFRANGE: ' + unitTarget.name, tile);
 		} else {
 			console.log('Attack!');
-			VirtArenaControl.Buttons.removeButton('selectWeapon');
-			VirtArenaControl.ObjectController.unitAttackTarget(unitAttacking,unitTarget);
-
+			VirtArenaControl.TurnController.setCurrentAction("attack",{unit:unitAttacking,targetUnit:unitTarget});
 		}
 	};
 
