@@ -141,28 +141,40 @@
 				VirtArenaControl.Buttons[buttonName] = new Button();
 
 				var variablesForButton = {
-					text:unit.stances[keys[i]].name,
+					// text:unit.stances[keys[i]].name,
+					text:'',
 					x:-999,
 					y:-999,
-					width:100,
-					height:40,
+					width:20,
+					height:20,
+					radius:10,
+					circle:true,
 					onClick:function(){
 						if(!this.disabled){
 							VirtArenaControl.ObjectController.setUnitStance(this.unit,(parseInt(this.index)+1));
 						}
 					},
 					update:function(){
-						var startX = this.buttonsOfThisType * -(this.width/2) - this.spacing;
+						var startX = (this.buttonsOfThisType%2) ? 
+							-(this.buttonsOfThisType/2 * this.width + this.spacing) :
+							-(this.buttonsOfThisType/2 * this.width + this.spacing/2) ;
 						var dynamicX = startX + (this.index*(this.width+this.spacing));
-						this.x = VirtArenaControl.Camera.width/2 + dynamicX;
-						this.y = VirtArenaControl.Camera.height - this.height - 20 - this.indexInUnitArray*50;
+						var startY = (this.buttonsOfThisType%2) ?
+							Math.abs(((this.buttonsOfThisType-1)/2)-this.index) * -(this.height*0.6) :
+							Math.floor(Math.abs(((this.buttonsOfThisType-1)/2) - this.index)) * -(this.height*0.6) - (this.height*0.2) ;
+						//
+						// var startX = this.buttonsOfThisType * -(this.width/2) - this.spacing;
+						// var dynamicX = startX + (this.index*(this.width+this.spacing));
+						this.x = this.unit.tile.x + this.unit.tile.width/2 + dynamicX;
+						this.y = this.unit.tile.y + this.unit.tile.height + startY;
+						// this.y = VirtArenaControl.Camera.height - this.height - 20 - this.indexInUnitArray*50;
 						if(this.unit.stanceSelected === this.stance) {
 							this.selected = true;
 						} else if(this.selected){
 							this.selected = false;
 						}
 					},
-					spacing:25,
+					spacing:10,
 					index:i,
 					buttonsOfThisType:keys.length,
 					indexInUnitArray:j,
