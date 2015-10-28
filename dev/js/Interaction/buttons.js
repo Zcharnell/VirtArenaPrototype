@@ -9,7 +9,7 @@
 	};
 
 	VirtArenaControl.Buttons.addButton = function(buttonType,misc){
-		if(buttonType === 'selectVirt') addSelectVirtButtons(misc);
+		if(buttonType === 'selectCommander') addSelectCommanderButtons(misc);
 		else if(buttonType === 'selectStances') addSelectStanceButtons(misc);
 		else if(buttonType === 'selectWeapon') addSelectWeaponButton(misc);
 	};
@@ -19,16 +19,15 @@
 		var buttonsToRemove = [];
 
 		switch(buttonType){
-			case 'selectVirt':
-				//get the buttons with a name that includes selectVirt
+			case 'selectCommander':
+				//get the buttons with a name that includes selectCommander
 				for(var i in buttons){
-					if(buttons[i].indexOf('selectVirt') != -1){
+					if(buttons[i].indexOf('selectCommander') != -1){
 						buttonsToRemove.push(buttons[i]);
 					}
 				}
 				break;
 			case 'selectStance':
-				//get the buttons with a name that includes selectVirt
 				for(var i in buttons){
 					if(buttons[i].indexOf('selectStance') != -1){
 						buttonsToRemove.push(buttons[i]);
@@ -36,7 +35,6 @@
 				}
 				break;
 			case 'selectWeapon':
-				//get the buttons with a name that includes selectVirt
 				for(var i in buttons){
 					if(buttons[i].indexOf('selectWeapon') != -1){
 						buttonsToRemove.push(buttons[i]);
@@ -83,27 +81,37 @@
 		obj.height = 40;
 		obj.x = VirtArenaControl.Board.x + VirtArenaControl.Board.width - obj.width - 20;
 		obj.y = VirtArenaControl.Board.y + VirtArenaControl.Board.height/2 - obj.height;
-		obj.onClick = function(){VirtArenaControl.TurnController.endPhaseEarly()};
+		obj.onClick = function(){
+			if(!this.disabled){
+				VirtArenaControl.TurnController.endPhaseEarly();
+			}
+		};
 		obj.disabled = false;
 		obj.update = function(){
 			this.x = VirtArenaControl.Board.x + VirtArenaControl.Board.width - this.width - 20;
 			this.y = VirtArenaControl.Board.y + VirtArenaControl.Board.height/2 - this.height;
-			this.disabled = (VirtArenaControl.TurnController.delayingPhaseChange == true 
-				|| VirtArenaControl.ObjectController.unitMoving == true
-				|| VirtArenaControl.TurnController.currentPhase != "unitActivation"
-				|| VirtArenaControl.TurnController.currentSubphase == "nextUnitActivation"
-				|| VirtArenaControl.TurnController.currentSubphase == "endActivation") ? true : false;
+			this.disabled = (!VirtArenaControl.TurnController.delayingPhaseChange 
+				&& !VirtArenaControl.ObjectController.unitMoving
+				&& (VirtArenaControl.TurnController.currentPhase == "unitActivation" 
+					|| (VirtArenaControl.TurnController.currentSubphase == "selectStances" && VirtArenaControl.Units.teams.blueTeam.allStancesSelected()))
+				&& (!VirtArenaControl.Units.currentUnitActivating
+					|| !VirtArenaControl.Units.currentUnitActivating.team.aiTeam)
+				&& (VirtArenaControl.TurnController.currentSubphase != "attackSubphase"
+					|| VirtArenaControl.ObjectController.checkUsableWeapons(VirtArenaControl.Units.currentUnitActivating))
+				&& VirtArenaControl.TurnController.currentSubphase != "nextUnitActivation"
+				&& VirtArenaControl.TurnController.currentSubphase != "endActivation"
+				) ? false : true;
 		}
 		return obj;
 	};
 
 
 
-	var addSelectVirtButtons = function(misc){
+	var addSelectCommanderButtons = function(misc){
 		var obj = VirtArenaControl.Units;
 		for(var i in obj.chooseVirtCommanderVirts){
 			var unitName = obj.chooseVirtCommanderVirts[i];
-			var buttonName = 'selectVirt'+unitName;
+			var buttonName = 'selectCommander'+unitName;
 			VirtArenaControl.Buttons[buttonName] = new Button();
 
 			var variablesForButton = {
@@ -149,6 +157,7 @@
 					height:20,
 					radius:10,
 					circle:true,
+					animateFrames:5,
 					onClick:function(){
 						if(!this.disabled){
 							VirtArenaControl.ObjectController.setUnitStance(this.unit,(parseInt(this.index)+1));
@@ -167,14 +176,28 @@
 						// var dynamicX = startX + (this.index*(this.width+this.spacing));
 						this.x = this.unit.tile.x + this.unit.tile.width/2 + dynamicX;
 						this.y = this.unit.tile.y + this.unit.tile.height + startY;
+						this.hoverVars.maxRadius = Math.floor(this.radius*1.5);
+						this.selectedVars.maxRadius = Math.floor(this.radius*1.5);
+						if(this.hover){
+							if(this.hoverVars.radius == 0){
+								this.hoverVars.radius = this.radius;
+							} else if(this.hoverVars.radius < this.hoverVars.maxRadius) {
+								this.hoverVars.radius += (this.hoverVars.maxRadius-this.radius)/this.animateFrames;
+							} else if(this.hoverVars.radius > this.hoverVars.maxRadius) {
+								this.hoverVars.radius = this.hoverVars.maxRadius;
+							}
+						} else if(this.hoverVars.radius > 0){
+							this.hoverVars.radius = 0;
+						}
 						// this.y = VirtArenaControl.Camera.height - this.height - 20 - this.indexInUnitArray*50;
 						if(this.unit.stanceSelected === this.stance) {
 							this.selected = true;
+							this.selectedVars.radius = this.selectedVars.maxRadius;
 						} else if(this.selected){
 							this.selected = false;
 						}
 					},
-					spacing:10,
+					spacing:5,
 					index:i,
 					buttonsOfThisType:keys.length,
 					indexInUnitArray:j,
@@ -192,7 +215,6 @@
 
 	var addSelectWeaponButton = function(misc){
 		//{unit:unit,weapon:unit.weapons[keys[i]],disabled:outOfRange,index:i,buttonsOfThisType:keys.length}
-
 		var unit = misc.unit;
 		var weapon = misc.weapon;
 

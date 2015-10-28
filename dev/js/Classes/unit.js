@@ -31,7 +31,22 @@ function Unit(){
 		this.avatar = {};
 		this.direction = 0;
 		this.font = "30px Arial";
-		this.animation = "idle";
+		this.animation = {
+			time:0,
+			frame:0,
+			current: ''
+		}
+		this.animation.current = "idle";
+		this.animation.idle = {
+			frames: 4,
+			duration: 10,
+			yIndex: 0
+		}
+		this.animation.move = {
+			frames: 4,
+			duration: 5,
+			yIndex: 2
+		}
 		this.animationTime = 0;
 		this.animationFrame = 0;
 		this.animationDuration = 5;
@@ -102,8 +117,8 @@ function Unit(){
 
 			VirtArenaControl.Graphics.ctx.textAlign = "left";
 			VirtArenaControl.Graphics.ctx.font = '10px Arial';
-			VirtArenaControl.Graphics.ctx.fillStyle = 'black';
-			VirtArenaControl.Graphics.ctx.fillRect(this.tile.x,this.tile.y,this.tile.width,this.tile.height);
+			// VirtArenaControl.Graphics.ctx.fillStyle = 'black';
+			// VirtArenaControl.Graphics.ctx.fillRect(this.tile.x,this.tile.y,this.tile.width,this.tile.height);
 			VirtArenaControl.Graphics.ctx.strokeStyle = 'white';
 			VirtArenaControl.Graphics.strokeRectWithShadow(this.tile.x,this.tile.y,this.tile.width,this.tile.height,2,"#ffffff",2,0,1);
 
@@ -123,9 +138,11 @@ function Unit(){
 			}
 			if(this.unitArt) {
 				var spritesheet = VirtArenaControl.Images.spritesheet;
+				var paddingX = Math.floor((this.tile.width-spritesheet.cellWidth)/2);
+				var paddingY = Math.floor((this.tile.height-spritesheet.cellHeight)/2);
 				VirtArenaControl.Graphics.ctx.drawImage(
-					spritesheet.image,this.unitArt.x+(this.animationFrame*spritesheet.cellWidth),this.unitArt.y+(this.direction*spritesheet.cellHeight),spritesheet.cellWidth,spritesheet.cellHeight,
-					this.tile.x,this.tile.y,spritesheet.cellWidth,spritesheet.cellHeight);
+					spritesheet.image,this.unitArt.x+(this.animation.frame*spritesheet.cellWidth),this.unitArt.y+((this.animation[this.animation.current].yIndex+this.direction)*spritesheet.cellHeight),spritesheet.cellWidth,spritesheet.cellHeight,
+					this.tile.x+paddingX,this.tile.y+paddingY,spritesheet.cellWidth,spritesheet.cellHeight);
 			} else {
 				VirtArenaControl.Graphics.fillTextWithShadow(fillText.text,fillText.x,fillText.y,fillText.color,fillText.blur,fillText.offsetX,fillText.offsetY);
 				VirtArenaControl.Graphics.ctx.strokeStyle = "#999";
@@ -149,9 +166,11 @@ function Unit(){
 			}
 			if(this.unitArt) {
 				var spritesheet = VirtArenaControl.Images.spritesheet;
+				var paddingX = Math.floor((this.tile.width-spritesheet.cellWidth)/2);
+				var paddingY = Math.floor((this.tile.height-spritesheet.cellHeight)/2);
 				VirtArenaControl.Graphics.ctx.drawImage(
-					spritesheet.image,this.unitArt.x+(this.animationFrame*spritesheet.cellWidth),this.unitArt.y+(this.direction*spritesheet.cellHeight),spritesheet.cellWidth,spritesheet.cellHeight,
-					this.tile.x,this.tile.y,spritesheet.cellWidth,spritesheet.cellHeight);
+					spritesheet.image,this.unitArt.x+(this.animation.frame*spritesheet.cellWidth),this.unitArt.y+((this.animation[this.animation.current].yIndex+this.direction)*spritesheet.cellHeight),spritesheet.cellWidth,spritesheet.cellHeight,
+					this.tile.x+paddingX,this.tile.y+paddingY,spritesheet.cellWidth,spritesheet.cellHeight);
 			} else {
 				VirtArenaControl.Graphics.fillTextWithShadow(fillText.text,fillText.x,fillText.y,fillText.color,fillText.blur,fillText.offsetX,fillText.offsetY);
 				VirtArenaControl.Graphics.ctx.strokeStyle = "#999";
@@ -180,7 +199,36 @@ function Unit(){
 				this.direction = 1;
 				break;
 		}
-	}
+	};
+
+	this.setAnimation = function(animation){
+		this.animation.current = animation;
+		this.animation.time = 0;
+		this.animation.frame = 0;
+	};
+
+	this.checkCurrentAnimation = function(){
+		if(this.moving){
+			if(this.animation.current != 'move'){
+				this.setAnimation('move');
+			}
+		} else if(this.animation.current != 'idle'){
+			this.setAnimation('idle');
+		}
+	};
+
+	this.getTooltip = function(){
+		var tooltip = {};
+		tooltip.x = this.tile.x;
+		tooltip.y = this.tile.y;
+
+		tooltip.type = "unit";
+		tooltip.id = this.id;
+		tooltip.title = this.name;
+		tooltip.obj = this;
+
+		return tooltip;
+	};
 
 	this.setCommander = function(){
 		this.font = "36px Arial";

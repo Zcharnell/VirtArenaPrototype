@@ -73,18 +73,14 @@
 		},
 		setUnitStance: function(unit,stanceNumber){
 			unit.setStance("stance" + stanceNumber);
-			if(unit.team.allStancesSelected()){
-				VirtArenaControl.Buttons.removeButton('selectStance');
-				VirtArenaControl.TurnController.nextPhase();
-			}
 		},
 		selectCommanderUnit: function(unit,team){
 			team.addCommander(unit);
 			// /*
-			team.addCompanion(unit);
-			team.addCompanion(unit);
+			// team.addCompanion(unit);
+			// team.addCompanion(unit);
 			// */
-			VirtArenaControl.Buttons.removeButton('selectVirt');
+			VirtArenaControl.Buttons.removeButton('selectCommander');
 			VirtArenaControl.TurnController.gameStarter.nextPhase();
 		},
 		unitHasDied: function(unit){
@@ -171,6 +167,6 @@
 			}
 
 			return id;
-		},
+		}
 	};
 })();

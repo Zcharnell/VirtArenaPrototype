@@ -4,6 +4,7 @@ function Lancer(){
 	this.name = 'Lancer';
 	this.unitType = 'Lancer';
 	this.unitClass = 'Companion';
+	this.unitArt = VirtArenaControl.Images.lancerUnitArt;
 	this.HP = 80;
 	this.totalHP = 80;
 	this.energy = 60;

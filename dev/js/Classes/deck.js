@@ -274,118 +274,118 @@ Deck.prototype.createDeck = function(commander){
 				companion:"Hecate",
 				team:this.team
 			}));
-		deck.cards.push(
-			new Card(
-				{name:"Pre-emptive Strike",
-				type:"ability",
-				ability:new Ability(VirtArenaControl.Abilities.preemptiveStrike),
-				team:this.team
-			}));
-		deck.cards.push(
-			new Card(
-				{name:"Pre-emptive Strike",
-				type:"ability",
-				ability:new Ability(VirtArenaControl.Abilities.preemptiveStrike),
-				team:this.team
-			}));
-		deck.cards.push(
-			new Card(
-				{name:"Double Strike",
-				type:"ability",
-				ability:new Ability(VirtArenaControl.Abilities.doubleStrike),
-				team:this.team
-			}));
-		deck.cards.push(
-			new Card(
-				{name:"Double Strike",
-				type:"ability",
-				ability:new Ability(VirtArenaControl.Abilities.doubleStrike),
-				team:this.team
-			}));
-		deck.cards.push(
-			new Card(
-				{name:"Preparation",
-				type:"ability",
-				ability:new Ability(VirtArenaControl.Abilities.preparation),
-				team:this.team
-			}));
-		deck.cards.push(
-			new Card(
-				{name:"Preparation",
-				type:"ability",
-				ability:new Ability(VirtArenaControl.Abilities.preparation),
-				team:this.team
-			}));
-		deck.cards.push(
-			new Card(
-				{name:"Flash",
-				type:"ability",
-				ability:new Ability(VirtArenaControl.Abilities.flash),
-				team:this.team
-			}));
-		deck.cards.push(
-			new Card(
-				{name:"Flash",
-				type:"ability",
-				ability:new Ability(VirtArenaControl.Abilities.flash),
-				team:this.team
-			}));
-		deck.cards.push(
-			new Card(
-				{name:"Parry",
-				type:"ability",
-				ability:new Ability(VirtArenaControl.Abilities.parry),
-				team:this.team
-			}));
-		deck.cards.push(
-			new Card(
-				{name:"Parry",
-				type:"ability",
-				ability:new Ability(VirtArenaControl.Abilities.parry),
-				team:this.team
-			}));
-		deck.cards.push(
-			new Card(
-				{name:"Reinforce",
-				type:"ability",
-				ability:new Ability(VirtArenaControl.Abilities.reinforce),
-				team:this.team
-			}));
-		deck.cards.push(
-			new Card(
-				{name:"Reinforce",
-				type:"ability",
-				ability:new Ability(VirtArenaControl.Abilities.reinforce),
-				team:this.team
-			}));
-		deck.cards.push(
-			new Card(
-				{name:"Charged Shot",
-				type:"ability",
-				ability:new Ability(VirtArenaControl.Abilities.chargedShot),
-				team:this.team
-			}));
-		deck.cards.push(
-			new Card(
-				{name:"Charged Shot",
-				type:"ability",
-				ability:new Ability(VirtArenaControl.Abilities.chargedShot),
-				team:this.team
-			}));
-		deck.cards.push(
-			new Card(
-				{name:"Riposte",
-				type:"ability",
-				ability:new Ability(VirtArenaControl.Abilities.riposte),
-				team:this.team
-			}));
-		deck.cards.push(
-			new Card(
-				{name:"Riposte",
-				type:"ability",
-				ability:new Ability(VirtArenaControl.Abilities.riposte),
-				team:this.team
-			}));
+		// deck.cards.push(
+		// 	new Card(
+		// 		{name:"Pre-emptive Strike",
+		// 		type:"ability",
+		// 		ability:new Ability(VirtArenaControl.Abilities.preemptiveStrike),
+		// 		team:this.team
+		// 	}));
+		// deck.cards.push(
+		// 	new Card(
+		// 		{name:"Pre-emptive Strike",
+		// 		type:"ability",
+		// 		ability:new Ability(VirtArenaControl.Abilities.preemptiveStrike),
+		// 		team:this.team
+		// 	}));
+		// deck.cards.push(
+		// 	new Card(
+		// 		{name:"Double Strike",
+		// 		type:"ability",
+		// 		ability:new Ability(VirtArenaControl.Abilities.doubleStrike),
+		// 		team:this.team
+		// 	}));
+		// deck.cards.push(
+		// 	new Card(
+		// 		{name:"Double Strike",
+		// 		type:"ability",
+		// 		ability:new Ability(VirtArenaControl.Abilities.doubleStrike),
+		// 		team:this.team
+		// 	}));
+		// deck.cards.push(
+		// 	new Card(
+		// 		{name:"Preparation",
+		// 		type:"ability",
+		// 		ability:new Ability(VirtArenaControl.Abilities.preparation),
+		// 		team:this.team
+		// 	}));
+		// deck.cards.push(
+		// 	new Card(
+		// 		{name:"Preparation",
+		// 		type:"ability",
+		// 		ability:new Ability(VirtArenaControl.Abilities.preparation),
+		// 		team:this.team
+		// 	}));
+		// deck.cards.push(
+		// 	new Card(
+		// 		{name:"Flash",
+		// 		type:"ability",
+		// 		ability:new Ability(VirtArenaControl.Abilities.flash),
+		// 		team:this.team
+		// 	}));
+		// deck.cards.push(
+		// 	new Card(
+		// 		{name:"Flash",
+		// 		type:"ability",
+		// 		ability:new Ability(VirtArenaControl.Abilities.flash),
+		// 		team:this.team
+		// 	}));
+		// deck.cards.push(
+		// 	new Card(
+		// 		{name:"Parry",
+		// 		type:"ability",
+		// 		ability:new Ability(VirtArenaControl.Abilities.parry),
+		// 		team:this.team
+		// 	}));
+		// deck.cards.push(
+		// 	new Card(
+		// 		{name:"Parry",
+		// 		type:"ability",
+		// 		ability:new Ability(VirtArenaControl.Abilities.parry),
+		// 		team:this.team
+		// 	}));
+		// deck.cards.push(
+		// 	new Card(
+		// 		{name:"Reinforce",
+		// 		type:"ability",
+		// 		ability:new Ability(VirtArenaControl.Abilities.reinforce),
+		// 		team:this.team
+		// 	}));
+		// deck.cards.push(
+		// 	new Card(
+		// 		{name:"Reinforce",
+		// 		type:"ability",
+		// 		ability:new Ability(VirtArenaControl.Abilities.reinforce),
+		// 		team:this.team
+		// 	}));
+		// deck.cards.push(
+		// 	new Card(
+		// 		{name:"Charged Shot",
+		// 		type:"ability",
+		// 		ability:new Ability(VirtArenaControl.Abilities.chargedShot),
+		// 		team:this.team
+		// 	}));
+		// deck.cards.push(
+		// 	new Card(
+		// 		{name:"Charged Shot",
+		// 		type:"ability",
+		// 		ability:new Ability(VirtArenaControl.Abilities.chargedShot),
+		// 		team:this.team
+		// 	}));
+		// deck.cards.push(
+		// 	new Card(
+		// 		{name:"Riposte",
+		// 		type:"ability",
+		// 		ability:new Ability(VirtArenaControl.Abilities.riposte),
+		// 		team:this.team
+		// 	}));
+		// deck.cards.push(
+		// 	new Card(
+		// 		{name:"Riposte",
+		// 		type:"ability",
+		// 		ability:new Ability(VirtArenaControl.Abilities.riposte),
+		// 		team:this.team
+		// 	}));
 	}
 	this.cardsInDeck = deck.cards;
 }

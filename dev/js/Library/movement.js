@@ -4,6 +4,7 @@
 		//get the path between the virt and the selected tile (from tiles.js)
 		//check if the movement cost of the end tile is greater than the virt's movement
 		VirtArenaControl.ObjectController.unitMoving = true;
+		unit.moving = true;
 		VirtArenaControl.ObjectController.path = VirtArenaControl.ObjectController.findMovementPath(unit,endTile);
 		// console.log(unit,endTile,VirtArenaControl.ObjectController.path);
 
@@ -54,17 +55,19 @@
 		this.setTileMoveCosts(unit);
 		if(path.length > 0){
 			setTimeout(function(){
-				VirtArenaControl.ObjectController.stepMovement(unit,path);
+				VirtArenaControl.ObjectController.stepMovement(unit,path,playerType);
 			},this.movementStepDelay);
 		} else if(playerType === 'ai' || unit.turnStats.move === 0){
 			VirtArenaControl.ObjectController.endMovement();
 		} else {
 			VirtArenaControl.ObjectController.unitMoving = false;
+			unit.moving = false;
 		}
 	};
 
 	VirtArenaControl.ObjectController.endMovement = function(){
 		VirtArenaControl.ObjectController.unitMoving = false;
+		VirtArenaControl.Units.currentUnitActivating.moving = false;
 		VirtArenaControl.TurnController.delayPhaseChange(500);
 	};
 

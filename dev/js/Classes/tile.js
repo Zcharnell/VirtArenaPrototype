@@ -19,8 +19,8 @@ function Tile(row,column,dimensions){
 	this.draw = function(){
 		VirtArenaControl.Graphics.ctx.textAlign = "left";
 		VirtArenaControl.Graphics.ctx.font = '10px Arial';
-		if(this.unit) VirtArenaControl.Graphics.ctx.fillStyle = '#000000';
-		else VirtArenaControl.Graphics.ctx.fillStyle = 'rgba(0,0,0,0.5)';
+		if(this.unit && this.unit.id === VirtArenaControl.Units.selectedUnit.id) VirtArenaControl.Graphics.ctx.fillStyle = 'rgba(200,255,255,0.35)';
+		else VirtArenaControl.Graphics.ctx.fillStyle = 'rgba(200,255,255,0.15)';
 		VirtArenaControl.Graphics.ctx.strokeStyle = 'rgba(0,0,0,0.9)';
 		VirtArenaControl.Graphics.ctx.fillRect(this.x,this.y,this.width,this.height);
 		VirtArenaControl.Graphics.ctx.strokeRect(this.x,this.y,this.width,this.height);
@@ -43,7 +43,7 @@ function Tile(row,column,dimensions){
 	this.drawHover = function(){
 		VirtArenaControl.Graphics.ctx.textAlign = "left";
 		VirtArenaControl.Graphics.ctx.font = '10px Arial';
-		VirtArenaControl.Graphics.ctx.fillStyle = 'black';
+		VirtArenaControl.Graphics.ctx.fillStyle = 'rgba(200,255,255,0.35)';
 		VirtArenaControl.Graphics.ctx.fillRect(this.x,this.y,this.width,this.height);
 		VirtArenaControl.Graphics.ctx.strokeStyle = 'white';
 		VirtArenaControl.Graphics.strokeRectWithShadow(this.x,this.y,this.width,this.height,2,"#ffffff",2,0,1);
@@ -53,7 +53,7 @@ function Tile(row,column,dimensions){
 		VirtArenaControl.Graphics.ctx.fillRect(this.x,this.y,this.width,this.height);
 	}
 	this.drawHighlightForMovement = function(){
-		this.drawHighlight("rgba(50,255,50,0.5)");
+		this.drawHighlight("rgba(50,255,50,0.3)");
 	};
 	this.drawHighlightForAttack = function(){
 		this.drawHighlight("rgba(255,50,50,0.4)");

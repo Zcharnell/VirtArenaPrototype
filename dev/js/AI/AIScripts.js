@@ -139,4 +139,66 @@
 		return units;
 	};
 
+	VirtArenaControl.AI.Scripts.determineActivationCardsToUse = function(aiUnit,enemyTeam){
+		var cards = aiUnit.team.deck.cardsInHand;
+		var cardsToPlay = [];
+
+		//companion cards
+		if(aiUnit.commander === true){
+			for(var i in cards){
+				var cardToPlay = VirtArenaControl.AI.Scripts.checkCompanionCardPlayable(aiUnit,cards[i],cardsToPlay);
+				if(cardToPlay) cardsToPlay.push(cardToPlay);
+			}
+		}
+
+		return cardsToPlay;
+	};
+
+	VirtArenaControl.AI.Scripts.checkCompanionCardPlayable = function(aiUnit,card,queuedCards){
+		var tiles = VirtArenaControl.Board.tiles;
+		var cardReturnObj = {
+			card: card,
+			target: '',
+			action: "spawnCompanion"
+		}
+		var playable = false;
+		if(card.companion){
+			for(var i in aiUnit.tile.adjacentTiles){
+				var tile = tiles[aiUnit.tile.adjacentTiles[i]];
+				var path = VirtArenaControl.ObjectController.findMovementPath(aiUnit,aiUnit.ai.targetTile);
+				var tileInPath = (path.indexOf(tile) == -1) ? false : true;
+				var tileUsed = VirtArenaControl.AI.Scripts.checkQueuedCardsForTileUsed(tile,queuedCards);
+				if(tile.isOpen() && !tileInPath && !tileUsed){
+					cardReturnObj.target = tile;
+					playable = true;
+				}
+			}
+		}
+
+		if(playable){
+			return cardReturnObj;
+		} else {
+			return false;
+		}
+	};
+
+	VirtArenaControl.AI.Scripts.checkQueuedCardsForTileUsed = function(tile,queuedCards){
+		for(var i in queuedCards){
+			if(queuedCards[i].target === tile){
+				return true;
+			}
+		}
+		return false;
+	};
+
+	VirtArenaControl.AI.Scripts.AISummonCompanion = function(aiUnit,cardObj){
+		VirtArenaControl.TurnController.setCurrentAction("spawnCompanion",{card:cardObj.card,team:aiUnit.team,companion:cardObj.card.companion});
+		setTimeout(function(){
+			VirtArenaControl.Abilities.summonCompanion(cardObj.target);
+			setTimeout(function(){
+				VirtArenaControl.AI.Scripts.playCards(aiUnit);
+			},VirtArenaControl.TurnController.phaseChangeDelay);
+		},VirtArenaControl.TurnController.phaseChangeDelay);
+	};
+
 })();

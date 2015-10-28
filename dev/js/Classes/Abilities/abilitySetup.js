@@ -51,6 +51,7 @@
 	}
 
 	VirtArenaControl.Abilities.summonCompanion = function(tile){
+		console.log('summonCompanion');
 		VirtArenaControl.TurnController.currentAction.misc.team.addCompanion(VirtArenaControl.TurnController.currentAction.misc.companion,tile);
 		VirtArenaControl.TurnController.currentAction.misc.team.cardUsed(VirtArenaControl.TurnController.currentAction.card);
 		VirtArenaControl.TurnController.resetCurrentAction();

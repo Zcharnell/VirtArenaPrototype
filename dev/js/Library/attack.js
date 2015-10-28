@@ -8,11 +8,21 @@
 		for(var i in keys){
 			unitsInRange[keys[i]] = VirtArenaControl.ObjectController.getUnitsInRange(unit,unit.weapons[keys[i]]);
 			var outOfRange = (unitsInRange[keys[i]].length > 0) ? false : true;
-			VirtArenaControl.Buttons.addButton('selectWeapon',{unit:unit,weapon:unit.weapons[keys[i]],disabled:outOfRange,index:i,buttonsOfThisType:keys.length});
 			if(!outOfRange) hasWeaponInRange = true;
 		}
 
 		return hasWeaponInRange;
+	};
+
+	VirtArenaControl.ObjectController.addWeaponSelectionButtons = function(unit){
+		var keys = Object.keys(unit.weapons);
+		var unitsInRange = {};
+
+		for(var i in keys){
+			unitsInRange[keys[i]] = VirtArenaControl.ObjectController.getUnitsInRange(unit,unit.weapons[keys[i]]);
+			var outOfRange = (unitsInRange[keys[i]].length > 0) ? false : true;
+			VirtArenaControl.Buttons.addButton('selectWeapon',{unit:unit,weapon:unit.weapons[keys[i]],disabled:outOfRange,index:i,buttonsOfThisType:keys.length});
+		}
 	};
 
 	VirtArenaControl.ObjectController.selectWeapon = function(unit,weapon){

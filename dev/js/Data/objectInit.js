@@ -28,6 +28,7 @@
 
 	VirtArenaControl.Buttons = {};
 	VirtArenaControl.Avatars = {};
+	VirtArenaControl.Tooltips = {};
 
 	VirtArenaControl.Graphics = {
 		canvas: undefined,
@@ -52,6 +53,7 @@
 			this.drawFunctions.push('drawButtons');
 			this.drawFunctions.push('drawActivationOrder');
 			this.drawFunctions.push('drawPlayerCards');
+			this.drawFunctions.push('drawTooltips');
 		},
 		setShadow: function(color,blur,offsetX,offsetY){
 		    this.ctx.shadowColor = color;
@@ -98,6 +100,7 @@
 			this.updateFunctions.push('updateTileVariables');
 			this.updateFunctions.push('updateActivationAvatars');
 			this.updateFunctions.push('updateUnitAnimations');
+			this.updateFunctions.push('updateTooltips');
 		}
 	};
 

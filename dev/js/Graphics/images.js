@@ -20,4 +20,9 @@
 		y:0
 	};
 
+	images.lancerUnitArt = {
+		x:320,
+		y:0
+	}
+
 })();

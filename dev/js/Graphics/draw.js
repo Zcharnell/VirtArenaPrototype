@@ -7,7 +7,7 @@
 
 	VirtArenaControl.Graphics.redrawCanvas = function(){
 		this.ctx.textAlign = "center";
-		this.ctx.fillStyle = '#666';
+		this.ctx.fillStyle = '#444';
 		VirtArenaControl.Graphics.ctx.lineWidth = 1;
 		VirtArenaControl.Graphics.ctx.textBaseline = 'middle';
 		this.ctx.fillRect(0,0,this.canvas.width,this.canvas.height);
@@ -46,7 +46,7 @@
 				tiles[i].drawHighlightForAction();
 			}
 
-			tiles[i].drawIndex();
+			// tiles[i].drawIndex();
 		}
 	}
 
@@ -93,6 +93,12 @@
 	VirtArenaControl.Graphics.drawActivationOrder = function(){
 		for(var i in VirtArenaControl.Units.activationOrder){
 			VirtArenaControl.Units.activationOrder[i].avatar.draw();
+		}
+	};
+
+	VirtArenaControl.Graphics.drawTooltips = function(){
+		for(var i in VirtArenaControl.Tooltips.tooltips){
+			VirtArenaControl.Tooltips.tooltips[i].draw();
 		}
 	};
 })();

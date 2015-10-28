@@ -16,6 +16,12 @@ function Imperator(){
 	this.range = 0;
 	this.irradiateDamageTarget = false;
 
+	// this.animation.idle = {
+	// 	frames: 4,
+	// 	duration: 8,
+	// 	yIndex: 0
+	// }
+
 //Weapons
 	var weapon1 = {
 		name:"Radiation Claw Grasp",

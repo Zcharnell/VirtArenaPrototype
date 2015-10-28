@@ -21,6 +21,7 @@ function Team(name,color,playerType){
 
 	this.addCompanion = function(unitName,tile){
 		var unit = VirtArenaControl.ObjectController.getUnitObject(unitName);
+		unit.direction = this.commander.direction;
 		if(tile) VirtArenaControl.ObjectController.setUnitTile(unit,tile);
 		this.addUnit(unit);
 	};
