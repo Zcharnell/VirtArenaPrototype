@@ -67,7 +67,7 @@
 
 		for(var i in units){
 			var unit = units[i];
-			if(unit){
+			if(unit && !unit.dontDraw){
 				unit.draw();
 			}
 		}

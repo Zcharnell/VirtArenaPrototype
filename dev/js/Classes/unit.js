@@ -25,10 +25,12 @@ function Unit(){
 		this.activated = false;
 		this.id = '';
 		this.activationOrderIndex = 0;
+		this.hasAttacked = false;
 
 		//for drawing
 		this.tile = {};
 		this.avatar = {};
+		this.dontDraw = false;
 		this.direction = 0;
 		this.font = "30px Arial";
 		this.animation = {
@@ -39,12 +41,12 @@ function Unit(){
 		this.animation.current = "idle";
 		this.animation.idle = {
 			frames: 4,
-			duration: 10,
+			duration: 6,
 			yIndex: 0
 		}
 		this.animation.move = {
 			frames: 4,
-			duration: 5,
+			duration: 4,
 			yIndex: 2
 		}
 		this.animationTime = 0;
@@ -489,6 +491,7 @@ function Unit(){
 			this.percentHP = Math.round((this.HP/this.totalHP)*100);
 			// console.log('Percent HP: ' + this.percentHP + '%');
 		}
+		if(this.percentHP < 0) this.percentHP = 0;
 	}
 
 	this.setDead = function(){

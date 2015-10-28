@@ -41,6 +41,7 @@
 			this.setLastStanceSelected();
 			this.resetWeapons();
 			this.resetHasActivated();
+			this.resetHasAttacked();
 		},
 		setLastStanceSelected: function(){
 			var units = VirtArenaControl.Units.units;
@@ -67,6 +68,12 @@
 				units[i].activated = false;
 			}
 		},
+		resetHasAttacked: function(){
+			var units = VirtArenaControl.Units.units;
+			for(var i in units){
+				if(units[i].hasAttacked) units[i].hasAttacked = false;
+			}
+		},
 		resetActivationOrder: function(){
 			VirtArenaControl.Units.activationOrder = [];
 			VirtArenaControl.Units.currentUnitActivating = '';
@@ -88,6 +95,9 @@
 				VirtArenaControl.TurnController.endOfGame();
 			} else {
 				this.removeUnitFromActivationOrder(unit);
+				setTimeout(function(){
+					unit.dontDraw = true;
+				},VirtArenaControl.Units.deathDelay);
 			}
 		},
 		removeUnitFromActivationOrder: function(unit){

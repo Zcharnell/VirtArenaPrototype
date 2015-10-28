@@ -164,7 +164,7 @@
 						switch(this.currentSubphase){
 							case 'selectStances':
 								VirtArenaControl.Buttons.removeButton('selectStance');
-								VirtArenaControl.TurnController.nextPhase();
+								VirtArenaControl.TurnController.delayPhaseChange();
 								break;
 						}
 						break;
@@ -177,12 +177,12 @@
 								VirtArenaControl.ObjectController.endAttackSubphase();
 								break;
 							default:
-								this.nextPhase();
+								this.delayPhaseChange();
 								break;
 						}
 						break;
 					default:
-						this.nextPhase();
+						this.delayPhaseChange();
 						break;
 				}
 			}

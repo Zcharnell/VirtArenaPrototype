@@ -5,6 +5,7 @@
 		teams:[],
 		selectedUnit:'',
 		movementStepDelay:350,
+		deathDelay:1000,
 		activationOrder:[],
 		currentUnitActivating:'',
 		path:[],

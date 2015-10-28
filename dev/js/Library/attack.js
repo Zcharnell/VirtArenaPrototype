@@ -91,8 +91,13 @@
 		//send that damage value (with crit, penetration, and anything special) in an object to the virt's takeDamage function
 		var obj = unit.getDamageAndStatsForAttacking();
 		target.takeDamage(obj);
+		VirtArenaControl.ObjectController.attackResolved(unit,target);
+	};
+
+	VirtArenaControl.ObjectController.attackResolved = function(unit,target){
+		unit.hasAttacked = true;
 		VirtArenaControl.ObjectController.endAttackSubphase();
-	}
+	};
 
 	VirtArenaControl.ObjectController.endAttackSubphase = function(){
 		VirtArenaControl.Buttons.removeButton('selectWeapon');

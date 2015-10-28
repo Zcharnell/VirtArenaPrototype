@@ -131,7 +131,8 @@
 				&& tiles[i].unit 
 				&& tiles[i].unit.team != VirtArenaControl.Units.selectedUnit.team 
 				&& VirtArenaControl.TurnController.currentSubphase === 'attackSubphase'
-				&& VirtArenaControl.TurnController.currentAction.action != 'attack') {
+				&& VirtArenaControl.TurnController.currentAction.action != 'attack'
+				&& !VirtArenaControl.Units.selectedUnit.hasAttacked) {
 
 				tiles[i].targetFor = "attack";
 

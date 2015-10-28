@@ -41,12 +41,15 @@ function Avatar(obj){
 		}
 
 		//draw healthbar
+		var xBar = this.x+Math.floor(this.width*0.05);
+		var widthBar = Math.floor(this.width*0.95);
+		var widthBarHealth = Math.floor(this.width*0.95*(this.unit.percentHP/100));
 		VirtArenaControl.Graphics.ctx.fillStyle = '#EE0000';
 		VirtArenaControl.Graphics.ctx.strokeStyle = '#000000';
-		VirtArenaControl.Graphics.ctx.fillRect(this.x,this.y-5,this.width,10);
+		VirtArenaControl.Graphics.ctx.fillRect(xBar,this.y-5,widthBar,10);
 		VirtArenaControl.Graphics.ctx.fillStyle = '#00EE00';
-		VirtArenaControl.Graphics.ctx.fillRect(this.x,this.y-5,Math.floor(this.width*(this.unit.percentHP/100)),10);
-		VirtArenaControl.Graphics.ctx.strokeRect(this.x,this.y-5,this.width,10);
+		VirtArenaControl.Graphics.ctx.fillRect(xBar,this.y-5,widthBarHealth,10);
+		VirtArenaControl.Graphics.ctx.strokeRect(xBar,this.y-5,widthBar,10);
 	};
 
 	this.update = function(){

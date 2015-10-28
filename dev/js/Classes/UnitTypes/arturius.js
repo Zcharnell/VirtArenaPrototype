@@ -25,8 +25,8 @@ function Arturius(){
 	var weapon2 = {
 		name:"V-Shield Beam",
 		number:2,
-		power:50,
-		range:5,
+		power:999,
+		range:15,
 		penetration:40,
 		special:"Power -20 at Range 1"
 	}
@@ -61,7 +61,7 @@ function Arturius(){
 		name:"Reactive",
 		desc:"Deflect +40. Reveal: Move 1",
 		number:3,
-		speed:30,
+		speed:01,
 		move:1,
 		defense:10,
 		stability:40,
