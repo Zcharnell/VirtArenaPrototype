@@ -21,6 +21,7 @@ function Button(){
 		maxRadius:0
 	}
 	this.selected = false;
+	this.hasTooltip = false;
 	this.init = function(obj){
 		var keys = Object.keys(obj);
 		for(var i=0; i<keys.length; i++){
@@ -70,6 +71,10 @@ function Button(){
 		VirtArenaControl.Graphics.ctx.stroke();
 	};
 	this.onClick = {};
+
+	this.getTooltip = function(){
+		return false;
+	};
 }
 
 /*

@@ -61,6 +61,7 @@
 
 	var startGameInit = function(){
 		var obj = {};
+		obj.key = 'startGame';
 		obj.text = 'Start Game';
 		obj.width = 100;
 		obj.height = 40;
@@ -76,6 +77,7 @@
 
 	var endPhaseInit = function(){
 		var obj = {};
+		obj.key = 'endPhase';
 		obj.text = 'Continue';
 		obj.width = 100;
 		obj.height = 40;
@@ -115,6 +117,7 @@
 			VirtArenaControl.Buttons[buttonName] = new Button();
 
 			var variablesForButton = {
+				key:buttonName,
 				text:unitName,
 				x:600,
 				y:100+(i*50),
@@ -150,6 +153,7 @@
 
 				var variablesForButton = {
 					// text:unit.stances[keys[i]].name,
+					key:buttonName,
 					text:'',
 					x:-999,
 					y:-999,
@@ -203,7 +207,21 @@
 					indexInUnitArray:j,
 					disabled:(unit.lastStanceSelected === keys[i]) ? true : false,
 					unit:unit,
-					stance:keys[i]
+					stance:keys[i],
+					hasTooltip:true,
+					getTooltip: function(){
+						var obj = {
+							x: this.x+this.width/2,
+							y: this.y,
+							title:this.unit.stances[this.stance].name,
+							subtitle:'stance',
+							key:this.key,
+							type:'button',
+							subtype:'stance',
+							obj:this.unit.stances[this.stance]
+						}
+						return obj;
+					}
 				}
 
 				VirtArenaControl.Buttons[buttonName].init(variablesForButton);
@@ -221,6 +239,7 @@
 		var buttonName = 'selectWeapon'+weapon.name;
 		VirtArenaControl.Buttons[buttonName] = new Button();
 		var variablesForButton = {
+			key:buttonName,
 			text:weapon.name,
 			x:-999,
 			y:-999,

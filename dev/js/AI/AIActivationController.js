@@ -116,9 +116,9 @@
 		if(aiUnit.cardsToPlay.length > 0){
 			var cardObj = aiUnit.cardsToPlay.shift();
 			// VirtArenaControl.ObjectController.spawnUnitOnTile(aiUnit,cardObj.card,cardObj.card.companion,cardObj.target);
-			console.log(cardObj);
+			// console.log(cardObj);
 			if(cardObj.action === "spawnCompanion"){
-				console.log('yes');
+				// console.log('yes');
 				VirtArenaControl.AI.Scripts.AISummonCompanion(aiUnit,cardObj);
 			}
 		} else {

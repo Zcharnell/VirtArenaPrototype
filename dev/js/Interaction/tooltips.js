@@ -3,9 +3,10 @@
 
 	VirtArenaControl.Tooltips.newTooltip = function(obj,hoverObject){
 		//tooltips can be made for any object, and will get the necessary information from the object itself
+		var hoverObject = hoverObject || obj; //if the hover object is the same as the tooltiped object, set it as such
 		var tooltip = new Tooltip(obj.getTooltip(),hoverObject);
 		this.tooltips.push(tooltip);
-		console.log(tooltip);
+		// console.log(tooltip);
 		return tooltip;
 	};	
 
@@ -14,7 +15,7 @@
 
 		for(var i in VirtArenaControl.Tooltips.tooltips){
 			var tooltip = VirtArenaControl.Tooltips.tooltips[i];
-			console.log(tooltipType,'+',tooltipIdentifier,'+',tooltip.type,'+',tooltip.id);
+			// console.log(tooltipType,'+',tooltipIdentifier,'+',tooltip.type,'+',tooltip.id);
 			if(tooltip.type === tooltipType && tooltip.id === tooltipIdentifier){
 				exists = true;
 			}
@@ -49,6 +50,12 @@
 
 		if(index >= 0){
 			VirtArenaControl.Tooltips.tooltips.splice(index,1);
+		}
+	};
+
+	VirtArenaControl.Tooltips.checkButtonTooltip = function(button){
+		if(button && button.hasTooltip && !VirtArenaControl.Tooltips.tooltipExists('button',button.key)){
+			VirtArenaControl.Tooltips.newTooltip(button);
 		}
 	};
 })();

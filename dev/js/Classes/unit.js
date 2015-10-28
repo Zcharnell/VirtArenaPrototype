@@ -5,7 +5,7 @@ function Unit(){
 		this.HP = 200;
 		this.totalHP = 200;
 		this.previousHP = 200;
-		this.HPPercent = 100;
+		this.percentHP = 100;
 		this.energy = 90;
 		this.energyExtra = 30;
 		// this.capacityLimit = 0;
@@ -188,6 +188,17 @@ function Unit(){
 			VirtArenaControl.Graphics.ctx.fillText(text,this.tile.x+this.tile.width-2,this.tile.y+2);
 			VirtArenaControl.Graphics.ctx.textBaseline = 'middle';
 		}
+
+		this.drawHP();
+	};
+
+	this.drawHP = function(){
+		VirtArenaControl.Graphics.ctx.strokeStyle = '#000000';
+		VirtArenaControl.Graphics.ctx.fillStyle = '#EE0000';
+		VirtArenaControl.Graphics.ctx.fillRect(this.tile.x,this.tile.y-5,this.tile.width,8);
+		VirtArenaControl.Graphics.ctx.fillStyle = '#00EE00';
+		VirtArenaControl.Graphics.ctx.fillRect(this.tile.x,this.tile.y-5,Math.floor(this.tile.width*(this.percentHP/100)),8);
+		VirtArenaControl.Graphics.ctx.strokeRect(this.tile.x,this.tile.y-5,this.tile.width,8);
 	};
 
 	this.setDirection = function(direction){
@@ -219,12 +230,13 @@ function Unit(){
 
 	this.getTooltip = function(){
 		var tooltip = {};
-		tooltip.x = this.tile.x;
+		tooltip.x = Math.floor(this.tile.x+this.tile.width/2);
 		tooltip.y = this.tile.y;
 
 		tooltip.type = "unit";
 		tooltip.id = this.id;
 		tooltip.title = this.name;
+		tooltip.subtitle = (this.commander) ? 'commander' : 'friend';
 		tooltip.obj = this;
 
 		return tooltip;
@@ -233,6 +245,44 @@ function Unit(){
 	this.setCommander = function(){
 		this.font = "36px Arial";
 		this.commander = true;
+	};
+
+	this.setStartingStance = function(){
+		var keys = Object.keys(this.stances);
+		var stanceToChoose = '';
+		if(keys.length === 3){
+			stanceToChoose = 2;
+		} else { 
+			stanceToChoose = keys.length;
+		}
+		console.log(this.stances);
+		var stance = this.stances['stance'+stanceToChoose];
+		console.log(stance);
+		keys = Object.keys(stance);
+
+		for(var i in keys){
+			this.turnStats[keys[i]] = stance[keys[i]];
+		}
+
+		//--OPTIMIZE THIS: speed should be reduced by stun
+		if(this.turnStats.slow > 0){
+			this.turnStats.speed -= this.turnStats.slow;
+			this.turnStats.slowUsed = true;
+			if(this.turnStats.speed < 0){
+				this.turnStats.speed = 0;
+			}
+		}
+
+		if(this.turnStats.disable > 0){
+			this.turnStats.move -= this.turnStats.disable;
+			if(this.turnStats.move < 0){
+				this.turnStats.move = 0;
+			}
+		}
+		// if(this.turnStats.isStunned){
+		// 	this.turnStats.defense -= stunDefenseVal;
+		// }
+		// this.unitStanceAffectingVariables();
 	};
 
 	this.setStance = function(stanceKey){
@@ -399,6 +449,7 @@ function Unit(){
 		
 		// console.log('damage taken: ' + damageTaken);
 		console.log('PreviousHP:' + this.previousHP + '; NewHP: ' + this.HP);
+		this.percentHPBar();
 
 		//check if dead
 		if(this.HP <= 0){
@@ -435,8 +486,8 @@ function Unit(){
 	this.percentHPBar = function(){	
 		if(this.previousHP != this.HP){
 			this.previousHP = this.HP;
-			this.HPPercent = Math.round((this.HP/this.totalHP)*100);
-			console.log('Percent HP: ' + this.HPPercent + '%');
+			this.percentHP = Math.round((this.HP/this.totalHP)*100);
+			// console.log('Percent HP: ' + this.percentHP + '%');
 		}
 	}
 

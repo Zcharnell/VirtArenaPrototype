@@ -156,6 +156,7 @@
 			//returns a new object based on the virtName, which should be class
 			var unit = jQuery.extend(true, {}, new window[unitName]());
 			unit.id = this.setUnitId(unit);
+			unit.setStartingStance();
 			return unit;
 		},
 		setUnitId: function(unit){

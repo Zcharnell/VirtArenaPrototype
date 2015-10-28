@@ -82,6 +82,7 @@
 					objectIsHovered = true;
 					button.hover = true;
 					this.hoveredObjects.push(button);
+					VirtArenaControl.Tooltips.checkButtonTooltip(button);
 				}
 			}
 		}
@@ -93,7 +94,7 @@
 					tiles[i].hover = true;
 					this.hoveredObjects.push(tiles[i]);
 					if(tiles[i].unit && !VirtArenaControl.Tooltips.tooltipExists('unit',tiles[i].unit.id)){
-						console.log(VirtArenaControl.Tooltips.tooltipExists('unit',tiles[i].unit.id));
+						// console.log(VirtArenaControl.Tooltips.tooltipExists('unit',tiles[i].unit.id));
 						VirtArenaControl.Tooltips.newTooltip(tiles[i].unit,tiles[i]);
 					}
 				}
@@ -202,14 +203,7 @@
 
 	VirtArenaControl.Updater.updateActivationAvatars = function(){
 		for(var i in VirtArenaControl.Avatars.avatars){
-			var avatar = VirtArenaControl.Avatars.avatars[i];
-			avatar.activating = (avatar.unit.id === VirtArenaControl.Units.currentUnitActivating.id) ? true : false;
-			avatar.selected = (avatar.unit.id === VirtArenaControl.Units.selectedUnit.id) ? true : false;
-			avatar.hover = (avatar.unit.tile.hover === true || this.hoveredObjects.indexOf(avatar) > -1) ? true : false;
-			avatar.x = VirtArenaControl.Board.x + 5;
-			avatar.y = VirtArenaControl.Board.y + VirtArenaControl.Board.topPadding/2 + avatar.unit.activationOrderIndex*85;
-			// console.log(avatar.unit.activationOrderIndex);
-			avatar.text = avatar.unit.name;
+			VirtArenaControl.Avatars.avatars[i].update();
 		}
 	}
 
