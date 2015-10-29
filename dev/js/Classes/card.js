@@ -184,7 +184,7 @@ function Card(initVars){
 		if(this.companion){
 			if(VirtArenaControl.Units.currentUnitActivating.team === this.team 
 				&& VirtArenaControl.Units.currentUnitActivating.commander === true
-				&& VirtArenaControl.TurnController.currentSubphase == "startOfActivationBoosts"){
+				&& VirtArenaControl.TurnController.currentSubphase == "activateUnit"){
 				disabled = false;
 			}
 		}

@@ -43,7 +43,7 @@ function Team(name,color,playerType){
 	this.setStartingPosition = function(positionObj){
 		var commanderSet = false;
 		var positions = Object.keys(positionObj);
-		console.log(this.units, ';', positionObj);
+		// console.log(this.units, ';', positionObj);
 		for(var i in this.units){
 			if(this.units[i] === this.commander && !commanderSet){
 				var tile = VirtArenaControl.Board.tiles[positionObj.commanderTile];

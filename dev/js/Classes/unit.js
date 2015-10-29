@@ -61,7 +61,11 @@ function Unit(){
 		this.supply = 0;
 
 		//for ai units
-		this.ai = {};
+		this.ai = {
+			hasMoved:false,
+			hasUsedCards:false,
+			hasAttacked:false
+		};
 
 		//Knights Challenge (Lancer)
 		// this.knightChallenger = '';
@@ -257,9 +261,7 @@ function Unit(){
 		} else { 
 			stanceToChoose = keys.length;
 		}
-		console.log(this.stances);
 		var stance = this.stances['stance'+stanceToChoose];
-		console.log(stance);
 		keys = Object.keys(stance);
 
 		for(var i in keys){
@@ -336,7 +338,7 @@ function Unit(){
 	this.getWeaponRange = function(){
 		var range = 0;
 
-		if(this.weaponSelected){
+		if(this.weaponSelected.name){
 			range = this.weaponSelected.range;
 		} else {
 			var keys = Object.keys(this.weapons);

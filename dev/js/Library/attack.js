@@ -75,11 +75,12 @@
 	
 	VirtArenaControl.ObjectController.unitAttackSelectTarget = function(unitAttacking,unitTarget){
 		var range = unitTarget.tile.rangeForWeapon;
+		console.log(range);
 		if(range > unitAttacking.getWeaponRange()){
 			console.log('OUTOFRANGE: ' + unitTarget.name, tile);
 		} else {
 			console.log('Attack!');
-			VirtArenaControl.Buttons.removeButton('selectWeapon');
+			VirtArenaControl.ObjectController.addWeaponSelectionButtons(unitAttacking);
 			//set current action to attack, then wait for cards to be played on the unit to be clicked again
 			VirtArenaControl.TurnController.setCurrentAction('attack',{attackingUnit:unitAttacking,targetUnit:unitTarget,range:range});
 			// VirtArenaControl.ObjectController.unitAttackTarget(unitAttacking,unitTarget);
@@ -96,6 +97,7 @@
 
 	VirtArenaControl.ObjectController.attackResolved = function(unit,target){
 		unit.hasAttacked = true;
+		VirtArenaControl.Buttons.removeButton('selectWeapon');
 		VirtArenaControl.ObjectController.endAttackSubphase();
 	};
 

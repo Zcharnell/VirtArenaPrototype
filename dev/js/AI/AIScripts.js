@@ -122,7 +122,11 @@
 		var targets = [];
 		if(preferredTarget === "mostVulnerable"){
 			targets = VirtArenaControl.AI.Scripts.orderTargetUnitsByDamage(aiUnit,units);
-			return {unit:targets[0].unit,weapon:targets[0].weapon};
+			if(targets[0]){
+				return {unit:targets[0].unit,weapon:targets[0].weapon};
+			} else {
+				return null;
+			}
 		}
 	};
 
@@ -165,8 +169,9 @@
 		if(card.companion){
 			for(var i in aiUnit.tile.adjacentTiles){
 				var tile = tiles[aiUnit.tile.adjacentTiles[i]];
-				var path = VirtArenaControl.ObjectController.findMovementPath(aiUnit,aiUnit.ai.targetTile);
-				var tileInPath = (path.indexOf(tile) == -1) ? false : true;
+				var path;
+				path = (!aiUnit.ai.hasMoved) ? VirtArenaControl.ObjectController.findMovementPath(aiUnit,aiUnit.ai.targetTile) : false;
+				var tileInPath = (path && path.indexOf(tile) >= -1) ? true : false;
 				var tileUsed = VirtArenaControl.AI.Scripts.checkQueuedCardsForTileUsed(tile,queuedCards);
 				if(tile.isOpen() && !tileInPath && !tileUsed){
 					cardReturnObj.target = tile;

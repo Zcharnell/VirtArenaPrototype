@@ -13,11 +13,16 @@
 			setActivationOrder:{}
 		},
 		unitActivation:{
-			subphaseOrder:['nextUnitActivation','startOfActivationBoosts','movementSubphase','attackSubphase','endActivation'],
+			subphaseOrder:[
+				'nextUnitActivation',
+				/*'startOfActivationBoosts','movementSubphase','attackSubphase',*/
+				'activateUnit',
+				'endActivation'],
 			nextUnitActivation:{},
 			startOfActivationBoosts:{},
 			movementSubphase:{},
 			attackSubphase:{},
+			activateUnit:{},
 			endActivation:{}
 		},
 		endOfTurn:{
@@ -349,6 +354,17 @@
 		}
 	};
 
+	VirtArenaControl.TurnController.unitActivation.activateUnit = function(){
+		console.log('\tsubPHASE: activateUnit - ' + VirtArenaControl.Units.currentUnitActivating.name);
+		VirtArenaControl.ObjectController.setTileMoveCosts(VirtArenaControl.Units.currentUnitActivating);
+		VirtArenaControl.ObjectController.setTileRangeForWeapons(VirtArenaControl.Units.currentUnitActivating);
+		
+		if(VirtArenaControl.Units.currentUnitActivating.team.aiTeam){
+			VirtArenaControl.AI.Scripts.aiActivationControl(VirtArenaControl.Units.currentUnitActivating);
+		}
+	};
+
+	/*
 	VirtArenaControl.TurnController.unitActivation.movementSubphase = function(){
 		//select tiles to move
 		//tiles.js and movement.js
@@ -381,6 +397,7 @@
 		}
 		// VirtArenaControl.TurnController.delayPhaseChange();
 	};
+	*/
 
 	VirtArenaControl.TurnController.unitActivation.endActivation = function(){
 		//setting any variables that need to be changed at the end of activation
