@@ -141,6 +141,40 @@ function Tooltip(obj,hoverObject){
 				this.height = this.titleHeight + Math.ceil(this.description.length/2) * 15 + this.paddingTop*2;
 				this.xLeft = this.x-this.width/2;
 				this.yTop = this.y-this.height-10;
+			} else if(this.subtype == 'weapon'){
+				this.description = this.weaponDescription();
+
+				this.columns = [
+					{
+						width:0
+					},
+					{
+						width:0
+					}
+				];
+
+				VirtArenaControl.Graphics.ctx.font = "10px Arial";
+				for(var i in this.description){
+					var column = i%2;
+					this.description[i].column = column;
+					var string = this.description[i].key + ': ' + this.description[i].value;
+					var width = VirtArenaControl.Graphics.ctx.measureText(string).width;
+					this.description[i].length = width
+
+					if(this.columns[column].width < width){
+						this.columns[column].width = width;
+					}
+				}
+
+				this.width = this.paddingLeft*(this.columns.length+1);
+
+				for(var i in this.columns){
+					this.width += this.columns[i].width;
+				}
+
+				this.height = this.titleHeight + Math.ceil(this.description.length/2) * 15 + this.paddingTop*2;
+				this.xLeft = this.x-this.width/2;
+				this.yTop = this.y-this.height-10;
 			}
 		}
 		
@@ -208,6 +242,34 @@ function Tooltip(obj,hoverObject){
 				key:'Evasion',
 				value:this.obj.evasion
 			}
+		];
+
+		return stats;
+	};
+
+	this.weaponDescription = function(){
+		// console.log(this,this.obj);
+		var stats = [
+			{
+				key:'Power',
+				value:this.obj.power
+			},
+			{
+				key:'Range',
+				value:this.obj.range
+			},
+			{
+				key:'Penetration',
+				value:this.obj.penetration
+			}
+			// {
+			// 	key:'Stability',
+			// 	value:this.obj.stability
+			// },
+			// {
+			// 	key:'Evasion',
+			// 	value:this.obj.evasion
+			// }
 		];
 
 		return stats;

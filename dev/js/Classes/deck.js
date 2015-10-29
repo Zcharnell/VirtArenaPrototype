@@ -415,8 +415,14 @@ Deck.prototype.updateCards = function(){
 }
 
 Deck.prototype.graphicsDrawCards = function(){
+	var delayedDraw = [];
 	for(var i in this.cardsInHand){
-		this.cardsInHand[i].draw();
+		if(!this.cardsInHand[i].hover) this.cardsInHand[i].draw();
+		else delayedDraw.push(this.cardsInHand[i]);
+	}
+
+	for(var i in delayedDraw){
+		delayedDraw[i].draw();
 	}
 }
 

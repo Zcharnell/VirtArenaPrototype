@@ -18,15 +18,19 @@ function Card(initVars){
 	this.x = 0;
 	this.y = 0;
 	this.width = 120;
-	this.height = 40;
+	this.hoverWidth = 200;
+	this.defaultWidth = 120;
+	this.height = 240;
 	this.spacing = -20;
 	this.drawText = '';
-	this.font = "12px Arial";
+	this.fontTitle = "14px Arial";
+	this.font = "10px Arial";
 	this.hover = false;
 	this.rotation = 0;
 	this.rotationPercent = 0;
 	this.baseRotationDifference = 4;
-	this.bottomSpacing = 50;
+	this.bottomSpacing = 60;
+	this.titleSpace = 40;
 
 	//set initial variables with initVars
 	var keys = Object.keys(initVars);
@@ -47,9 +51,13 @@ function Card(initVars){
 			// VirtArenaControl.Graphics.ctx.fillStyle = '#000000';
 			// VirtArenaControl.Graphics.ctx.fillText(this.name,this.x+this.width/2,this.y+this.height/2);
 			var colors = {
-				fill:"#FFFFFF",
-				stroke:"#000000",
-				text:"#000000"
+				// fill:"#FFFFFF",
+				// stroke:"#000000",
+				// text:"#000000"
+				fill: "#333333",
+				stroke: "#000000",
+				strokeTitle: "#555555",
+				text: "#FFFFFF"
 			}
 			this.drawCard(colors,false);
 		} else if(this.disabled){
@@ -64,6 +72,7 @@ function Card(initVars){
 			var colors = {
 				fill:"#444444",
 				stroke:"#000000",
+				strokeTitle: "#555555",
 				text:"#CCCCCC"
 			}
 			this.drawCard(colors,true);
@@ -97,6 +106,7 @@ function Card(initVars){
 			var colors = {
 				fill: "#666666",
 				stroke: "#000000",
+				strokeTitle: "#555555",
 				text: "#FFFFFF"
 			}
 			this.drawCard(colors,true);
@@ -119,28 +129,50 @@ function Card(initVars){
 			VirtArenaControl.Graphics.ctx.translate(xTranslate,yTranslate);
 			VirtArenaControl.Graphics.ctx.rotate(this.rotation);
 			VirtArenaControl.Graphics.ctx.textAlign = "center";
-			VirtArenaControl.Graphics.ctx.font = this.font;
+			//background
 			VirtArenaControl.Graphics.ctx.fillStyle = colors.fill;
-			VirtArenaControl.Graphics.ctx.strokeStyle = colors.stroke;
 			VirtArenaControl.Graphics.ctx.fillRect(xDraw,yDraw,this.width,this.height);
-			VirtArenaControl.Graphics.ctx.strokeRect(xDraw,yDraw,this.width,this.height);
+			//title
+			VirtArenaControl.Graphics.ctx.strokeStyle = colors.strokeTitle;
+			VirtArenaControl.Graphics.ctx.strokeRect(xDraw,yDraw,this.width,this.titleSpace);
 			VirtArenaControl.Graphics.ctx.fillStyle = colors.text;
-			// VirtArenaControl.Graphics.ctx.fillText(this.name,this.x+this.width/2,this.y+this.height/2);
-			// for(var i=0; i<this.drawText.length; i++){
-				// var y = this.y+this.height*0.6;
-				// if(this.drawText.length > 1) y += (-this.height*0.1 + 
-			VirtArenaControl.Graphics.ctx.fillText(this.name,xDraw+this.width/2,yDraw+this.height/2);
-			// }
+			VirtArenaControl.Graphics.ctx.font = this.fontTitle;
+			VirtArenaControl.Graphics.ctx.fillText(this.name,xDraw+this.width/2,yDraw+15);
+			VirtArenaControl.Graphics.ctx.font = this.font;
+			VirtArenaControl.Graphics.ctx.fillText(this.type.toUpperCase(),xDraw+this.width/2,yDraw+30);
+			//border
+			VirtArenaControl.Graphics.ctx.strokeStyle = colors.stroke;
+			VirtArenaControl.Graphics.ctx.strokeRect(xDraw,yDraw,this.width,this.height);
+
 			VirtArenaControl.Graphics.ctx.restore();
 		} else {
+			var xDraw = this.x;
+			var yDraw = this.y;
+			// var xDraw = this.x;
+			// if(this.hover) {
+			// 	xDraw -= this.width/4;
+			// }
+
 			VirtArenaControl.Graphics.ctx.textAlign = "center";
-			VirtArenaControl.Graphics.ctx.font = this.font;
+			//background
 			VirtArenaControl.Graphics.ctx.fillStyle = colors.fill;
-			VirtArenaControl.Graphics.ctx.strokeStyle = colors.stroke;
-			VirtArenaControl.Graphics.ctx.fillRect(this.x,this.y,this.width,this.height);
-			VirtArenaControl.Graphics.ctx.strokeRect(this.x,this.y,this.width,this.height);
+			VirtArenaControl.Graphics.ctx.fillRect(xDraw,yDraw,this.width,this.height);
+			//title
+			VirtArenaControl.Graphics.ctx.strokeStyle = colors.strokeTitle;
+			VirtArenaControl.Graphics.ctx.strokeRect(xDraw,yDraw,this.width,this.titleSpace);
 			VirtArenaControl.Graphics.ctx.fillStyle = colors.text;
-			VirtArenaControl.Graphics.ctx.fillText(this.name,this.x+this.width/2,this.y+this.height/2);
+			VirtArenaControl.Graphics.ctx.font = this.fontTitle;
+			VirtArenaControl.Graphics.ctx.fillText(this.name,xDraw+this.width/2,yDraw+15);
+			VirtArenaControl.Graphics.ctx.font = this.font;
+			VirtArenaControl.Graphics.ctx.fillText(this.type.toUpperCase(),xDraw+this.width/2,yDraw+30);
+			//border
+			VirtArenaControl.Graphics.ctx.strokeStyle = colors.stroke;
+			VirtArenaControl.Graphics.ctx.strokeRect(xDraw,yDraw,this.width,this.height);
+
+			if(this.hover){
+				//draw card description
+				
+			}
 		}
 		
 	};
@@ -154,15 +186,16 @@ function Card(initVars){
 		var startX;
 		var dynamicX;
 		this.spacing = 40 - (this.cardsInHand * 10);
+		this.width = (this.hover) ? this.hoverWidth : this.defaultWidth;
 
 		if(this.oddLength){
-			startX = -((this.cardsInHand/2)*this.width + this.spacing);
+			startX = -((this.cardsInHand/2)*this.defaultWidth + this.spacing);
 		} else {
-			startX = -((this.cardsInHand/2)*this.width + (this.spacing*1.5));
+			startX = -((this.cardsInHand/2)*this.defaultWidth + (this.spacing*1.5));
 		}
-		dynamicX = startX + (this.positionInHand*(this.width+this.spacing));
-		this.x = Math.round(VirtArenaControl.Camera.width/2 + dynamicX);
-		this.y = Math.round(VirtArenaControl.Camera.height - this.bottomSpacing);
+		dynamicX = startX + (this.positionInHand*(this.defaultWidth+this.spacing));
+		this.x = (this.hover) ? Math.round(VirtArenaControl.Camera.width/2 + dynamicX - this.width/4) : Math.round(VirtArenaControl.Camera.width/2 + dynamicX);
+		this.y = (this.hover) ? Math.round(VirtArenaControl.Camera.height - this.height) : Math.round(VirtArenaControl.Camera.height - this.bottomSpacing);
 		var rotationDegrees = this.baseRotationDifference * (this.positionInHand - (this.cardsInHand-1)/2);
 		var rotationSign = (rotationDegrees < 0) ? -1 : 1;
 		this.rotationPercent = (rotationDegrees != 0) ? rotationSign * (Math.abs(rotationDegrees)/180) : 0; //percent of 180
@@ -170,7 +203,7 @@ function Card(initVars){
 
 		VirtArenaControl.Graphics.ctx.font = this.font;
 		if(VirtArenaControl.Graphics.ctx.measureText(this.name).width > this.width*0.9){
-			this.font = "11px Arial";
+			this.fontTitle = "13px Arial";
 		}
 
 		this.disabled = this.checkDisabled();

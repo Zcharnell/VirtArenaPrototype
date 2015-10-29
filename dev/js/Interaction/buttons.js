@@ -243,25 +243,74 @@
 			text:weapon.name,
 			x:-999,
 			y:-999,
-			width:100,
-			height:40,
+			width:20,
+			height:20,
+			radius:10,
+			circle:true,
+			animateFrames:5,
 			onClick:function(){
 				if(!this.disabled){
 					VirtArenaControl.ObjectController.selectWeapon(this.unit,this.weapon);
 				}
 			},
 			update:function(){
-				var startX = this.buttonsOfThisType * -(this.width/2) - this.spacing;
+				// var startX = this.buttonsOfThisType * -(this.width/2) - this.spacing;
+				// var dynamicX = startX + (this.index*(this.width+this.spacing));
+				// this.x = VirtArenaControl.Camera.width/2 + dynamicX;
+				// this.y = VirtArenaControl.Camera.height - this.height - 20;
+				var startX = (this.buttonsOfThisType%2) ? 
+					-(this.buttonsOfThisType/2 * this.width + this.spacing) :
+					-(this.buttonsOfThisType/2 * this.width + this.spacing/2) ;
 				var dynamicX = startX + (this.index*(this.width+this.spacing));
-				this.x = VirtArenaControl.Camera.width/2 + dynamicX;
-				this.y = VirtArenaControl.Camera.height - this.height - 20;
+				var startY = (this.buttonsOfThisType%2) ?
+					Math.abs(((this.buttonsOfThisType-1)/2)-this.index) * -(this.height*0.6) :
+					Math.floor(Math.abs(((this.buttonsOfThisType-1)/2) - this.index)) * -(this.height*0.6) - (this.height*0.2) ;
+				//
+				// var startX = this.buttonsOfThisType * -(this.width/2) - this.spacing;
+				// var dynamicX = startX + (this.index*(this.width+this.spacing));
+				this.x = this.unit.tile.x + this.unit.tile.width/2 + dynamicX;
+				this.y = this.unit.tile.y + this.unit.tile.height + startY;
+				this.hoverVars.maxRadius = Math.floor(this.radius*1.5);
+				this.selectedVars.maxRadius = Math.floor(this.radius*1.5);
+				if(this.hover){
+					if(this.hoverVars.radius == 0){
+						this.hoverVars.radius = this.radius;
+					} else if(this.hoverVars.radius < this.hoverVars.maxRadius) {
+						this.hoverVars.radius += (this.hoverVars.maxRadius-this.radius)/this.animateFrames;
+					} else if(this.hoverVars.radius > this.hoverVars.maxRadius) {
+						this.hoverVars.radius = this.hoverVars.maxRadius;
+					}
+				} else if(this.hoverVars.radius > 0){
+					this.hoverVars.radius = 0;
+				}
+				// this.y = VirtArenaControl.Camera.height - this.height - 20 - this.indexInUnitArray*50;
+				if(this.unit.stanceSelected === this.stance) {
+					this.selected = true;
+					this.selectedVars.radius = this.selectedVars.maxRadius;
+				} else if(this.selected){
+					this.selected = false;
+				}
 			},
-			spacing:25,
+			spacing:5,
 			index:misc.index,
 			buttonsOfThisType:misc.buttonsOfThisType,
 			disabled:misc.disabled,
 			unit:unit,
-			weapon:weapon
+			weapon:weapon,
+			hasTooltip:true,
+			getTooltip: function(){
+				var obj = {
+					x: this.x+this.width/2,
+					y: this.y,
+					title:this.weapon.name,
+					subtitle:'weapon',
+					key:this.key,
+					type:'button',
+					subtype:'weapon',
+					obj:this.weapon
+				}
+				return obj;
+			}
 		}
 		VirtArenaControl.Buttons[buttonName].init(variablesForButton);
 		VirtArenaControl.Buttons.buttonsToDraw.push(buttonName);

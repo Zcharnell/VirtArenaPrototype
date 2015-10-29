@@ -58,4 +58,10 @@
 			VirtArenaControl.Tooltips.newTooltip(button);
 		}
 	};
+
+	// VirtArenaControl.Tooltips.checkCardTooltip = function(button){
+	// 	if(button && button.hasTooltip && !VirtArenaControl.Tooltips.tooltipExists('button',button.key)){
+	// 		VirtArenaControl.Tooltips.newTooltip(button);
+	// 	}
+	// };
 })();
