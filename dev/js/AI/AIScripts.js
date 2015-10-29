@@ -32,7 +32,7 @@
 
 	VirtArenaControl.AI.Scripts.findClosestTileInMoveRange = function(unit,targetTile){
 		var tiles = VirtArenaControl.Board.tiles;
-		console.log('targetTile ',targetTile);
+		// console.log('targetTile ',targetTile);
 		var adjacentTilesInRange = VirtArenaControl.AI.Scripts.getAdjacentTilesInRange(unit,targetTile);
 		if(adjacentTilesInRange.length > 0){
 			return adjacentTilesInRange[0];

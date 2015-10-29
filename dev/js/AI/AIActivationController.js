@@ -78,7 +78,6 @@
 
 		//find the best tile to move to
 		var tile = VirtArenaControl.AI.Scripts.findClosestTileInMoveRange(aiUnit,closestUnit.unit.tile);
-
 		return {unit:closestUnit,tile:tile};
 	};
 
@@ -91,7 +90,12 @@
 	};
 
 	VirtArenaControl.AI.Scripts.moveAI = function(aiUnit){
-		VirtArenaControl.ObjectController.unitMovement(aiUnit,aiUnit.ai.targetTile,'ai');
+		// console.log(aiUnit.ai.targetTile);
+		if(aiUnit.ai.targetTile){
+			VirtArenaControl.ObjectController.unitMovement(aiUnit,aiUnit.ai.targetTile,'ai');
+		} else {
+			VirtArenaControl.ObjectController.endMovement('ai');
+		}
 	};
 
 	VirtArenaControl.AI.Scripts.setWeaponAndTarget = function(aiUnit){

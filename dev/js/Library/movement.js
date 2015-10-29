@@ -35,7 +35,6 @@
 		var error = 0;
 
 		this.setTileMoveCosts(unit);
-
 		var path = [];
 		var step = endTile;
 		// console.log(endTile);

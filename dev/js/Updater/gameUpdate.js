@@ -71,6 +71,7 @@
 					objectIsHovered = true;
 					card.hover = true;
 					this.hoveredObjects.push(card);
+					break;
 				}
 			}
 		}
@@ -83,6 +84,7 @@
 					button.hover = true;
 					this.hoveredObjects.push(button);
 					VirtArenaControl.Tooltips.checkButtonTooltip(button);
+					break;
 				}
 			}
 		}
@@ -97,6 +99,7 @@
 						// console.log(VirtArenaControl.Tooltips.tooltipExists('unit',tiles[i].unit.id));
 						VirtArenaControl.Tooltips.newTooltip(tiles[i].unit,tiles[i]);
 					}
+					break;
 				}
 			}
 		}
@@ -108,6 +111,7 @@
 					objectIsHovered = true;
 					avatar.hover = true;
 					this.hoveredObjects.push(avatar);
+					break;
 				}
 			}
 		}
@@ -129,10 +133,10 @@
 				// && VirtArenaControl.Units.selectedUnit.weaponSelected
 				&& tiles[i].rangeForWeapon <= VirtArenaControl.Units.currentUnitActivating.getWeaponRange()
 				&& tiles[i].unit 
-				&& tiles[i].unit.team != VirtArenaControl.Units.selectedUnit.team 
+				&& tiles[i].unit.team != VirtArenaControl.Units.currentUnitActivating.team 
 				&& VirtArenaControl.TurnController.currentSubphase === 'activateUnit'
 				&& VirtArenaControl.TurnController.currentAction.action != 'attack'
-				&& !VirtArenaControl.Units.selectedUnit.hasAttacked) {
+				&& !VirtArenaControl.Units.currentUnitActivating.hasAttacked) {
 
 				tiles[i].targetFor = "attack";
 

@@ -145,7 +145,7 @@
 		var units = misc.team.units;
 		for(var j in units){
 			var unit = units[j];
-			var keys = Object.keys(unit.stances);
+			var keys = (!unit.dontDraw) ? Object.keys(unit.stances) : [];
 			for(var i in keys){
 				var stance = unit.stances[keys[i]];
 				var buttonName = 'selectStance'+j+keys[i];

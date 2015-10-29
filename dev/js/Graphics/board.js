@@ -11,8 +11,8 @@
 		tilesCount: 0,
 		rows: 0,
 		columns: 0,
-		tileWidth:45,
-		tileHeight:45,
+		tileWidth:51,
+		tileHeight:51,
 		tileSpacing:5,
 		tiles:[],
 		init: function(){

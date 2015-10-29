@@ -5,8 +5,8 @@ function Arturius(){
 	this.unitType = 'Arturius';
 	this.unitClass = 'Commander';
 	this.unitArt = VirtArenaControl.Images.arturiusUnitArt;
-	this.HP = 200;
-	this.totalHP = 200;
+	this.HP = 900;
+	this.totalHP = 900;
 	this.energy = 90;
 	this.energyExtra = 30;
 	this.capacityLimit = 120;

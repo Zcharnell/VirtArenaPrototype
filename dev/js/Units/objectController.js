@@ -42,6 +42,7 @@
 			this.resetWeapons();
 			this.resetHasActivated();
 			this.resetHasAttacked();
+			this.resetAIVariables();
 		},
 		setLastStanceSelected: function(){
 			var units = VirtArenaControl.Units.units;
@@ -72,6 +73,18 @@
 			var units = VirtArenaControl.Units.units;
 			for(var i in units){
 				if(units[i].hasAttacked) units[i].hasAttacked = false;
+			}
+		},
+		resetAIVariables: function(){
+			var units = VirtArenaControl.Units.units;
+			for(var i in units){
+				if(units[i].team.aiTeam){
+					units[i].ai.hasMoved = false;
+					units[i].ai.hasUsedCards = false;
+					units[i].ai.hasAttacked = false;
+					units[i].ai.targetUnit = null;
+					units[i].ai.targetTile = null;
+				}
 			}
 		},
 		resetActivationOrder: function(){
