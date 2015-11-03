@@ -397,7 +397,7 @@ Deck.prototype.shuffle = function(){
 
 Deck.prototype.drawCardsStartOfGame = function(){
 	//draw three cards
-	for(var i=0; i<3; i++){
+	for(var i=0; i<2; i++){
 		var card = this.cardsInDeck.shift();
 		this.cardsInHand.push(card);
 	}

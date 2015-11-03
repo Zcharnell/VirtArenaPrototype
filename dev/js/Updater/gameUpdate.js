@@ -122,11 +122,16 @@
 		for(var i in tiles){
 			tiles[i].targetFor = '';
 
-			if(VirtArenaControl.TurnController.currentAction.action === "spawnCompanion"
-				&& tiles[i].range <= VirtArenaControl.TurnController.currentAction.range
+			if(VirtArenaControl.TurnController.currentAbility.ability === "spawnCompanion"
+				&& tiles[i].range <= VirtArenaControl.TurnController.currentAbility.range
 				&& tiles[i].isOpen()) {
 
-				tiles[i].targetFor = "action";
+				tiles[i].targetFor = "ability";
+
+			} else if(VirtArenaControl.TurnController.currentAbility.ability === 'attack'
+				&& VirtArenaControl.TurnController.currentAbility.target == tiles[i].unit) {
+
+				tiles[i].targetFor = "ability";
 
 			} else if (VirtArenaControl.Units.currentUnitActivating 
 				// && VirtArenaControl.Units.selectedUnit === VirtArenaControl.Units.currentUnitActivating

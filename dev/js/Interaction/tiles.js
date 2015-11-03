@@ -3,10 +3,15 @@
 
 	Tile.prototype.onClick = function(){
 		var obj = VirtArenaControl.Units;
-		if(VirtArenaControl.TurnController.currentAction.action === "spawnCompanion"
-			&& this.targetFor === "action" && VirtArenaControl.Units.currentUnitActivating.team.name == 'blueTeam'){
+		if(VirtArenaControl.TurnController.currentAbility.ability === "spawnCompanion"
+			&& this.targetFor === "ability" && VirtArenaControl.Units.currentUnitActivating.team.name == 'blueTeam'){
 
 			VirtArenaControl.Abilities.summonCompanion(this);
+
+		} else if(VirtArenaControl.TurnController.currentAbility.ability === "attack"
+			&& this.targetFor === "ability" && VirtArenaControl.Units.currentUnitActivating.team.name == 'blueTeam'){
+
+			VirtArenaControl.Abilities.useAttackAbility(this.unit);
 
 		} else if(this.targetFor === "attack" && VirtArenaControl.Units.currentUnitActivating.team.name == 'blueTeam'){
 

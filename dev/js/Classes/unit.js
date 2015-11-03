@@ -26,6 +26,7 @@ function Unit(){
 		this.id = '';
 		this.activationOrderIndex = 0;
 		this.hasAttacked = false;
+		this.abilitiesActive = [];
 
 		//for drawing
 		this.tile = {};
@@ -372,7 +373,7 @@ function Unit(){
 	this.rollDamage = function(){
 		//set power equal to the selected weapon's power
 		//LATER: change power here based on other variables, like stun
-		var power = this.weaponSelected.power;
+		var power = this.weaponSelected.power + this.turnStats.power;
 		var diceRolls = {
 			damage:0,
 			critDamage:0,
@@ -512,6 +513,34 @@ function Unit(){
 		if(!this.alive) canActivate = false;
 		
 		return canActivate;
+	}
+
+	this.addAttackAbility = function(ability){
+		this.abilitiesActive.push(ability);
+
+		var keys = ability.keys;
+		var values = ability.values;
+		for(var i in keys){
+			this.turnStats[keys[i]] += values[i];
+		}
+	}
+
+	this.removeActivationAbilities = function(){
+		for(var i in this.abilitiesActive){
+			if(this.abilitiesActive[i].type == 'attack'){
+				this.removeAbility(this.abilitiesActive[i]);
+			}
+		}
+	}
+
+	this.removeAbility = function(ability){
+		var keys = ability.keys;
+		var values = ability.values;
+		for(var i in keys){
+			this.turnStats[keys[i]] -= values[i];
+		}
+
+		this.abilitiesActive.splice(this.abilitiesActive.indexOf(ability),1);
 	}
 
 	this.unitStanceAffectingVariables = function(){};

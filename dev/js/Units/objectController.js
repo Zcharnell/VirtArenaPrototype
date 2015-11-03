@@ -127,6 +127,7 @@
 		},
 		setEndOfActivationVariables: function(unit){
 			unit.activated = true;
+			unit.removeActivationAbilities();
 		},
 		setTileRange: function(unit){
 			var initialTile = unit.tile;

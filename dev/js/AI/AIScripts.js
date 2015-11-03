@@ -197,7 +197,7 @@
 	};
 
 	VirtArenaControl.AI.Scripts.AISummonCompanion = function(aiUnit,cardObj){
-		VirtArenaControl.TurnController.setCurrentAction("spawnCompanion",{card:cardObj.card,team:aiUnit.team,companion:cardObj.card.companion});
+		VirtArenaControl.TurnController.setCurrentAbility("spawnCompanion",{card:cardObj.card,team:aiUnit.team,companion:cardObj.card.companion});
 		setTimeout(function(){
 			VirtArenaControl.Abilities.summonCompanion(cardObj.target);
 			setTimeout(function(){

@@ -41,6 +41,14 @@
 			misc:{},
 			card:''
 		},
+		currentAbility:{
+			action:'',
+			user:'',
+			target:'',
+			range:0,
+			misc:{},
+			card:''
+		},
 		phaseChangeDelay:500,
 		delayingPhaseChange:false,
 		startTurn: function(){
@@ -135,17 +143,6 @@
 						// card:misc.card
 					};
 					break;
-				case 'spawnCompanion':
-					this.currentAction = {
-						action:action,
-						user:misc.team.commander,
-						target:'tile',
-						range:1,
-						misc:{team:misc.team,companion:misc.companion},
-						card:misc.card
-					};
-					VirtArenaControl.ObjectController.setTileRange(this.currentAction.user);
-					break;
 			}
 		},
 		resetCurrentAction: function(){
@@ -157,10 +154,40 @@
 				misc:{},
 				card:''
 			};
-
-			if(this.currentSubphase === "movementSubphase"){
-				VirtArenaControl.ObjectController.setTileMoveCosts(VirtArenaControl.Units.currentUnitActivating);
+		},
+		setCurrentAbility: function(ability,misc){
+			switch(ability){
+				case 'attack':
+					this.currentAbility = {
+						ability:ability,
+						user:misc.currentUnit,
+						target:misc.currentUnit,
+						misc:{team:misc.team,ability:misc.ability},
+						card:misc.card
+					};
+					break;
+				case 'spawnCompanion':
+					this.currentAbility = {
+						ability:ability,
+						user:misc.team.commander,
+						target:'tile',
+						range:1,
+						misc:{team:misc.team,companion:misc.companion},
+						card:misc.card
+					};
+					VirtArenaControl.ObjectController.setTileRange(this.currentAbility.user);
+					break;
 			}
+		},
+		resetCurrentAbility: function(){
+			this.currentAbility = {
+				action:'',
+				user:'',
+				target:'',
+				range:0,
+				misc:{},
+				card:''
+			};
 		},
 		endPhaseEarly: function(){
 			if(!this.delayingPhaseChange){

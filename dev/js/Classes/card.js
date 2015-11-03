@@ -171,7 +171,7 @@ function Card(initVars){
 
 			if(this.hover){
 				//draw card description
-				
+
 			}
 		}
 		
@@ -220,6 +220,10 @@ function Card(initVars){
 				&& VirtArenaControl.TurnController.currentSubphase == "activateUnit"){
 				disabled = false;
 			}
+		} else if(this.ability && this.ability.type == 'attack'
+			&& VirtArenaControl.Units.currentUnitActivating.team === this.team
+			&& VirtArenaControl.TurnController.currentSubphase == "activateUnit"){
+			disabled = false;
 		}
 
 		return disabled;
@@ -228,10 +232,19 @@ function Card(initVars){
 	this.onClick = function(){
 		if(this.companion) {
 			if(this.team.commander.id === VirtArenaControl.Units.currentUnitActivating.id){
-				this.team.spawnUnitNearCommander(this,this.companion);
+				// this.team.spawnUnitNearCommander(this,this.companion);
+				VirtArenaControl.TurnController.setCurrentAbility("spawnCompanion",{card:this,team:this.team,companion:this.companion});
 			}
 		} else if(this.ability) {
-
+			switch(this.ability.type){
+				case 'attack':
+					switch(this.ability.target){
+						case 'self':
+							VirtArenaControl.TurnController.setCurrentAbility("attack",{card:this,currentUnit:VirtArenaControl.Units.currentUnitActivating,ability:this.ability,team:this.team});
+							break;
+					}
+					break;
+			}
 		}
 	};
 
