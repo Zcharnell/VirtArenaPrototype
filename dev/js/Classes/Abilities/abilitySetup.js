@@ -9,6 +9,33 @@
 			keys:['power'],
 			values:[20]
 		},
+		power20:{
+			name:"Power +20",
+			type:"attack",
+			user:"ally",
+			target:"self",
+			desc:"+20 Power (doesn’t increase max attack) against Units that have not activated this turn.",
+			keys:['power'],
+			values:[20]
+		},
+		defense20:{
+			name:"Defense +20",
+			type:"defense",
+			user:"ally",
+			target:"ally",
+			desc:"+20 Power (doesn’t increase max attack) against Units that have not activated this turn.",
+			keys:['defense'],
+			values:[20]
+		},
+		stability20:{
+			name:"Stability +20",
+			type:"defense",
+			user:"ally",
+			target:"ally",
+			desc:"+20 Power (doesn’t increase max attack) against Units that have not activated this turn.",
+			keys:['stability'],
+			values:[20]
+		},
 		doubleStrike:{
 			name:"Double Strike",
 			type:"attack",
@@ -66,6 +93,13 @@
 
 	VirtArenaControl.Abilities.useAttackAbility = function(target){
 		target.addAttackAbility(VirtArenaControl.TurnController.currentAbility.misc.ability);
+		// VirtArenaControl.TurnController.currentAbility.misc.team.addCompanion(VirtArenaControl.TurnController.currentAbility.misc.companion,tile);
+		VirtArenaControl.TurnController.currentAbility.misc.team.cardUsed(VirtArenaControl.TurnController.currentAbility.card);
+		VirtArenaControl.TurnController.resetCurrentAbility();
+	}
+
+	VirtArenaControl.Abilities.useAttackAbility = function(target){
+		target.addDefenseAbility(VirtArenaControl.TurnController.currentAbility.misc.ability);
 		// VirtArenaControl.TurnController.currentAbility.misc.team.addCompanion(VirtArenaControl.TurnController.currentAbility.misc.companion,tile);
 		VirtArenaControl.TurnController.currentAbility.misc.team.cardUsed(VirtArenaControl.TurnController.currentAbility.card);
 		VirtArenaControl.TurnController.resetCurrentAbility();

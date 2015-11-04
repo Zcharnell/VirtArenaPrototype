@@ -201,7 +201,7 @@
 							this.selected = false;
 						}
 					},
-					spacing:5,
+					spacing:1,
 					index:i,
 					buttonsOfThisType:keys.length,
 					indexInUnitArray:j,
@@ -222,6 +222,19 @@
 						}
 						return obj;
 					}
+				}
+				if(variablesForButton.index == 0){
+					variablesForButton.image = VirtArenaControl.Images.stanceButtons.left;
+					variablesForButton.imageHover = VirtArenaControl.Images.stanceButtons.leftHover;
+				} else if(variablesForButton.index == 1 && variablesForButton.buttonsOfThisType > 2){
+					variablesForButton.image = VirtArenaControl.Images.stanceButtons.middle;
+					variablesForButton.imageHover = VirtArenaControl.Images.stanceButtons.middleHover;
+				} else if(variablesForButton.index == 1 && variablesForButton.buttonsOfThisType == 2){
+					variablesForButton.image = VirtArenaControl.Images.stanceButtons.right;
+					variablesForButton.imageHover = VirtArenaControl.Images.stanceButtons.rightHover;
+				} else if(variablesForButton.index == 2 && variablesForButton.buttonsOfThisType > 2){
+					variablesForButton.image = VirtArenaControl.Images.stanceButtons.right;
+					variablesForButton.imageHover = VirtArenaControl.Images.stanceButtons.rightHover;
 				}
 
 				VirtArenaControl.Buttons[buttonName].init(variablesForButton);

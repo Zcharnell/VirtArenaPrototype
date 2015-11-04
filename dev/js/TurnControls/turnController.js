@@ -218,10 +218,22 @@
 						break;
 				}
 			}
+		},
+		getCurrentPhaseText: function(){
+			switch(this.currentSubphase){
+				case 'drawCards':
+					return 'Draw Cards';
+					break
+				case 'selectStances':
+					return 'Select Stances';
+					break
+				case 'activateUnit':
+					return 'Unit Activation';
+					break
+			}
+			return '';
 		}
 	};
-
-
 
 
 	VirtArenaControl.TurnController.gameStarter = {

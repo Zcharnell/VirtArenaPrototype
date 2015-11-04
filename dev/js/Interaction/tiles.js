@@ -13,6 +13,11 @@
 
 			VirtArenaControl.Abilities.useAttackAbility(this.unit);
 
+		} else if(VirtArenaControl.TurnController.currentAbility.ability === "defense"
+			&& this.targetFor === "ability" && VirtArenaControl.Units.currentUnitActivating.team.name == 'blueTeam'){
+
+			VirtArenaControl.Abilities.useDefenseAbility(this.unit);
+
 		} else if(this.targetFor === "attack" && VirtArenaControl.Units.currentUnitActivating.team.name == 'blueTeam'){
 
 			var unit = VirtArenaControl.Units.currentUnitActivating;

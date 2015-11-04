@@ -31,6 +31,7 @@ function Card(initVars){
 	this.baseRotationDifference = 4;
 	this.bottomSpacing = 60;
 	this.titleSpace = 40;
+	this.image = VirtArenaControl.Images.cardBackground;
 
 	//set initial variables with initVars
 	var keys = Object.keys(initVars);
@@ -130,8 +131,12 @@ function Card(initVars){
 			VirtArenaControl.Graphics.ctx.rotate(this.rotation);
 			VirtArenaControl.Graphics.ctx.textAlign = "center";
 			//background
-			VirtArenaControl.Graphics.ctx.fillStyle = colors.fill;
-			VirtArenaControl.Graphics.ctx.fillRect(xDraw,yDraw,this.width,this.height);
+			if(this.image){
+				VirtArenaControl.Graphics.ctx.drawImage(this.image,xDraw,yDraw,this.width,this.height);
+			} else {
+				VirtArenaControl.Graphics.ctx.fillStyle = colors.fill;
+				VirtArenaControl.Graphics.ctx.fillRect(xDraw,yDraw,this.width,this.height);
+			}
 			//title
 			VirtArenaControl.Graphics.ctx.strokeStyle = colors.strokeTitle;
 			VirtArenaControl.Graphics.ctx.strokeRect(xDraw,yDraw,this.width,this.titleSpace);
@@ -141,8 +146,10 @@ function Card(initVars){
 			VirtArenaControl.Graphics.ctx.font = this.font;
 			VirtArenaControl.Graphics.ctx.fillText(this.type.toUpperCase(),xDraw+this.width/2,yDraw+30);
 			//border
-			VirtArenaControl.Graphics.ctx.strokeStyle = colors.stroke;
-			VirtArenaControl.Graphics.ctx.strokeRect(xDraw,yDraw,this.width,this.height);
+			if(!this.image){
+				VirtArenaControl.Graphics.ctx.strokeStyle = colors.stroke;
+				VirtArenaControl.Graphics.ctx.strokeRect(xDraw,yDraw,this.width,this.height);
+			}
 
 			VirtArenaControl.Graphics.ctx.restore();
 		} else {
@@ -155,8 +162,12 @@ function Card(initVars){
 
 			VirtArenaControl.Graphics.ctx.textAlign = "center";
 			//background
-			VirtArenaControl.Graphics.ctx.fillStyle = colors.fill;
-			VirtArenaControl.Graphics.ctx.fillRect(xDraw,yDraw,this.width,this.height);
+			if(this.image){
+				VirtArenaControl.Graphics.ctx.drawImage(this.image,xDraw,yDraw,this.width,this.height);
+			} else {
+				VirtArenaControl.Graphics.ctx.fillStyle = colors.fill;
+				VirtArenaControl.Graphics.ctx.fillRect(xDraw,yDraw,this.width,this.height);
+			}
 			//title
 			VirtArenaControl.Graphics.ctx.strokeStyle = colors.strokeTitle;
 			VirtArenaControl.Graphics.ctx.strokeRect(xDraw,yDraw,this.width,this.titleSpace);
@@ -166,8 +177,10 @@ function Card(initVars){
 			VirtArenaControl.Graphics.ctx.font = this.font;
 			VirtArenaControl.Graphics.ctx.fillText(this.type.toUpperCase(),xDraw+this.width/2,yDraw+30);
 			//border
-			VirtArenaControl.Graphics.ctx.strokeStyle = colors.stroke;
-			VirtArenaControl.Graphics.ctx.strokeRect(xDraw,yDraw,this.width,this.height);
+			if(!this.image){
+				VirtArenaControl.Graphics.ctx.strokeStyle = colors.stroke;
+				VirtArenaControl.Graphics.ctx.strokeRect(xDraw,yDraw,this.width,this.height);
+			}
 
 			if(this.hover){
 				//draw card description
@@ -241,6 +254,13 @@ function Card(initVars){
 					switch(this.ability.target){
 						case 'self':
 							VirtArenaControl.TurnController.setCurrentAbility("attack",{card:this,currentUnit:VirtArenaControl.Units.currentUnitActivating,ability:this.ability,team:this.team});
+							break;
+					}
+					break;
+				case 'defense':
+					switch(this.ability.target){
+						case 'ally':
+							VirtArenaControl.TurnController.setCurrentAbility("defense",{card:this,ability:this.ability,team:this.team});
 							break;
 					}
 					break;

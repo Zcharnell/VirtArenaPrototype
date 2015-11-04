@@ -1,9 +1,10 @@
 function Hecate(){
 	this.setStartingVars();
 
-	this.name = 'Hecate';
+	this.name = 'Long Range';
 	this.unitType = 'Hecate';
 	this.unitClass = 'Companion';
+	this.unitArt = VirtArenaControl.Images.hecateUnitArt;
 	this.HP = 80;
 	this.totalHP = 80;
 	this.energy = 60;
@@ -31,23 +32,23 @@ function Hecate(){
 		evasion:60,
 		misc:"Range -2"
 	};
+	// var stance2 = {
+	// 	name:"Gunslinger",
+	// 	desc:"-2 Range",
+	// 	number:2,
+	// 	speed:47,
+	// 	move:1,
+	// 	defense:30,
+	// 	stability:50,
+	// 	evasion:30,
+	// 	misc:"Range -1"
+	// };
 	var stance2 = {
-		name:"Gunslinger",
-		desc:"-2 Range",
-		number:2,
-		speed:47,
-		move:1,
-		defense:30,
-		stability:50,
-		evasion:30,
-		misc:"Range -1"
-	};
-	var stance3 = {
 		name:"Snipe",
 		desc:"Precision",
 		number:3,
 		speed:27,
-		move:0,
+		move:1,
 		defense:50,
 		stability:40,
 		evasion:0,
@@ -55,7 +56,7 @@ function Hecate(){
 	};
 	this.stances.stance1 = new Stance(stance1);
 	this.stances.stance2 = new Stance(stance2);
-	this.stances.stance3 = new Stance(stance3);
+	// this.stances.stance3 = new Stance(stance3);
 
 }
 

@@ -191,6 +191,10 @@ function Tooltip(obj,hoverObject){
 				value:this.obj.turnStats.speed
 			},
 			{
+				key:'Stunned',
+				value:this.obj.turnStats.isStunned
+			},
+			{
 				key:'Move',
 				value:this.obj.turnStats.move
 			},
@@ -207,12 +211,8 @@ function Tooltip(obj,hoverObject){
 				value:this.obj.turnStats.evasion
 			},
 			{
-				key:'Weapons',
-				value:this.obj.weapons
-			},
-			{
-				key:'Stances',
-				value:this.obj.stances
+				key:'Weapon',
+				value:'Power ' + this.obj.weapons.weapon1.power + ' Range ' + this.obj.weapons.weapon1.range
 			}
 		];
 

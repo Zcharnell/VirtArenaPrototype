@@ -101,4 +101,8 @@
 			VirtArenaControl.Tooltips.tooltips[i].draw();
 		}
 	};
+
+	VirtArenaControl.Graphics.drawCurrentPhase = function(){
+		VirtArenaControl.Board.drawCurrentPhase();
+	};
 })();

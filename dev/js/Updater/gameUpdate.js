@@ -133,6 +133,13 @@
 
 				tiles[i].targetFor = "ability";
 
+			} else if(VirtArenaControl.TurnController.currentAbility.ability === 'defense'
+				&& VirtArenaControl.TurnController.currentAbility.target == 'ally'
+				&& tiles[i].unit
+				&& tiles[i].unit.team == VirtArenaControl.TurnController.currentAbility.team) {
+
+				tiles[i].targetFor = "ability";
+				
 			} else if (VirtArenaControl.Units.currentUnitActivating 
 				// && VirtArenaControl.Units.selectedUnit === VirtArenaControl.Units.currentUnitActivating
 				// && VirtArenaControl.Units.selectedUnit.weaponSelected

@@ -67,8 +67,20 @@ function Button(){
 		var radius = misc.radius || this.radius;
 		VirtArenaControl.Graphics.ctx.beginPath();
 		VirtArenaControl.Graphics.ctx.arc(this.x+this.radius, this.y+this.radius, radius, 0, 2 * Math.PI, false);
-		VirtArenaControl.Graphics.ctx.fill();
-		VirtArenaControl.Graphics.ctx.stroke();
+		if(this.image){
+			var image = (this.hover || this.selected) ? this.imageHover : this.image;
+			VirtArenaControl.Graphics.ctx.drawImage(image,this.x+this.radius-radius,this.y+this.radius-radius,radius*2,radius*2);
+			if(!this.hover && !this.selected) VirtArenaControl.Graphics.ctx.stroke();
+			if(this.disabled){
+				VirtArenaControl.Graphics.ctx.globalAlpha = 0.5;
+				VirtArenaControl.Graphics.ctx.fillColor = "rgba(0,0,0,0.4)";
+				VirtArenaControl.Graphics.ctx.fill();
+				VirtArenaControl.Graphics.ctx.globalAlpha = 1;
+			}
+		} else {
+			VirtArenaControl.Graphics.ctx.fill();
+			VirtArenaControl.Graphics.ctx.stroke();
+		}
 	};
 	this.onClick = {};
 

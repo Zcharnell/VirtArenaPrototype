@@ -31,6 +31,12 @@
 			VirtArenaControl.Graphics.ctx.fillRect(this.x+this.horizontalPadding/2,this.y,this.width-this.horizontalPadding,this.height);
 			VirtArenaControl.Graphics.ctx.drawImage(VirtArenaControl.Images.boardBackground,this.x,this.y,this.width,this.height);
 		},
+		drawCurrentPhase: function(){
+			VirtArenaControl.Graphics.ctx.textAlign = "center";
+			VirtArenaControl.Graphics.ctx.fillStyle = '#ffffff';
+			VirtArenaControl.Graphics.ctx.font = '16px Arial';
+			VirtArenaControl.Graphics.ctx.fillText(VirtArenaControl.TurnController.getCurrentPhaseText(),this.x+this.width/2,this.y+this.topPadding/2);
+		},
 		updatePosition: function(){
 			var oldX = this.x;
 			var oldY = this.y;

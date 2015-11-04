@@ -1,9 +1,10 @@
 function Praetorian(){
 	this.setStartingVars();
 
-	this.name = 'Praetorian';
+	this.name = 'Defensive Ranged';
 	this.unitType = 'Praetorian';
 	this.unitClass = 'Companion';
+	this.unitArt = VirtArenaControl.Images.praetorianUnitArt;
 	this.HP = 100;
 	this.totalHP = 100;
 	this.energy = 60;
@@ -26,24 +27,24 @@ function Praetorian(){
 		desc:"+1 Rapidfire",
 		number:1,
 		speed:50,
-		move:0,
-		defense:20,
-		stability:20,
+		move:1,
+		defense:30,
+		stability:30,
 		evasion:10,
 		misc:"Rapidfire +1"
 	};
+	// var stance2 = {
+	// 	name:"Advance",
+	// 	desc:"+10 Impact",
+	// 	number:2,
+	// 	speed:30,
+	// 	move:2,
+	// 	defense:20,
+	// 	stability:20,
+	// 	evasion:20,
+	// 	misc:"Impact +10"
+	// };
 	var stance2 = {
-		name:"Advance",
-		desc:"+10 Impact",
-		number:2,
-		speed:30,
-		move:2,
-		defense:20,
-		stability:20,
-		evasion:20,
-		misc:"Impact +10"
-	};
-	var stance3 = {
 		name:"Guard",
 		desc:"+10 Defense if within Range 1 of an ally",
 		number:3,
@@ -56,7 +57,7 @@ function Praetorian(){
 	};
 	this.stances.stance1 = new Stance(stance1);
 	this.stances.stance2 = new Stance(stance2);
-	this.stances.stance3 = new Stance(stance3);
+	// this.stances.stance3 = new Stance(stance3);
 
 }
 

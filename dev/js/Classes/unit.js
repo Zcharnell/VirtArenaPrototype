@@ -27,6 +27,7 @@ function Unit(){
 		this.activationOrderIndex = 0;
 		this.hasAttacked = false;
 		this.abilitiesActive = [];
+		this.defenseAbilities = [];
 
 		//for drawing
 		this.tile = {};
@@ -243,7 +244,7 @@ function Unit(){
 		tooltip.type = "unit";
 		tooltip.id = this.id;
 		tooltip.title = this.name;
-		tooltip.subtitle = (this.commander) ? 'commander' : 'friend';
+		tooltip.subtitle = (this.commander) ? 'commander' : 'companion';
 		tooltip.obj = this;
 
 		return tooltip;
@@ -314,9 +315,11 @@ function Unit(){
 				this.turnStats.move = 0;
 			}
 		}
-		// if(this.turnStats.isStunned){
-		// 	this.turnStats.defense -= stunDefenseVal;
-		// }
+
+		if(this.turnStats.isStunned){
+			this.turnStats.power -= 10;
+			this.turnStats.defense -= 10;
+		}
 		this.unitStanceAffectingVariables();
 	}
 
@@ -415,6 +418,11 @@ function Unit(){
 		var tempDefense = this.turnStats.defense;		
 		console.log('Attack: ',obj.weapon,obj,' Defense: ',tempDefense);
 		this.previousHP = this.HP;
+
+		var defenseAbilitiesLength = this.defenseAbilities.length;
+		for(var i=0; i<defenseAbilitiesLength; i++){
+			this.useDefenseAbilities(this.defenseAbilities.shift);
+		}
 		
 		// if(damage > maxDamage){
 		// 	damage = maxDamage;	
@@ -451,6 +459,8 @@ function Unit(){
 		else{
 			damageTaken = 0;
 		}
+
+		this.takeStabilityDmg(damageTaken);
 		
 		// console.log('damage taken: ' + damageTaken);
 		console.log('PreviousHP:' + this.previousHP + '; NewHP: ' + this.HP);
@@ -467,23 +477,23 @@ function Unit(){
 	}
 	
 	this.takeStabilityDmg = function(damage){
-		var tempStability = this.stability;
-		console.log('Stability Dmg');
-		console.log('Stability: ' + tempStability);
-		console.log('Damage: ' + damage);
+		var tempStability = this.turnStats.stability;
+		// console.log('Stability Dmg');
+		// console.log('Stability: ' + tempStability);
+		// console.log('Damage: ' + damage);
 
 		var damageStabTaken = damage - tempStability;
-		console.log('Damage after Stability: ' + damageStabTaken);
+		// console.log('Damage after Stability: ' + damageStabTaken);
 		if(damageStabTaken > 0){
-			if(this.isStunned === false){
+			if(this.turnStats.isStunned === false){
 				console.log(this.name + ' Stunned!');
-				this.isStunned = true;
-				this.defense -= stunDefenseVal;
-				this.power -= stunPowerVal;
-				showStunCanvas(this.currentHex.xpos,this.currentHex.ypos);
+				this.turnStats.isStunned = true;
+				this.turnStats.defense -= 10;
+				this.turnStats.power -= 10;
+				// showStunCanvas(this.currentHex.xpos,this.currentHex.ypos);
 			}
-			this.stunThisTurn = true;
-			this.stunThisAttack = true;
+			this.turnStats.stunThisTurn = true;
+			// this.turnStats.stunThisAttack = true;
 		}
 		return damageStabTaken;
 	}
@@ -516,6 +526,20 @@ function Unit(){
 	}
 
 	this.addAttackAbility = function(ability){
+		this.abilitiesActive.push(ability);
+
+		var keys = ability.keys;
+		var values = ability.values;
+		for(var i in keys){
+			this.turnStats[keys[i]] += values[i];
+		}
+	}
+
+	this.addDefenseAbility = function(ability){
+		this.defenseAbilities.push(ability);
+	}
+
+	this.useDefenseAbility = function(ability){
 		this.abilitiesActive.push(ability);
 
 		var keys = ability.keys;
