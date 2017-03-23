@@ -13,11 +13,16 @@
 			setActivationOrder:{}
 		},
 		unitActivation:{
-			subphaseOrder:['nextUnitActivation','startOfActivationBoosts','movementSubphase','attackSubphase','endActivation'],
+			subphaseOrder:[
+				'nextUnitActivation',
+				/*'startOfActivationBoosts','movementSubphase','attackSubphase',*/
+				'activateUnit',
+				'endActivation'],
 			nextUnitActivation:{},
 			startOfActivationBoosts:{},
 			movementSubphase:{},
 			attackSubphase:{},
+			activateUnit:{},
 			endActivation:{}
 		},
 		endOfTurn:{
@@ -29,6 +34,14 @@
 		currentPhase:'',
 		currentSubphase:'',
 		currentAction:{
+			action:'',
+			user:'',
+			target:'',
+			range:0,
+			misc:{},
+			card:''
+		},
+		currentAbility:{
 			action:'',
 			user:'',
 			target:'',
@@ -130,17 +143,6 @@
 						// card:misc.card
 					};
 					break;
-				case 'spawnCompanion':
-					this.currentAction = {
-						action:action,
-						user:misc.team.commander,
-						target:'tile',
-						range:1,
-						misc:{team:misc.team,companion:misc.companion},
-						card:misc.card
-					};
-					VirtArenaControl.ObjectController.setTileRange(this.currentAction.user);
-					break;
 			}
 		},
 		resetCurrentAction: function(){
@@ -152,10 +154,49 @@
 				misc:{},
 				card:''
 			};
-
-			if(this.currentSubphase === "movementSubphase"){
-				VirtArenaControl.ObjectController.setTileMoveCosts(VirtArenaControl.Units.currentUnitActivating);
+		},
+		setCurrentAbility: function(ability,misc){
+			switch(ability){
+				case 'attack':
+					this.currentAbility = {
+						ability:ability,
+						user:misc.currentUnit,
+						target:misc.currentUnit,
+						misc:{team:misc.team,ability:misc.ability},
+						card:misc.card
+					};
+					break;
+				case 'defense':
+					this.currentAbility = {
+						ability:ability,
+						user:misc.currentUnit,
+						target:'ally',
+						misc:{team:misc.team,ability:misc.ability},
+						card:misc.card
+					};
+					break;
+				case 'spawnCompanion':
+					this.currentAbility = {
+						ability:ability,
+						user:misc.team.commander,
+						target:'tile',
+						range:1,
+						misc:{team:misc.team,companion:misc.companion},
+						card:misc.card
+					};
+					VirtArenaControl.ObjectController.setTileRange(this.currentAbility.user);
+					break;
 			}
+		},
+		resetCurrentAbility: function(){
+			this.currentAbility = {
+				action:'',
+				user:'',
+				target:'',
+				range:0,
+				misc:{},
+				card:''
+			};
 		},
 		endPhaseEarly: function(){
 			if(!this.delayingPhaseChange){
@@ -186,10 +227,22 @@
 						break;
 				}
 			}
+		},
+		getCurrentPhaseText: function(){
+			switch(this.currentSubphase){
+				case 'drawCards':
+					return 'Draw Cards';
+					break
+				case 'selectStances':
+					return 'Select Stances';
+					break
+				case 'activateUnit':
+					return 'Unit Activation';
+					break
+			}
+			return '';
 		}
 	};
-
-
 
 
 	VirtArenaControl.TurnController.gameStarter = {
@@ -349,6 +402,17 @@
 		}
 	};
 
+	VirtArenaControl.TurnController.unitActivation.activateUnit = function(){
+		console.log('\tsubPHASE: activateUnit - ' + VirtArenaControl.Units.currentUnitActivating.name);
+		VirtArenaControl.ObjectController.setTileMoveCosts(VirtArenaControl.Units.currentUnitActivating);
+		VirtArenaControl.ObjectController.setTileRangeForWeapons(VirtArenaControl.Units.currentUnitActivating);
+		
+		if(VirtArenaControl.Units.currentUnitActivating.team.aiTeam){
+			VirtArenaControl.AI.Scripts.aiActivationControl(VirtArenaControl.Units.currentUnitActivating);
+		}
+	};
+
+	/*
 	VirtArenaControl.TurnController.unitActivation.movementSubphase = function(){
 		//select tiles to move
 		//tiles.js and movement.js
@@ -381,6 +445,7 @@
 		}
 		// VirtArenaControl.TurnController.delayPhaseChange();
 	};
+	*/
 
 	VirtArenaControl.TurnController.unitActivation.endActivation = function(){
 		//setting any variables that need to be changed at the end of activation

@@ -42,6 +42,8 @@
 			this.resetWeapons();
 			this.resetHasActivated();
 			this.resetHasAttacked();
+			this.resetStun();
+			this.resetAIVariables();
 		},
 		setLastStanceSelected: function(){
 			var units = VirtArenaControl.Units.units;
@@ -74,6 +76,25 @@
 				if(units[i].hasAttacked) units[i].hasAttacked = false;
 			}
 		},
+		resetStun: function(){
+			var units = VirtArenaControl.Units.units;
+			for(var i in units){
+				if(units[i].turnStats.isStunned && !units[i].turnStats.stunThisTurn) units[i].turnStats.isStunned = false;
+				if(units[i].turnStats.stunThisTurn) units[i].stunThisTurn = false;
+			}
+		},
+		resetAIVariables: function(){
+			var units = VirtArenaControl.Units.units;
+			for(var i in units){
+				if(units[i].team.aiTeam){
+					units[i].ai.hasMoved = false;
+					units[i].ai.hasUsedCards = false;
+					units[i].ai.hasAttacked = false;
+					units[i].ai.targetUnit = null;
+					units[i].ai.targetTile = null;
+				}
+			}
+		},
 		resetActivationOrder: function(){
 			VirtArenaControl.Units.activationOrder = [];
 			VirtArenaControl.Units.currentUnitActivating = '';
@@ -97,6 +118,7 @@
 				this.removeUnitFromActivationOrder(unit);
 				setTimeout(function(){
 					unit.dontDraw = true;
+					unit.team.removeUnitFromTeam(unit);
 				},VirtArenaControl.Units.deathDelay);
 			}
 		},
@@ -114,6 +136,7 @@
 		},
 		setEndOfActivationVariables: function(unit){
 			unit.activated = true;
+			unit.removeActivationAbilities();
 		},
 		setTileRange: function(unit){
 			var initialTile = unit.tile;

@@ -33,20 +33,34 @@
 
 		 //////////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 		//////       Call functions for subphase        \\\\\\\\
-		if(VirtArenaControl.TurnController.currentSubphase === 'startOfActivationBoosts') { 
-			//*** Use any activation boost cards, like companion spawning ***\\
-			VirtArenaControl.AI.Scripts.playCards(aiUnit);
-		} else if(VirtArenaControl.TurnController.currentSubphase === 'movementSubphase') {
-			//*** Move to the target tile ***\\
-			// console.log('targetTile',aiObj.targets.tile);
+		if(!aiUnit.ai.hasMoved){
 			VirtArenaControl.AI.Scripts.moveAI(aiUnit);
-		} else if(VirtArenaControl.TurnController.currentSubphase === 'attackSubphase') {
-			//*** Attack the target unit ***\\
+		} else if(!aiUnit.ai.hasUsedCards){
+			VirtArenaControl.AI.Scripts.playCards(aiUnit);	
+		} else if(!aiUnit.ai.hasAttacked){
 			VirtArenaControl.AI.Scripts.setWeaponAndTarget(aiUnit);
 			setTimeout(function(){
-				VirtArenaControl.AI.Scripts.attackWithAI(aiUnit);
+				if(aiUnit.weaponSelected.name){
+					VirtArenaControl.AI.Scripts.attackWithAI(aiUnit);
+				} else {
+					VirtArenaControl.ObjectController.endAttackSubphase();
+				}
 			},VirtArenaControl.TurnController.phaseChangeDelay);
 		}
+		// if(VirtArenaControl.TurnController.currentSubphase === 'startOfActivationBoosts') { 
+		// 	//*** Use any activation boost cards, like companion spawning ***\\
+		// 	VirtArenaControl.AI.Scripts.playCards(aiUnit);
+		// } else if(VirtArenaControl.TurnController.currentSubphase === 'movementSubphase') {
+		// 	//*** Move to the target tile ***\\
+		// 	// console.log('targetTile',aiObj.targets.tile);
+		// 	VirtArenaControl.AI.Scripts.moveAI(aiUnit);
+		// } else if(VirtArenaControl.TurnController.currentSubphase === 'attackSubphase') {
+		// 	//*** Attack the target unit ***\\
+		// 	VirtArenaControl.AI.Scripts.setWeaponAndTarget(aiUnit);
+		// 	setTimeout(function(){
+		// 		VirtArenaControl.AI.Scripts.attackWithAI(aiUnit);
+		// 	},VirtArenaControl.TurnController.phaseChangeDelay);
+		// }
 	};
 
 	VirtArenaControl.AI.Scripts.determineAIState = function(aiUnit,enemyTeam){
@@ -64,12 +78,11 @@
 
 		//find the best tile to move to
 		var tile = VirtArenaControl.AI.Scripts.findClosestTileInMoveRange(aiUnit,closestUnit.unit.tile);
-
 		return {unit:closestUnit,tile:tile};
 	};
 
 	VirtArenaControl.AI.Scripts.determineAIBoosts = function(aiUnit,enemyTeam){
-		if(VirtArenaControl.TurnController.currentSubphase === "startOfActivationBoosts"){
+		if(VirtArenaControl.TurnController.currentSubphase === "activateUnit"){
 			var cardsToUse = VirtArenaControl.AI.Scripts.determineActivationCardsToUse(aiUnit,enemyTeam);
 		}
 		console.log('cardsToUse: ',cardsToUse);
@@ -77,7 +90,12 @@
 	};
 
 	VirtArenaControl.AI.Scripts.moveAI = function(aiUnit){
-		VirtArenaControl.ObjectController.unitMovement(aiUnit,aiUnit.ai.targetTile,'ai');
+		// console.log(aiUnit.ai.targetTile);
+		if(aiUnit.ai.targetTile){
+			VirtArenaControl.ObjectController.unitMovement(aiUnit,aiUnit.ai.targetTile,'ai');
+		} else {
+			VirtArenaControl.ObjectController.endMovement('ai');
+		}
 	};
 
 	VirtArenaControl.AI.Scripts.setWeaponAndTarget = function(aiUnit){
@@ -86,8 +104,10 @@
 		//select weapon and attack target
 		var preferredTarget = "mostVulnerable";
 		var select = VirtArenaControl.AI.Scripts.selectTarget(aiUnit,unitsInRange,preferredTarget);
-		aiUnit.ai.targetUnit = select.unit;
-		VirtArenaControl.ObjectController.selectWeapon(aiUnit,select.weapon);
+		if(select) {
+			aiUnit.ai.targetUnit = select.unit;
+			VirtArenaControl.ObjectController.selectWeapon(aiUnit,select.weapon);
+		}
 	};
 
 	VirtArenaControl.AI.Scripts.attackWithAI = function(aiUnit){
@@ -100,18 +120,19 @@
 		},VirtArenaControl.TurnController.phaseChangeDelay);
 	};
 
-	VirtArenaControl.AI.Scripts.useActivationBoostsAI = function(aiUnit){
-		for(var i in aiUnit.cardsToPlay){
-			var cardObj = aiUnit.cardsToPlay[i];
-			// VirtArenaControl.ObjectController.spawnUnitOnTile(aiUnit,cardObj.card,cardObj.card.companion,cardObj.target);
-			if(cardObj.action === "spawnCompanion"){
-				VirtArenaControl.AI.Scripts.AISummonCompanion(aiUnit,cardObj);
-			}
-		}
-	};
+	// VirtArenaControl.AI.Scripts.useActivationBoostsAI = function(aiUnit){
+	// 	for(var i in aiUnit.cardsToPlay){
+	// 		var cardObj = aiUnit.cardsToPlay[i];
+	// 		// VirtArenaControl.ObjectController.spawnUnitOnTile(aiUnit,cardObj.card,cardObj.card.companion,cardObj.target);
+	// 		if(cardObj.action === "spawnCompanion"){
+	// 			VirtArenaControl.AI.Scripts.AISummonCompanion(aiUnit,cardObj);
+	// 		}
+	// 	}
+	// };
 
 
 	VirtArenaControl.AI.Scripts.playCards = function(aiUnit){
+		console.log(aiUnit);
 		console.log('playCards: ',aiUnit.cardsToPlay.length);
 		if(aiUnit.cardsToPlay.length > 0){
 			var cardObj = aiUnit.cardsToPlay.shift();
@@ -123,7 +144,8 @@
 			}
 		} else {
 			//end phase
-			VirtArenaControl.TurnController.endPhaseEarly();
+			aiUnit.ai.hasUsedCards = true;
+			VirtArenaControl.AI.Scripts.aiActivationControl(aiUnit);
 		}
 	};
 	

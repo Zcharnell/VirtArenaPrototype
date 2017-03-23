@@ -3,8 +3,10 @@
   "version": "0.0.1",
   "main": "server.js",
   "dependencies": {
+    "express": "^4.13.4",
     "grunt": "^0.4.1",
-    "grunt-cli": "~0.1.6"
+    "grunt-cli": "~0.1.6",
+    "modernizr": "~3.4.0"
   },
   "devDependencies": {
     "grunt-angular-templates": "^0.5.6",

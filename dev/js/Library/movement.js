@@ -35,7 +35,6 @@
 		var error = 0;
 
 		this.setTileMoveCosts(unit);
-
 		var path = [];
 		var step = endTile;
 		// console.log(endTile);
@@ -53,22 +52,28 @@
 		this.setUnitTile(unit,nextTile);
 		unit.turnStats.move -= nextTile.moveCost;
 		this.setTileMoveCosts(unit);
+		VirtArenaControl.ObjectController.setTileRangeForWeapons(unit);
 		if(path.length > 0){
 			setTimeout(function(){
 				VirtArenaControl.ObjectController.stepMovement(unit,path,playerType);
 			},this.movementStepDelay);
-		} else if(playerType === 'ai' || unit.turnStats.move === 0){
-			VirtArenaControl.ObjectController.endMovement();
+		// } else if(playerType === 'ai' || unit.turnStats.move === 0){
+		// 	VirtArenaControl.ObjectController.endMovement();
 		} else {
-			VirtArenaControl.ObjectController.unitMoving = false;
-			unit.moving = false;
+			VirtArenaControl.ObjectController.endMovement(playerType);
+			// VirtArenaControl.ObjectController.unitMoving = false;
+			// unit.moving = false;
 		}
 	};
 
-	VirtArenaControl.ObjectController.endMovement = function(){
+	VirtArenaControl.ObjectController.endMovement = function(playerType){
 		VirtArenaControl.ObjectController.unitMoving = false;
 		VirtArenaControl.Units.currentUnitActivating.moving = false;
-		VirtArenaControl.TurnController.delayPhaseChange(500);
+		if(playerType === 'ai'){
+			VirtArenaControl.Units.currentUnitActivating.ai.hasMoved = true;
+			VirtArenaControl.AI.Scripts.aiActivationControl(VirtArenaControl.Units.currentUnitActivating);
+		}
+		// VirtArenaControl.TurnController.delayPhaseChange(500);
 	};
 
 	VirtArenaControl.ObjectController.setTileMoveCosts = function(unit){

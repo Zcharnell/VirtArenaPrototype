@@ -2,8 +2,10 @@
 	
 	VirtArenaControl.AI.Scripts.stanceSelection = function(team){
 		for(var i in team.units){
-			var stance = this.aiSelectStance(team.units[i]);
-			team.units[i].setStance(stance);
+			if(team.units[i].alive){
+				var stance = this.aiSelectStance(team.units[i]);
+				team.units[i].setStance(stance);
+			}
 		}
 	};
 

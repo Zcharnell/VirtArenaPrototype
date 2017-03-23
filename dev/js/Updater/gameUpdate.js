@@ -71,6 +71,7 @@
 					objectIsHovered = true;
 					card.hover = true;
 					this.hoveredObjects.push(card);
+					break;
 				}
 			}
 		}
@@ -83,6 +84,7 @@
 					button.hover = true;
 					this.hoveredObjects.push(button);
 					VirtArenaControl.Tooltips.checkButtonTooltip(button);
+					break;
 				}
 			}
 		}
@@ -97,6 +99,7 @@
 						// console.log(VirtArenaControl.Tooltips.tooltipExists('unit',tiles[i].unit.id));
 						VirtArenaControl.Tooltips.newTooltip(tiles[i].unit,tiles[i]);
 					}
+					break;
 				}
 			}
 		}
@@ -108,6 +111,7 @@
 					objectIsHovered = true;
 					avatar.hover = true;
 					this.hoveredObjects.push(avatar);
+					break;
 				}
 			}
 		}
@@ -118,31 +122,43 @@
 		for(var i in tiles){
 			tiles[i].targetFor = '';
 
-			if(VirtArenaControl.TurnController.currentAction.action === "spawnCompanion"
-				&& tiles[i].range <= VirtArenaControl.TurnController.currentAction.range
+			if(VirtArenaControl.TurnController.currentAbility.ability === "spawnCompanion"
+				&& tiles[i].range <= VirtArenaControl.TurnController.currentAbility.range
 				&& tiles[i].isOpen()) {
 
-				tiles[i].targetFor = "action";
+				tiles[i].targetFor = "ability";
 
-			} else if (VirtArenaControl.Units.selectedUnit 
-				&& VirtArenaControl.Units.selectedUnit === VirtArenaControl.Units.currentUnitActivating
-				&& VirtArenaControl.Units.selectedUnit.weaponSelected
+			} else if(VirtArenaControl.TurnController.currentAbility.ability === 'attack'
+				&& VirtArenaControl.TurnController.currentAbility.target == tiles[i].unit) {
+
+				tiles[i].targetFor = "ability";
+
+			} else if(VirtArenaControl.TurnController.currentAbility.ability === 'defense'
+				&& VirtArenaControl.TurnController.currentAbility.target == 'ally'
+				&& tiles[i].unit
+				&& tiles[i].unit.team == VirtArenaControl.TurnController.currentAbility.misc.team) {
+
+				tiles[i].targetFor = "ability";
+				
+			} else if (VirtArenaControl.Units.currentUnitActivating 
+				// && VirtArenaControl.Units.selectedUnit === VirtArenaControl.Units.currentUnitActivating
+				// && VirtArenaControl.Units.selectedUnit.weaponSelected
 				&& tiles[i].rangeForWeapon <= VirtArenaControl.Units.currentUnitActivating.getWeaponRange()
 				&& tiles[i].unit 
-				&& tiles[i].unit.team != VirtArenaControl.Units.selectedUnit.team 
-				&& VirtArenaControl.TurnController.currentSubphase === 'attackSubphase'
+				&& tiles[i].unit.team != VirtArenaControl.Units.currentUnitActivating.team 
+				&& VirtArenaControl.TurnController.currentSubphase === 'activateUnit'
 				&& VirtArenaControl.TurnController.currentAction.action != 'attack'
-				&& !VirtArenaControl.Units.selectedUnit.hasAttacked) {
+				&& !VirtArenaControl.Units.currentUnitActivating.hasAttacked) {
 
 				tiles[i].targetFor = "attack";
 
-			} else if(VirtArenaControl.TurnController.currentSubphase === 'attackSubphase' 
+			} else if(VirtArenaControl.TurnController.currentSubphase === 'activateUnit' 
 				&& VirtArenaControl.TurnController.currentAction.action === 'attack' 
 				&& tiles[i].unit == VirtArenaControl.TurnController.currentAction.target) {
 
 				tiles[i].targetFor = "attackConfirm";
 
-			} else if(VirtArenaControl.TurnController.currentSubphase === "movementSubphase" 
+			} else if(VirtArenaControl.TurnController.currentSubphase === "activateUnit" 
 				&& VirtArenaControl.ObjectController.path.length === 0
 				&& tiles[i].moveCost <= VirtArenaControl.Units.currentUnitActivating.turnStats.move
 				&& tiles[i].isOpen()) {

@@ -4,7 +4,9 @@ var express = require('express'),
 	app = express();
 
 app.use('/js', express.static(__dirname + '/dev/js'));
-app.use('/scss', express.static(__dirname + '/dev/scss'));
+app.use('/assets', express.static(__dirname + '/dev/assets'));
+app.use('/sass', express.static(__dirname + '/dev/sass'));
+app.use('/css', express.static(__dirname + '/dev/css'));
 app.use('/templates', express.static(__dirname + '/dev/templates'));
 app.use('/json', express.static(__dirname + '/dev/json'));
 app.use('/bower_components', express.static(__dirname + '/bower_components'));

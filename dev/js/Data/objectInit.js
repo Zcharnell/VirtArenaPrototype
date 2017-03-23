@@ -54,6 +54,7 @@
 			this.drawFunctions.push('drawActivationOrder');
 			this.drawFunctions.push('drawPlayerCards');
 			this.drawFunctions.push('drawTooltips');
+			this.drawFunctions.push('drawCurrentPhase');
 		},
 		setShadow: function(color,blur,offsetX,offsetY){
 		    this.ctx.shadowColor = color;

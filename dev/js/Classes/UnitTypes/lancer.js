@@ -1,7 +1,7 @@
 function Lancer(){
 	this.setStartingVars();
 
-	this.name = 'Lancer';
+	this.name = 'Melee Agile';
 	this.unitType = 'Lancer';
 	this.unitClass = 'Companion';
 	this.unitArt = VirtArenaControl.Images.lancerUnitArt;
@@ -12,7 +12,7 @@ function Lancer(){
 	
 //Weapons
 	var weapon1 = {
-		name:"Lance",
+		name:"Melee",
 		number:1,
 		power:40,
 		range:1,
@@ -26,24 +26,24 @@ function Lancer(){
 		desc:"+20 Penetration",
 		number:1,
 		speed:65,
-		move:0,
+		move:1,
 		defense:10,
 		stability:20,
 		evasion:60,
 		misc:"Penetration +20"
 	};
+	// var stance2 = {
+	// 	name:"Advance",
+	// 	desc:"",
+	// 	number:2,
+	// 	speed:40,
+	// 	move:2,
+	// 	defense:15,
+	// 	stability:25,
+	// 	evasion:45
+	// };
 	var stance2 = {
-		name:"Advance",
-		desc:"",
-		number:2,
-		speed:40,
-		move:2,
-		defense:15,
-		stability:25,
-		evasion:45
-	};
-	var stance3 = {
-		name:"Joust",
+		name:"Reactive",
 		desc:"+10 Power, must move in a straight line",
 		number:3,
 		speed:20,
@@ -55,7 +55,7 @@ function Lancer(){
 	};
 	this.stances.stance1 = new Stance(stance1);
 	this.stances.stance2 = new Stance(stance2);
-	this.stances.stance3 = new Stance(stance3);
+	// this.stances.stance3 = new Stance(stance3);
 
 }
 
