@@ -4,6 +4,10 @@
   "main": "server.js",
   "dependencies": {
     "express": "^4.13.4",
+    "morgan": "~1.2.2",
+    "body-parser": "~1.5.2",
+    "method-override": "~2.1.2",
+    "errorhandler":"~1.4.2",
     "grunt": "^0.4.1",
     "grunt-cli": "~0.1.6",
     "modernizr": "~3.4.0"
