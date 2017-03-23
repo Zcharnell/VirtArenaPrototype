@@ -10,7 +10,8 @@
     "errorhandler":"~1.4.2",
     "grunt": "^0.4.1",
     "grunt-cli": "~0.1.6",
-    "modernizr": "~3.4.0"
+    "modernizr": "~3.4.0",
+    "jquery": "^2.1.4"
   },
   "devDependencies": {
     "grunt-angular-templates": "^0.5.6",
