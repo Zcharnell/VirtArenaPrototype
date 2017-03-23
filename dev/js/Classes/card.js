@@ -237,6 +237,10 @@ function Card(initVars){
 			&& VirtArenaControl.Units.currentUnitActivating.team === this.team
 			&& VirtArenaControl.TurnController.currentSubphase == "activateUnit"){
 			disabled = false;
+		} else if(this.ability && this.ability.type == 'defense'
+			&& VirtArenaControl.Units.currentUnitActivating.team === this.team
+			&& VirtArenaControl.TurnController.currentSubphase == "activateUnit"){
+			disabled = false;
 		}
 
 		return disabled;

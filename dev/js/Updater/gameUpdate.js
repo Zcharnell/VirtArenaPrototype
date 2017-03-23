@@ -136,7 +136,7 @@
 			} else if(VirtArenaControl.TurnController.currentAbility.ability === 'defense'
 				&& VirtArenaControl.TurnController.currentAbility.target == 'ally'
 				&& tiles[i].unit
-				&& tiles[i].unit.team == VirtArenaControl.TurnController.currentAbility.team) {
+				&& tiles[i].unit.team == VirtArenaControl.TurnController.currentAbility.misc.team) {
 
 				tiles[i].targetFor = "ability";
 				

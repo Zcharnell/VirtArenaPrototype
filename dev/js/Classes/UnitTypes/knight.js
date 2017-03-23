@@ -12,7 +12,7 @@ function Knight(){
 	
 //Weapons
 	var weapon1 = {
-		name:"Greatsword",
+		name:"Melee",
 		number:1,
 		power:50,
 		range:1,
@@ -43,7 +43,7 @@ function Knight(){
 	// 	evasion:20
 	// };
 	var stance2 = {
-		name:"Firm Footing",
+		name:"Defense",
 		desc:"Cannot be Pushed or Pulled",
 		number:3,
 		speed:23,

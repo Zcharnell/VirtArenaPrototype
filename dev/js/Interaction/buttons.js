@@ -98,8 +98,6 @@
 					|| (VirtArenaControl.TurnController.currentSubphase == "selectStances" && VirtArenaControl.Units.teams.blueTeam.allStancesSelected()))
 				&& (!VirtArenaControl.Units.currentUnitActivating
 					|| !VirtArenaControl.Units.currentUnitActivating.team.aiTeam)
-				&& (VirtArenaControl.TurnController.currentSubphase != "attackSubphase"
-					|| VirtArenaControl.ObjectController.checkUsableWeapons(VirtArenaControl.Units.currentUnitActivating))
 				&& VirtArenaControl.TurnController.currentSubphase != "nextUnitActivation"
 				&& VirtArenaControl.TurnController.currentSubphase != "endActivation"
 				) ? false : true;

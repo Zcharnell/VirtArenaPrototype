@@ -12,7 +12,7 @@ function Lancer(){
 	
 //Weapons
 	var weapon1 = {
-		name:"Lance",
+		name:"Melee",
 		number:1,
 		power:40,
 		range:1,
@@ -43,7 +43,7 @@ function Lancer(){
 	// 	evasion:45
 	// };
 	var stance2 = {
-		name:"Joust",
+		name:"Reactive",
 		desc:"+10 Power, must move in a straight line",
 		number:3,
 		speed:20,

@@ -166,6 +166,15 @@
 						card:misc.card
 					};
 					break;
+				case 'defense':
+					this.currentAbility = {
+						ability:ability,
+						user:misc.currentUnit,
+						target:'ally',
+						misc:{team:misc.team,ability:misc.ability},
+						card:misc.card
+					};
+					break;
 				case 'spawnCompanion':
 					this.currentAbility = {
 						ability:ability,

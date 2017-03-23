@@ -118,6 +118,7 @@
 				this.removeUnitFromActivationOrder(unit);
 				setTimeout(function(){
 					unit.dontDraw = true;
+					unit.team.removeUnitFromTeam(unit);
 				},VirtArenaControl.Units.deathDelay);
 			}
 		},

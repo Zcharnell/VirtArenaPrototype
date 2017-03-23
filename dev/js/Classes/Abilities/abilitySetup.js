@@ -98,7 +98,7 @@
 		VirtArenaControl.TurnController.resetCurrentAbility();
 	}
 
-	VirtArenaControl.Abilities.useAttackAbility = function(target){
+	VirtArenaControl.Abilities.useDefenseAbility = function(target){
 		target.addDefenseAbility(VirtArenaControl.TurnController.currentAbility.misc.ability);
 		// VirtArenaControl.TurnController.currentAbility.misc.team.addCompanion(VirtArenaControl.TurnController.currentAbility.misc.companion,tile);
 		VirtArenaControl.TurnController.currentAbility.misc.team.cardUsed(VirtArenaControl.TurnController.currentAbility.card);

@@ -421,7 +421,7 @@ function Unit(){
 
 		var defenseAbilitiesLength = this.defenseAbilities.length;
 		for(var i=0; i<defenseAbilitiesLength; i++){
-			this.useDefenseAbilities(this.defenseAbilities.shift);
+			this.useDefenseAbility(this.defenseAbilities.shift);
 		}
 		
 		// if(damage > maxDamage){

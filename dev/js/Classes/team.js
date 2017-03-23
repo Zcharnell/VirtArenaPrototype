@@ -76,9 +76,18 @@ function Team(name,color,playerType){
 
 	this.allStancesSelected = function(){
 		for(var i in this.units){
-			if(this.units[i].stanceSelected === '') return false;
+			if(this.units[i].alive && this.units[i].stanceSelected === '') return false;
 		}
 		return true;
+	};
+
+	this.removeUnitFromTeam = function(unit){
+		for(var i in this.units){
+			if(this.units[i].id == unit.id){
+				this.units.splice(i,1);
+				break;
+			}
+		}
 	};
 }
 

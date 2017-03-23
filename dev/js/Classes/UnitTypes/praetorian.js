@@ -12,7 +12,7 @@ function Praetorian(){
 	
 //Weapons
 	var weapon1 = {
-		name:"Particle Carbines",
+		name:"Ranged",
 		number:1,
 		power:30,
 		range:4,

@@ -12,7 +12,7 @@ function Hecate(){
 	
 //Weapons
 	var weapon1 = {
-		name:"Gauss Rifle",
+		name:"Ranged",
 		number:1,
 		power:30,
 		range:6,
