@@ -9,7 +9,7 @@ module.exports = function (grunt) {
 
   // Configurable paths for the application
   var appConfig = {
-    dev: require('./bower.json').appPath || 'dev',
+    dev: 'dev',
     prod: 'prod'
   };
 
@@ -18,10 +18,6 @@ module.exports = function (grunt) {
 
     // Watches files for changes and runs tasks based on the changed files
     watch: {
-      bower: {
-        files: ['bower.json'],
-        tasks: ['wiredep']
-      },
       js: {
         files: ['<%= yeoman.dev %>/**/*.js'],
         tasks: ['newer:jshint:all'],
@@ -63,10 +59,6 @@ module.exports = function (grunt) {
           middleware: function (connect) {
             return [
               connect.static('.tmp'),
-              connect().use(
-                '/bower_components',
-                connect.static('./bower_components')
-              ),
               connect().use(
                 '/node_modules/jquery',
                 connect.static('./node_modules/jquery')
@@ -122,8 +114,7 @@ module.exports = function (grunt) {
     // Automatically inject Bower components into the app
         wiredep: {
       dev: {
-        src: ['<%= yeoman.dev %>/index.html'],
-        exclude: ['bower_components/modernizr/modernizr.js']
+        src: ['<%= yeoman.dev %>/index.html']
       }
     },
 
@@ -251,14 +242,14 @@ module.exports = function (grunt) {
 
     mavenPrepare : {
       options : {
-        resources : ['**', '!**/bower_components/**', '!**/node_modules/**']
+        resources : ['**', '!**/node_modules/**']
       },
       prepare : {}
     },
 
     mavenDist : {
       options : {
-        deliverables : ['**', '!**/bower_components/**', '!**/node_modules/**', '!**/Gruntfile.js', '!**/package.json', '!**/bower.json', '!**/test/**', '!**/dev/**', '!*.txt'],
+        deliverables : ['**', '!**/node_modules/**', '!**/Gruntfile.js', '!**/package.json', '!**/test/**', '!**/dev/**', '!*.txt'],
         warName : 'PrefsGui'
       },
       deploy : {}
@@ -273,7 +264,7 @@ module.exports = function (grunt) {
     grunt.task.run([
       'clean:server',
       'sass',
-      'wiredep',
+      // 'wiredep',
       'connect:livereload',
       'watch'
     ]);
@@ -281,21 +272,21 @@ module.exports = function (grunt) {
 
   grunt.registerTask('test', [
     'clean:server',
-    'wiredep',
+    // 'wiredep',
     'clean:server',
     'karma'
   ]);
 
   grunt.registerTask('build', [
     'clean:prod',
-    'wiredep',
+    // 'wiredep',
     'sass',
     'useminPrepare',
     'ngtemplates',
     'concat',
     'ngAnnotate',
     'copy',
-    'cssmin',
+    // 'cssmin',
     'uglify',
     'usemin',
     'htmlmin',

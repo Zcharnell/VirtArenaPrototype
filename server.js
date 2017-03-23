@@ -2,6 +2,8 @@
 
 // var express = require('express'),
 // 	app = express();
+var ENV_VARIABLE = process.env.ENV_VARIABLE || 'dev';
+console.log(ENV_VARIABLE);
 var express = require('express');
 var app = express();
 // var mongoose = require('mongoose');
