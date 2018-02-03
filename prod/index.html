@@ -1,0 +1,15 @@
+<!DOCTYPE html> <head> <meta charset="utf-8"> <meta http-equiv="X-UA-Compatible" content="IE=edge"> <title>Virt Arena</title> <meta name="keywords" content=""> <meta name="description" content=""> <meta name="viewport" content="width=device-width,initial-scale=1"> <link rel="stylesheet" href="css/virtarena.css"> <style>body,html{
+  			margin:0;
+  			padding:0;
+  			overflow:none;
+  		}</style> <script>var VirtArenaControl = VirtArenaControl || {};
+  		var Scripts = Scripts || {};
+		VirtArenaControl.Graphics = VirtArenaControl.Graphics || {};
+		VirtArenaControl.Updater = VirtArenaControl.Updater || {};</script> <!-- <link rel="stylesheet" href="css/komapp.css" /> -->  <body> <canvas id="canvas1" width="940" height="600"></canvas> <script src="js/vendor.js"></script> <script src="js/virtarena.js"></script> <script>$(document).ready(function(){
+			VirtArenaControl.init();
+
+			VirtArenaControl.Updater.intervalUpdater = setInterval(function(){
+				VirtArenaControl.Updater.gameUpdate();
+				VirtArenaControl.Graphics.draw();
+			},VirtArenaControl.Updater.framerate);
+		});</script>  
